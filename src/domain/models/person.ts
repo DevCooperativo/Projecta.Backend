@@ -1,8 +1,8 @@
 import { sequelize } from "@/server";
 import { DataTypes } from "sequelize";
 
-const Project = sequelize.define(
-    "Project",
+const Person = sequelize.define(
+    "Person",
     {
         id: {
             type: DataTypes.UUID,
@@ -13,10 +13,15 @@ const Project = sequelize.define(
             type: DataTypes.STRING,
             allowNull: false,
         },
-        amountEarned: {
-            type: DataTypes.DOUBLE,
+        email: {
+            type: DataTypes.STRING,
             allowNull: false,
+            unique: true,
+            validate: {
+                isEmail: true
+            }
         },
+
         createdAt: {
             type: DataTypes.DATE,
             defaultValue: Date.now,
@@ -31,5 +36,4 @@ const Project = sequelize.define(
         }
     }
 )
-
-export default Project
+export default Person

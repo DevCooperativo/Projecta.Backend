@@ -1,22 +1,40 @@
 import { sequelize } from "@/server";
 import { DataTypes } from "sequelize";
 
-const Project = sequelize.define(
-    "Project",
+const FundingNotice = sequelize.define(
+    "FundingNotice",
     {
         id: {
             type: DataTypes.UUID,
             primaryKey: true,
-            autoIncrement: true
+            autoIncrement: true,
+            allowNull: false
         },
         name: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        amountEarned: {
-            type: DataTypes.DOUBLE,
+        fundingAgency: {
+            type: DataTypes.STRING,
             allowNull: false,
         },
+        noticeCode: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        individualValue: {
+            type: DataTypes.DOUBLE,
+            allowNull: false,
+            validate: {
+                min: {
+                    args: [0],
+                    msg: "Individual value must be greater than 0"
+                }
+            }
+        },
+
+
+        // Default properties
         createdAt: {
             type: DataTypes.DATE,
             defaultValue: Date.now,
@@ -31,5 +49,4 @@ const Project = sequelize.define(
         }
     }
 )
-
-export default Project
+export default FundingNotice

@@ -1,22 +1,31 @@
 import { sequelize } from "@/server";
 import { DataTypes } from "sequelize";
+import Person from "./person";
 
-const Project = sequelize.define(
-    "Project",
+const Professor = sequelize.define(
+    "Professor",
     {
         id: {
             type: DataTypes.UUID,
             primaryKey: true,
             autoIncrement: true
         },
-        name: {
+
+        registration: {
             type: DataTypes.STRING,
             allowNull: false,
+            unique: true
         },
-        amountEarned: {
-            type: DataTypes.DOUBLE,
-            allowNull: false,
+        personId: {
+            type: DataTypes.UUID,
+            references: {
+                model: Person,
+                key: "id"
+            }
         },
+
+
+        // Default properties
         createdAt: {
             type: DataTypes.DATE,
             defaultValue: Date.now,
@@ -31,5 +40,5 @@ const Project = sequelize.define(
         }
     }
 )
-
-export default Project
+Professor.belongsTo(Person)
+export default Professor

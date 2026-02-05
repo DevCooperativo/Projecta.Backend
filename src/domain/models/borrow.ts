@@ -1,9 +1,10 @@
 import { sequelize } from "@/server";
 import { DataTypes } from "sequelize";
+import Item from "./item";
 import Person from "./person";
 
-const Researcher = sequelize.define(
-    "Researcher",
+const Borrow = sequelize.define(
+    "Borrow",
     {
         id: {
             type: DataTypes.UUID,
@@ -11,6 +12,13 @@ const Researcher = sequelize.define(
             autoIncrement: true
         },
 
+        itemId: {
+            type: DataTypes.UUID,
+            references: {
+                model: Item,
+                key: "id"
+            }
+        },
 
         personId: {
             type: DataTypes.UUID,
@@ -19,6 +27,20 @@ const Researcher = sequelize.define(
                 key: "id"
             }
         },
+
+        borrowDate: {
+            type: DataTypes.DATE,
+            defaultValue: Date.now,
+            allowNull: false
+        },
+        returnDate: {
+            type: DataTypes.DATE,
+            allowNull: true,
+        },
+
+
+
+        // Default properties
         createdAt: {
             type: DataTypes.DATE,
             defaultValue: Date.now,
@@ -34,5 +56,6 @@ const Researcher = sequelize.define(
     }
 )
 
-Researcher.hasOne(Person)
-export default Researcher
+Borrow.hasOne(Item)
+Borrow.hasOne(Person)
+export default Borrow
