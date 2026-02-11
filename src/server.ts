@@ -1,19 +1,20 @@
-import "reflect-metadata"
 import dotenv from "dotenv";
-import express, { Router } from "express";
+dotenv.config();
+import "reflect-metadata"
+import "shared/tsyringe/index"
+import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import routes from "./api/routes";
-import ConfigurePostgreSQL from "./infrastructure/databases/PostgreSQLConfiguration";
-
-dotenv.config();
+import DataSeed from "infrastructure/data/seed/dataSeed";
+import cookieParser from "cookie-parser"
 const app = express();
-
-export const sequelize = ConfigurePostgreSQL()
+DataSeed.run()
 
 // export const mongoClient = connectDB();
 // Middleware
+app.use(cookieParser());
 app.use(cors());
 app.use(express.json());
 app.use(helmet());
@@ -29,13 +30,8 @@ app.use(limiter); // ⬅️ Aqui, antes das rotas
 // Conectar ao banco de dados
 
 // Middleware de depuração (opcional, apenas durante desenvolvimento)
-app.use((req, res, next) => {
-    console.log(`${req.method} ${req.path}`);
-    console.log('Request Body:', req.body);
-    next();
-});
 
 // Usar as rotas
-app.use(routes)
+app.use("/api", routes)
 const PORT = process.env.PORT ?? 3000;
 app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));

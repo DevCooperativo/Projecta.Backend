@@ -1,38 +1,15 @@
-import { sequelize } from "@/server";
+import sequelize from "infrastructure/data/sequelize"
 import { DataTypes } from "sequelize";
-import Person from "./person";
+import BaseModel from "../abstractions/BaseModel";
 
-const Researcher = sequelize.define(
-    "Researcher",
-    {
-        id: {
-            type: DataTypes.UUID,
-            primaryKey: true,
-            autoIncrement: true
-        },
-
-
-        personId: {
-            type: DataTypes.UUID,
-            references: {
-                model: Person,
-                key: "id"
-            }
-        },
-        createdAt: {
-            type: DataTypes.DATE,
-            defaultValue: Date.now,
-        },
-        updatedAt: {
-            type: DataTypes.DATE,
-            defaultValue: Date.now,
-        },
-        status: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: true
-        }
+class Researcher extends BaseModel {
+    studentId?: string
+    professorId?: string
+    constructor(studentId?: string, professorId?: string) {
+        super()
+        this.studentId = studentId
+        this.professorId = professorId
     }
-)
+}
 
-Researcher.hasOne(Person)
 export default Researcher
