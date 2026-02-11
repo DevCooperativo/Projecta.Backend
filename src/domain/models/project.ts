@@ -1,35 +1,14 @@
-import { sequelize } from "@/server";
+import sequelize from "infrastructure/data/sequelize"
 import { DataTypes } from "sequelize";
+import BaseModel from "../abstractions/BaseModel";
 
-const Project = sequelize.define(
-    "Project",
-    {
-        id: {
-            type: DataTypes.UUID,
-            primaryKey: true,
-            autoIncrement: true
-        },
-        name: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        amountEarned: {
-            type: DataTypes.DOUBLE,
-            allowNull: false,
-        },
-        createdAt: {
-            type: DataTypes.DATE,
-            defaultValue: Date.now,
-        },
-        updatedAt: {
-            type: DataTypes.DATE,
-            defaultValue: Date.now,
-        },
-        status: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: true
-        }
+class Project extends BaseModel {
+    name: string
+    amountEarned: number
+    constructor(name: string, amountEarned: number) {
+        super()
+        this.name = name
+        this.amountEarned = amountEarned
     }
-)
-
+}
 export default Project
