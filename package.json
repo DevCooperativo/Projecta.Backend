@@ -6,7 +6,8 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only src/server.ts",
-        "seed": "ts-node src/infrastructure/data/seed/runSeed.ts"
+        "seed": "ts-node src/infrastructure/data/seed/runSeed.ts",
+        "build": "tsc && tsc-alias"
     },
     "keywords": [],
     "author": "",
@@ -25,6 +26,7 @@
         "reflect-metadata": "^0.2.2",
         "sequelize": "^6.37.7",
         "ts-node": "^10.9.2",
+        "tsc-alias": "^1.8.16",
         "tsx": "^4.21.0",
         "tsyringe": "^4.10.0",
         "typescript": "^5.9.3"

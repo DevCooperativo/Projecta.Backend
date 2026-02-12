@@ -1,0 +1,48 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runner
+    container_name: projecta-api
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+
+      POSTGRES_DB_USERNAME: root
+      POSTGRES_DB_PASSWORD: rootpass
+      POSTGRES_DB_HOST: postgres
+      POSTGRES_DB_PORT: 5432
+      POSTGRES_DB_DB: projecta
+
+      JWT_SECRET: iw0bpTcPm3eqPCYamqYMrbNDJI3Qjolyr5ThSYq2YG6
+    depends_on:
+      - postgres
+    restart: unless-stopped
+    networks:
+      - projecta-network
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: projecta-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: rootpass
+      POSTGRES_DB: projecta
+    volumes:
+      - projecta-postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - projecta-network
+
+volumes:
+  projecta-postgres-data:
+
+networks:
+  projecta-network:
+    driver: bridge

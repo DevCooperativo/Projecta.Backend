@@ -53,7 +53,8 @@ StudentEntity.init(
     },
     {
         sequelize,
-        modelName: "Students"
+        modelName: "Students",
+        tableName: "Students"
     }
 )
 
