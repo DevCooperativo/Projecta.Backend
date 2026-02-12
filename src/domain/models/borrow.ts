@@ -7,7 +7,7 @@ class Borrow extends BaseModel {
     professorId?: string
     personId: string
     borrowDate: Date
-    returnDate: Date
+    returnDate?: Date
     constructor() {
         super()
     }
