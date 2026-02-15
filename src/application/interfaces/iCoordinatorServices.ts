@@ -1,6 +1,6 @@
 import CoordinatorDTO from "../dtos/coordinatorDTO"
 
 interface ICoordinatorServices {
-    getAll: () => Promise<CoordinatorDTO[]>
+    GetAllAsync: () => Promise<CoordinatorDTO[]>
 }
 export default ICoordinatorServices

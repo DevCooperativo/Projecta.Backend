@@ -1,11 +1,17 @@
-import { sequelize } from "@/server";
-import { DataTypes } from "sequelize";
-
-const Person = sequelize.define(
-    "Person",
+import sequelize from "infrastructure/data/sequelize"
+import { DataTypes, Model } from "sequelize";
+class ProjectEntity extends Model {
+    declare id: number
+    declare name: string
+    declare amountEarned: number
+    declare createdAt: Date
+    declare updatedAt: Date
+    declare status: boolean
+}
+ProjectEntity.init(
     {
         id: {
-            type: DataTypes.UUID,
+            type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
@@ -13,15 +19,10 @@ const Person = sequelize.define(
             type: DataTypes.STRING,
             allowNull: false,
         },
-        email: {
-            type: DataTypes.STRING,
+        amountEarned: {
+            type: DataTypes.DOUBLE,
             allowNull: false,
-            unique: true,
-            validate: {
-                isEmail: true
-            }
         },
-
         createdAt: {
             type: DataTypes.DATE,
             defaultValue: Date.now,
@@ -34,6 +35,10 @@ const Person = sequelize.define(
             type: DataTypes.BOOLEAN,
             defaultValue: true
         }
+    },
+    {
+        sequelize,
+        modelName: "Projects"
     }
 )
-export default Person
+export default ProjectEntity

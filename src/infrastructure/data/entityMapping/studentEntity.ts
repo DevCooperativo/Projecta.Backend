@@ -1,12 +1,18 @@
-import { sequelize } from "@/server";
-import { DataTypes } from "sequelize";
-import Person from "./person";
+import sequelize from "infrastructure/data/sequelize"
+import { DataTypes, Model } from "sequelize";
 
-const Student = sequelize.define(
-    "Student",
+class StudentEntity extends Model {
+    declare id: number
+    declare course: string
+    declare registration: string
+    declare createdAt: Date
+    declare updatedAt: Date
+    declare status: boolean
+}
+StudentEntity.init(
     {
         id: {
-            type: DataTypes.UUID,
+            type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
@@ -31,14 +37,6 @@ const Student = sequelize.define(
         },
 
 
-        personId: {
-            type: DataTypes.UUID,
-            references: {
-                model: Person,
-                key: "id"
-            }
-        },
-
         // Default properties
         createdAt: {
             type: DataTypes.DATE,
@@ -52,8 +50,12 @@ const Student = sequelize.define(
             type: DataTypes.BOOLEAN,
             defaultValue: true
         },
+    },
+    {
+        sequelize,
+        modelName: "Students",
+        tableName: "Students"
     }
 )
-Student.belongsTo(Person)
 
-export default Student
+export default StudentEntity
