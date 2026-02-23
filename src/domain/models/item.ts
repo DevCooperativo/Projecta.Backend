@@ -1,8 +1,3 @@
-import sequelize from "infrastructure/data/sequelize"
-import { DataTypes } from "sequelize";
-import FundingNotice from "./fundingNotice";
-import Laboratory from "./laboratory";
-import Project from "./project";
 import BaseModel from "../abstractions/BaseModel";
 
 class Item extends BaseModel {
