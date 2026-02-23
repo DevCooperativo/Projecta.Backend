@@ -41,25 +41,21 @@ ProfessorEntity.init(
         // Default properties
         createdAt: {
             type: DataTypes.DATE,
-            defaultValue: Date.now,
+            defaultValue: DataTypes.NOW,
         },
         updatedAt: {
             type: DataTypes.DATE,
-            defaultValue: Date.now,
+            defaultValue: DataTypes.NOW,
         },
         status: {
             type: DataTypes.BOOLEAN,
             defaultValue: true
         }
     }, {
-    modelName: "Professors",
+    modelName: "Professor",
     tableName: "Professors",
     sequelize,
-    indexes:[{
-        unique: true,
-        fields:["email", "registration"]
-    }]
-
+    timestamps: true
 }
 )
 export default ProfessorEntity
