@@ -1,52 +1,18 @@
-import { sequelize } from "@/server";
+import sequelize from "infrastructure/data/sequelize"
 import { DataTypes } from "sequelize";
+import BaseModel from "../abstractions/BaseModel";
 
-const FundingNotice = sequelize.define(
-    "FundingNotice",
-    {
-        id: {
-            type: DataTypes.UUID,
-            primaryKey: true,
-            autoIncrement: true,
-            allowNull: false
-        },
-        name: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        fundingAgency: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        noticeCode: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        individualValue: {
-            type: DataTypes.DOUBLE,
-            allowNull: false,
-            validate: {
-                min: {
-                    args: [0],
-                    msg: "Individual value must be greater than 0"
-                }
-            }
-        },
-
-
-        // Default properties
-        createdAt: {
-            type: DataTypes.DATE,
-            defaultValue: Date.now,
-        },
-        updatedAt: {
-            type: DataTypes.DATE,
-            defaultValue: Date.now,
-        },
-        status: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: true
-        }
+class FundingNotice extends BaseModel {
+    name: string
+    fundingAgency: string
+    noticeCode: string
+    individualValue: number
+    constructor(name: string, fundingAgency: string, noticeCode: string, individualValue: number) {
+        super()
+        this.name = name
+        this.fundingAgency = fundingAgency
+        this.noticeCode = noticeCode
+        this.individualValue = individualValue
     }
-)
+}
 export default FundingNotice
