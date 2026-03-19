@@ -1,26 +1,26 @@
 import Coordinator from "domain/models/coordinator";
 import ICoordinatorRepository from "domain/repositories/iCoordinatorRepository";
 import { injectable } from "tsyringe";
-import CoordinatorEntity from "../data/entityMapping/coordinatorEntity";
+import CoordinatorEntityMapping from "../data/entityMapping/coordinatorEntityMapping";
 
 @injectable()
 class CoordinatorRepository implements ICoordinatorRepository {
     
     async Find() {
-        return await CoordinatorEntity.findAll() as Coordinator[]
+        return await CoordinatorEntityMapping.findAll() as Coordinator[]
     }
     async FindById(id: number) {
-        return await CoordinatorEntity.findByPk(id) as Coordinator
+        return await CoordinatorEntityMapping.findByPk(id) as Coordinator
     }
     async Create(data: Coordinator) {
-        return await CoordinatorEntity.create({ ...data }) as Coordinator
+        return await CoordinatorEntityMapping.create({ ...data }) as Coordinator
     }
     async Update(data: Coordinator) {
-        await CoordinatorEntity.update(data, { where: { id: data.id } })
-        return (await CoordinatorEntity.findByPk(data.id)) as Coordinator
+        await CoordinatorEntityMapping.update(data, { where: { id: data.id } })
+        return (await CoordinatorEntityMapping.findByPk(data.id)) as Coordinator
     }
     async Delete(id: number) {
-        const result = await CoordinatorEntity.destroy({ where: { id: id } })
+        const result = await CoordinatorEntityMapping.destroy({ where: { id: id } })
         return result !== 0
     }
 

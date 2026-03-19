@@ -1,6 +1,0 @@
-enum InfrastructureExceptionNameEnum {
-    CONSTRAINT_ERROR = "CONSTRAINT_ERROR",
-    PERSISTENCE_ERROR = "PERSISTENCE_ERROR",
-    TABLE_MOUNT_ERROR = "TABLE_MOUNT_ERROR"
-}
-export default InfrastructureExceptionNameEnum

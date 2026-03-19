@@ -1,6 +1,6 @@
 // import ProfessorEntity from "./entityMapping/professorEntity"
-// import CoordinatorEntity from "./entityMapping/coordinatorEntity"
-// // import BorrowEntity from "./entityMapping/borrowEntity"
+// import CoordinatorEntityMapping from "./entityMapping/CoordinatorEntityMapping"
+// // import BorrowEntityMapping from "./entityMapping/BorrowEntityMapping"
 // import FundingNoticeEntity from "./entityMapping/fundingNoticeEntity"
 // // import ItemEntity from "./entityMapping/itemEntity"
 // // import LaboratoryEntity from "./entityMapping/laboratoryEntity"
@@ -13,11 +13,11 @@
 //     await ProfessorEntity.sync()
 //     // await StudentEntity.sync()
 //     // await LaboratoryEntity.sync()
-//     // await CoordinatorEntity.sync()
+//     // await CoordinatorEntityMapping.sync()
 //     // await ResearcherEntity.sync()
 //     // await ProjectEntity.sync()
 //     // await ItemEntity.sync()
-//     // await BorrowEntity.sync()
+//     // await BorrowEntityMapping.sync()
 
 
 // }

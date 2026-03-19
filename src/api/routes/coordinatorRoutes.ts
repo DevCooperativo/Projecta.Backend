@@ -1,6 +1,4 @@
 import { Router } from "express";
-import { container } from "tsyringe";
-import BaseController from "../controllers/baseController";
 
 const coordinatorRoutes = Router()
 // const coordinatorController = container.resolve<BaseController>("CoordinatorController")
