@@ -16,7 +16,7 @@ class CreateProfessorController implements BaseController {
         try {
             const { name, email, registration } = req.body
             CheckRequestPropertiesHelper.CheckRequired({name, email, registration})
-            const user = req.user
+            
             // ApiException.When(!user, ApiExceptionNameEnum.UNAUTHENTICATED_USER, "You are not authenticated to the API. Authenticate yourself", 401)
             const professorDTO: ProfessorDTO = { name, email, registration } as ProfessorDTO
             console.log(professorDTO)

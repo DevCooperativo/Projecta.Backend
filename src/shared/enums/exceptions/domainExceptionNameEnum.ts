@@ -1,3 +1,0 @@
-enum DomainExceptionNameEnum{
-    INVALID_PROPERTY_VALUE = "INVALID_PORPERTY_VALUE"
-}

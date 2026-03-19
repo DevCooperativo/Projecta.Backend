@@ -6,7 +6,7 @@ class ProjectEntity extends Model {
     declare amountEarned: number
     declare createdAt: Date
     declare updatedAt: Date
-    declare status: boolean
+    declare isVisible: boolean
 }
 ProjectEntity.init(
     {
@@ -31,7 +31,7 @@ ProjectEntity.init(
             type: DataTypes.DATE,
             defaultValue: Date.now,
         },
-        status: {
+        isVisible: {
             type: DataTypes.BOOLEAN,
             defaultValue: true
         }

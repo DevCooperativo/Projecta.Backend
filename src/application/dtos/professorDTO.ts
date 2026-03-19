@@ -5,7 +5,7 @@ class ProfessorDTO {
     registration: string
     createdAt: Date
     updatedAt: Date
-    status: boolean
+    isVisible: boolean
     constructor() { }
 }
 export default ProfessorDTO

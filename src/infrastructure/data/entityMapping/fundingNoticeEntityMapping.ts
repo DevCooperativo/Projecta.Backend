@@ -1,6 +1,7 @@
 import sequelize from "infrastructure/data/sequelize"
 import { DataTypes } from "sequelize";
 
+
 const FundingNoticeEntity = sequelize.define(
     "FundingNotices",
     {
@@ -43,7 +44,7 @@ const FundingNoticeEntity = sequelize.define(
             type: DataTypes.DATE,
             defaultValue: Date.now,
         },
-        status: {
+        isVisible: {
             type: DataTypes.BOOLEAN,
             defaultValue: true
         }
