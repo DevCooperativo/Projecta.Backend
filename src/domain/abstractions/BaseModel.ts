@@ -2,7 +2,7 @@ abstract class BaseModel {
     id: number
     createdAt: Date
     updatedAt: Date
-    status: boolean
+    isVisible: boolean
     constructor() { 
     }
 }

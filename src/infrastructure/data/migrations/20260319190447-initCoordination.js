@@ -1,50 +1,48 @@
 'use strict';
 
+const { TABLE_NAMES } = require('../constants/tableNames');
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Professors", {
+    await queryInterface.createTable(TABLE_NAMES.COORDINATION, {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
         allowNull: false,
       },
-      name: {
+      area: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      email: {
+      block: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true,
       },
-      registration: {
+      description: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true,
       },
-      status: {
+      isVisible: {
         type: Sequelize.BOOLEAN,
+        allowNull: false,
         defaultValue: true,
       },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,
+        defaultValue: Sequelize.NOW,
       },
       updatedAt: {
         type: Sequelize.DATE,
         allowNull: false,
+        defaultValue: Sequelize.NOW,
       },
-    });
-
-    await queryInterface.addIndex("Professors", ["email", "registration"], {
-      unique: true,
-      name: "professors_email_registration_unique",
     });
   },
 
-  async down(queryInterface) {
-    await queryInterface.dropTable("Professors");
+  async down(queryInterface, Sequelize) {
+    await queryInterface.dropTable(TABLE_NAMES.COORDINATION);
   },
 };

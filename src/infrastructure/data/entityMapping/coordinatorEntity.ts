@@ -6,7 +6,7 @@ class CoordinatorEntity extends Model {
     declare professorId: string
     declare createdAt: Date
     declare updatedAt: Date
-    declare status: boolean
+    declare isVisible: boolean
 }
 CoordinatorEntity.init(
     {
