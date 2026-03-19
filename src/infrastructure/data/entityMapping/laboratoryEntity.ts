@@ -7,7 +7,7 @@ class LaboratoryEntity extends Model {
     declare maxOccupants: number
     declare createdAt: Date
     declare updatedAt: Date
-    declare status: boolean
+    declare isVisible: boolean
 }
 
 LaboratoryEntity.init({
@@ -40,7 +40,7 @@ LaboratoryEntity.init({
         type: DataTypes.DATE,
         defaultValue: Date.now,
     },
-    status: {
+    isVisible: {
         type: DataTypes.BOOLEAN,
         defaultValue: true
     }

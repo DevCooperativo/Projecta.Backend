@@ -1,13 +1,12 @@
-import ApplicationExceptionNameEnum from "shared/enums/exceptions/applicationExceptionNameEnum";
-import AppError from "shared/exceptions/appError";
+import AppError from "domain/constants/appError";
 
 class ApplicationException implements AppError {
     code: number;
-    name: ApplicationExceptionNameEnum;
+    name: string;
     message: string;
     stack?: string | undefined;
     cause?: unknown;
-    constructor(name: ApplicationExceptionNameEnum, message: string, code: number, stack?: string) {
+    constructor(name: string, message: string, code: number, stack?: string) {
         this.name = name
         this.code = code
         this.message = message

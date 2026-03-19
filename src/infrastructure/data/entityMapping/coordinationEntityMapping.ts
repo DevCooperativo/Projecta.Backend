@@ -6,6 +6,9 @@ import { TABLE_NAMES } from "../constants/tableNames";
 
 class CoordinationEntityMapping extends BaseEntityMapping {
     declare id: number
+    declare area: string
+    declare block: string
+    declare description: string
 }
 CoordinationEntityMapping.init(
     CoordinationEntityMapping.buildBaseAttributes({

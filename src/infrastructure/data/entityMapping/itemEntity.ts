@@ -1,6 +1,6 @@
 import { DataTypes, Model } from "sequelize"
 import sequelize from "../sequelize"
-import FundingNoticeEntity from "./fundingNoticeEntity"
+import FundingNoticeEntity from "./fundingNoticeEntityMapping"
 import ProjectEntity from "./projectEntity"
 import LaboratoryEntity from "./laboratoryEntity"
 
@@ -15,7 +15,7 @@ class ItemEntity extends Model {
     declare projectId: string
     declare createdAt: Date
     declare updatedAt: Date
-    declare status: boolean
+    declare isVisible: boolean
 }
 ItemEntity.init({
     id: {
@@ -81,7 +81,7 @@ ItemEntity.init({
         type: DataTypes.DATE,
         defaultValue: Date.now,
     },
-    status: {
+    isVisible: {
         type: DataTypes.BOOLEAN,
         defaultValue: true
     }

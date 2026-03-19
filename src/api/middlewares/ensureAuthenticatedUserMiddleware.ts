@@ -1,8 +1,6 @@
 import ApiExceptionNameEnum from "api/enums/apiExceptionNameEnum";
 import { NextFunction, Request, Response } from "express";
 import jsonwebtoken, { JsonWebTokenError, JwtPayload } from "jsonwebtoken"
-import { exec } from "node:child_process";
-import { exit } from 'node:process';
 interface AppJwtPayload extends JwtPayload {
     id: number
     email: string

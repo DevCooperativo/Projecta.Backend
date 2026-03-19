@@ -1,15 +1,16 @@
 import sequelize from "infrastructure/data/sequelize"
-import { DataTypes, Model, Sequelize } from "sequelize";
+import { DataTypes } from "sequelize";
 import ProfessorEntity from "./professorEntity";
-class CoordinatorEntity extends Model {
+import BaseEntityMapping from "./baseEntityMapping";
+class CoordinatorEntityMapping extends BaseEntityMapping {
     declare id: number
     declare professorId: string
     declare createdAt: Date
     declare updatedAt: Date
     declare isVisible: boolean
 }
-CoordinatorEntity.init(
-    {
+CoordinatorEntityMapping.init(
+    CoordinatorEntityMapping.buildBaseAttributes({
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -34,16 +35,16 @@ CoordinatorEntity.init(
             type: DataTypes.DATE,
             defaultValue: Date.now,
         },
-        status: {
+        isVisible: {
             type: DataTypes.BOOLEAN,
             defaultValue: true
         }
-    },
+    },),
     {
         modelName: 'Coordinators',
         sequelize
     }
 );
-CoordinatorEntity.belongsTo(ProfessorEntity, { as: "Professors", foreignKey: "professorId" })
+CoordinatorEntityMapping.belongsTo(ProfessorEntity, { as: "Professors", foreignKey: "professorId" })
 
-export default CoordinatorEntity
+export default CoordinatorEntityMapping

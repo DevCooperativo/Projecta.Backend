@@ -1,6 +1,8 @@
 import { sequelize } from "infrastructure/data/sequelize";
-import { DataTypes, Model } from "sequelize";
-class ProfessorEntity extends Model {
+import { DataTypes } from "sequelize";
+import { TABLE_NAMES } from "../constants/tableNames";
+import BaseEntityMapping from "./baseEntityMapping";
+class ProfessorEntityMapping extends BaseEntityMapping {
     declare id: number
     declare registration: string
     declare name: string
@@ -9,8 +11,8 @@ class ProfessorEntity extends Model {
     declare updatedAt: Date
     declare isVisible: boolean
 }
-ProfessorEntity.init(
-    {
+ProfessorEntityMapping.init(
+    ProfessorEntityMapping.buildBaseAttributes({
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -47,15 +49,15 @@ ProfessorEntity.init(
             type: DataTypes.DATE,
             defaultValue: DataTypes.NOW,
         },
-        status: {
+        isVisible: {
             type: DataTypes.BOOLEAN,
             defaultValue: true
         }
-    }, {
-    modelName: "Professor",
-    tableName: "Professors",
+    },), {
+    modelName: TABLE_NAMES.PROFESSOR,
+    tableName: TABLE_NAMES.PROFESSOR,
     sequelize,
     timestamps: true
 }
 )
-export default ProfessorEntity
+export default ProfessorEntityMapping

@@ -1,5 +1,5 @@
 import ApiExceptionNameEnum from "api/enums/apiExceptionNameEnum";
-import AppError from "shared/exceptions/appError";
+import AppError from "domain/constants/appError";
 
 class ApiException implements AppError {
     code: number;

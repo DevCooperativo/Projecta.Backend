@@ -1,18 +1,19 @@
 import sequelize from "infrastructure/data/sequelize"
-import { DataTypes, Model } from "sequelize";
-import StudentEntity from "./studentEntity";
+import { DataTypes } from "sequelize";
+import StudentEntity from "./studentEntityMapping";
 import ProfessorEntity from "./professorEntity";
+import BaseEntityMapping from "./baseEntityMapping";
 
-class ResearcherEntity extends Model {
+class ResearcherEntityMapping extends BaseEntityMapping {
     declare id: number
     declare studentId: number
     declare professorId: number
     declare createdAt: Date
     declare updatedAt: Date
-    declare status: boolean
+    declare isVisible: boolean
 }
-ResearcherEntity.init(
-    {
+ResearcherEntityMapping.init(
+    ResearcherEntityMapping.buildBaseAttributes({
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -44,18 +45,18 @@ ResearcherEntity.init(
             type: DataTypes.DATE,
             defaultValue: Date.now,
         },
-        status: {
+        isVisible: {
             type: DataTypes.BOOLEAN,
             defaultValue: true
         }
-    },
+    }),
     {
         sequelize,
         modelName: "Researchers"
     }
 )
 
-ResearcherEntity.belongsTo(StudentEntity, { as: "Students", foreignKey: "studentId" })
-ResearcherEntity.belongsTo(ProfessorEntity, { as: "Professors", foreignKey: "professorId" })
+ResearcherEntityMapping.belongsTo(StudentEntity, { as: "Students", foreignKey: "studentId" })
+ResearcherEntityMapping.belongsTo(ProfessorEntity, { as: "Professors", foreignKey: "professorId" })
 
-export default ResearcherEntity
+export default ResearcherEntityMapping
