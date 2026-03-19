@@ -1,12 +1,25 @@
 import BaseModel from "../abstractions/BaseModel";
 
 class Researcher extends BaseModel {
-    studentId?: string
-    professorId?: string
-    constructor(studentId?: string, professorId?: string) {
+    name: string
+    function: string
+    weeklyHours: number
+    startDate: Date
+    endDate?: Date
+    projectId: number
+    studentId?: number
+    professorId?: number
+
+    constructor(name: string, functionName: string, weeklyHours: number, startDate: Date, projectId: number, studentId?: number, professorId?: number, endDate?: Date) {
         super()
+        this.name = name
+        this.function = functionName
+        this.weeklyHours = weeklyHours
+        this.startDate = startDate
+        this.projectId = projectId
         this.studentId = studentId
         this.professorId = professorId
+        this.endDate = endDate
     }
 }
 
