@@ -7,7 +7,7 @@ class ProfessorEntity extends Model {
     declare email: string
     declare createdAt: Date
     declare updatedAt: Date
-    declare status: boolean
+    declare isVisible: boolean
 }
 ProfessorEntity.init(
     {
