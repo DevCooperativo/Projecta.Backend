@@ -1,5 +1,3 @@
-import sequelize from "infrastructure/data/sequelize"
-import { DataTypes } from "sequelize";
 import BaseModel from "../abstractions/BaseModel";
 
 class Laboratory extends BaseModel {
