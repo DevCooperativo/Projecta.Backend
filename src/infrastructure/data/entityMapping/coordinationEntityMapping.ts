@@ -27,7 +27,9 @@ CoordinationEntityMapping.init(
     }),
     {
         modelName: TABLE_NAMES.COORDINATION,
-        sequelize
+        tableName: TABLE_NAMES.COORDINATION,
+        sequelize,
+        timestamps: true,
     }
 );
 

@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 import "reflect-metadata"
-import "shared/tsyringe/index"
+import "api/dependencyInjection/tsyringe/index"
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";

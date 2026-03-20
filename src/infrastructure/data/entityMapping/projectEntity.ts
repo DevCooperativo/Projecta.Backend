@@ -1,44 +1,68 @@
 import sequelize from "infrastructure/data/sequelize"
-import { DataTypes, Model } from "sequelize";
-class ProjectEntity extends Model {
+import { DataTypes } from "sequelize";
+import { TABLE_NAMES } from "../constants/tableNames";
+import BaseEntityMapping from "./baseEntityMapping";
+import LaboratoryEntity from "./laboratoryEntity";
+
+class ProjectEntityMapping extends BaseEntityMapping {
     declare id: number
     declare name: string
-    declare amountEarned: number
-    declare createdAt: Date
-    declare updatedAt: Date
-    declare isVisible: boolean
+    declare fundingNotice: string
+    declare description: string
+    declare startDate: Date
+    declare endDate?: Date
+    declare status: string
+    declare laboratoryId: number
+    declare projectCategoryId?: number
 }
-ProjectEntity.init(
-    {
-        id: {
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-            autoIncrement: true
-        },
+
+ProjectEntityMapping.init(
+    ProjectEntityMapping.buildBaseAttributes({
         name: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        amountEarned: {
-            type: DataTypes.DOUBLE,
+        fundingNotice: {
+            type: DataTypes.STRING,
             allowNull: false,
         },
-        createdAt: {
-            type: DataTypes.DATE,
-            defaultValue: Date.now,
+        description: {
+            type: DataTypes.STRING,
+            allowNull: false,
         },
-        updatedAt: {
+        startDate: {
             type: DataTypes.DATE,
-            defaultValue: Date.now,
+            allowNull: false,
         },
-        isVisible: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: true
-        }
-    },
+        endDate: {
+            type: DataTypes.DATE,
+            allowNull: true,
+        },
+        status: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        laboratoryId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: LaboratoryEntity,
+                key: "id",
+            },
+        },
+        projectCategoryId: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+        },
+    }),
     {
+        modelName: TABLE_NAMES.PROJECT,
+        tableName: TABLE_NAMES.PROJECT,
         sequelize,
-        modelName: "Projects"
+        timestamps: true,
     }
 )
-export default ProjectEntity
+
+ProjectEntityMapping.belongsTo(LaboratoryEntity, { as: "Laboratories", foreignKey: "laboratoryId" })
+
+export default ProjectEntityMapping
