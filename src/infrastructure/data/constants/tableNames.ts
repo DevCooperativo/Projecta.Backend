@@ -6,6 +6,8 @@ export const TABLE_NAMES = {
     STUDENT: 'students',
     LABORATORY: 'laboratories',
     PROJECT: 'projects',
+    PROJECT_CATEGORY: 'project_categories',
     RESEARCHER: 'researchers',
-    ADMINISTRATOR: 'administrators'
+    ADMINISTRATOR: 'administrators',
+    EQUIPMENT_CATEGORY: 'equipment_categories'
 }

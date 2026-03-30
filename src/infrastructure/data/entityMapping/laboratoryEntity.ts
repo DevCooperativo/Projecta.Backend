@@ -5,6 +5,8 @@ class LaboratoryEntity extends Model {
     declare id: number
     declare name: string
     declare maxOccupants: number
+    declare storageSpace: boolean
+    declare description: string
     declare createdAt: Date
     declare updatedAt: Date
     declare isVisible: boolean
@@ -29,6 +31,14 @@ LaboratoryEntity.init({
                 msg: "The minimum amount of accupants is 1"
             }
         }
+    },
+    storageSpace: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+    },
+    description: {
+        type: DataTypes.TEXT,
+        defaultValue: ""
     },
 
     // Default properties
