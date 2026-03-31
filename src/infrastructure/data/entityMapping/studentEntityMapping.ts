@@ -6,6 +6,10 @@ import { TABLE_NAMES } from "../constants/tableNames";
 
 class StudentEntityMapping extends BaseEntityMapping {
     declare id: number
+    declare name: string
+    declare email: string
+    declare birthdate: Date
+    declare term: number
     declare course: string
     declare registration: string
     declare createdAt: Date

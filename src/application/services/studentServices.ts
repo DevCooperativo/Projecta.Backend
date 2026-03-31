@@ -1,8 +1,8 @@
 import { ApplicationExceptionName } from "application/constants/applicationExceptionName";
-import StudentDTO from "application/dtos/professorDTO";
+import StudentDTO from "application/dtos/studentDTO";
 import ApplicationException from "application/exceptions/applicationException";
 import IStudentServices from "application/interfaces/iStudentServices";
-import Student from "domain/models/professor";
+import Student from "domain/models/student";
 import IStudentRepository from "domain/repositories/iStudentRepository";
 import { InfrastructureExceptionName } from "infrastructure/exceptions/constants/infrastructureExceptionName";
 import InfrastructureException from "infrastructure/exceptions/infrastructureException";

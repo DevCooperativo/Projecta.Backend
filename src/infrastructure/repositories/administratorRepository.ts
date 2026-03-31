@@ -1,11 +1,13 @@
-import Administrator from "domain/models/coordination";
+import Administrator from "domain/models/administrator";
 import IAdministratorRepository from "domain/repositories/iAdministratorRepository";
-import AdministratorEntityMapping from "infrastructure/data/entityMapping/coordinationEntityMapping";
+import AdministratorEntityMapping from "infrastructure/data/entityMapping/administratorEntityMapping";
 import { injectable } from "tsyringe";
 
 @injectable()
 class AdministratorRepository implements IAdministratorRepository {
-    
+    async FindByEmail(email: string) {
+        return await AdministratorEntityMapping.findOne({ where: { email: email } }) as Administrator | null
+    }
     async Find() {
         return await AdministratorEntityMapping.findAll() as Administrator[]
     }

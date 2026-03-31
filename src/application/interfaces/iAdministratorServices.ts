@@ -1,11 +1,12 @@
-import StudentDTO from "application/dtos/studentDTO";
+import { AdministratorDTO } from "application/dtos/administratorDTO";
 
-interface IStudentServices {
-    GetAllAsync: () => Promise<StudentDTO[]>
-    GetByIdAsync: (id: number) => Promise<StudentDTO | null>
-    CreateAsync: (data: StudentDTO) => Promise<StudentDTO>
-    UpdateAsync: (id: number, data: StudentDTO) => Promise<StudentDTO>
+interface IAdministratorServices {
+    FindByEmailAsync: (email: string) => Promise<AdministratorDTO | null>
+    GetAllAsync: () => Promise<AdministratorDTO[]>
+    GetByIdAsync: (id: number) => Promise<AdministratorDTO | null>
+    CreateAsync: (data: AdministratorDTO) => Promise<AdministratorDTO>
+    UpdateAsync: (id: number, data: AdministratorDTO) => Promise<AdministratorDTO>
     DeleteAsync: (id: number) => Promise<boolean>
 }
 
-export default IStudentServices
+export default IAdministratorServices

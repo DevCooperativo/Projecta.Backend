@@ -1,7 +1,7 @@
-import Student from "domain/models/professor";
+import Student from "domain/models/student";
 import IStudentRepository from "domain/repositories/iStudentRepository";
 import { injectable } from "tsyringe";
-import StudentEntity from "../data/entityMapping/professorEntityMapping";
+import StudentEntity from "../data/entityMapping/studentEntityMapping";
 
 @injectable()
 class StudentRepository implements IStudentRepository {
