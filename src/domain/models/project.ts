@@ -8,9 +8,9 @@ class Project extends BaseModel {
     endDate?: Date
     status: string
     laboratoryId: number
-    projectCategoryId?: number
+    projectCategoryId: number
 
-    constructor(name: string, fundingNotice: string, description: string, startDate: Date, status: string, laboratoryId: number, endDate?: Date, projectCategoryId?: number) {
+    constructor(name: string, fundingNotice: string, description: string, startDate: Date, status: string, laboratoryId: number, projectCategoryId: number, endDate?: Date) {
         super()
         this.name = name
         this.fundingNotice = fundingNotice

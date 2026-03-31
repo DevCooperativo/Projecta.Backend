@@ -7,22 +7,22 @@ import ProjectEntity from "./projectEntity";
 
 class CoordinatorEntityMapping extends BaseEntityMapping {
     declare id: number
-    declare area?: string
-    declare startDate?: Date
+    declare area: string
+    declare startDate: Date
     declare endDate?: Date
-    declare professorId: string
-    declare projectId?: string
+    declare professorId: number
+    declare projectId: number
 }
 
 CoordinatorEntityMapping.init(
     CoordinatorEntityMapping.buildBaseAttributes({
         area: {
             type: DataTypes.STRING,
-            allowNull: true,
+            allowNull: false,
         },
         startDate: {
             type: DataTypes.DATE,
-            allowNull: true,
+            allowNull: false,
         },
         endDate: {
             type: DataTypes.DATE,
@@ -38,7 +38,7 @@ CoordinatorEntityMapping.init(
         },
         projectId: {
             type: DataTypes.INTEGER,
-            allowNull: true,
+            allowNull: false,
             references: {
                 model: ProjectEntity,
                 key: "id",

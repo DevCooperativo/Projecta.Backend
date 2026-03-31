@@ -8,6 +8,7 @@ import { TABLE_NAMES } from "../constants/tableNames";
 
 class ResearcherEntityMapping extends BaseEntityMapping {
     declare id: number
+    declare name: string
     declare functionName: string
     declare weeklyHours: number
     declare startDate: Date
@@ -19,6 +20,10 @@ class ResearcherEntityMapping extends BaseEntityMapping {
 
 ResearcherEntityMapping.init(
     ResearcherEntityMapping.buildBaseAttributes({
+        name: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
         functionName: {
             type: DataTypes.STRING,
             allowNull: false,

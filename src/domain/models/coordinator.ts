@@ -1,19 +1,19 @@
 import BaseModel from "../abstractions/BaseModel";
 
 class Coordinator extends BaseModel {
-    area?: string
-    startDate?: Date
+    area: string
+    startDate: Date
     endDate?: Date
-    professorId: string
-    projectId?: string
+    professorId: number
+    projectId: number
 
-    constructor(professorId: string, projectId?: string, area?: string, startDate?: Date, endDate?: Date) {
+    constructor(area: string, startDate: Date, professorId: number, projectId: number, endDate?: Date) {
         super()
-        this.professorId = professorId
-        this.projectId = projectId
         this.area = area
         this.startDate = startDate
         this.endDate = endDate
+        this.professorId = professorId
+        this.projectId = projectId
     }
 }
 export default Coordinator

@@ -1,6 +1,7 @@
 import BaseModel from "../abstractions/BaseModel";
 
 class Researcher extends BaseModel {
+    name: string
     functionName: string
     weeklyHours: number
     startDate: Date
@@ -9,8 +10,9 @@ class Researcher extends BaseModel {
     studentId?: number
     professorId?: number
 
-    constructor(functionName: string, weeklyHours: number, startDate: Date, projectId: number, studentId?: number, professorId?: number, endDate?: Date) {
+    constructor(name: string, functionName: string, weeklyHours: number, startDate: Date, projectId: number, studentId?: number, professorId?: number, endDate?: Date) {
         super()
+        this.name = name
         this.functionName = functionName
         this.weeklyHours = weeklyHours
         this.startDate = startDate
