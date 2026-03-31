@@ -1,7 +1,7 @@
 import Professor from "domain/models/professor";
 import IProfessorRepository from "domain/repositories/iProfessorRepository";
 import { injectable } from "tsyringe";
-import ProfessorEntity from "../data/entityMapping/professorEntity";
+import ProfessorEntity from "../data/entityMapping/professorEntityMapping";
 
 @injectable()
 class ProfessorRepository implements IProfessorRepository {

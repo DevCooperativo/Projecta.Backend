@@ -1,4 +1,4 @@
-import ProfessorEntity from "../entityMapping/professorEntity";
+import ProfessorEntity from "../entityMapping/professorEntityMapping";
 import Professor from "domain/models/professor";
 import { SequelizeErrorHandler } from "infrastructure/helpers/sequelizeErrorHandler";
 // import syncEntities from "../syncEntities";

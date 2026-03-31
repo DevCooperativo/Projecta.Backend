@@ -3,7 +3,7 @@ import DomainException from "domain/exceptions/domainException";
 import { Response } from "express";
 import ApiException from "../exceptions/apiException";
 import InfrastructureException from "infrastructure/exceptions/infrastructureException";
-import { InfrastructureExceptionName } from "infrastructure/constants/infrastructureExceptionName";
+import { InfrastructureExceptionName } from "infrastructure/exceptions/constants/infrastructureExceptionName";
 
 class ControllerExceptionThrowHelper {
     static Throw(res: Response, ex: unknown) {

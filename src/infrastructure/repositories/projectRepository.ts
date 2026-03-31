@@ -1,6 +1,6 @@
 import Project from "domain/models/project";
 import IProjectRepository from "domain/repositories/iProjectRepository";
-import ProjectEntityMapping from "infrastructure/data/entityMapping/projectEntity";
+import ProjectEntityMapping from "infrastructure/data/entityMapping/projectEntityMapping";
 import { injectable } from "tsyringe";
 
 @injectable()

@@ -13,51 +13,58 @@ class ProfessorEntityMapping extends BaseEntityMapping {
 }
 ProfessorEntityMapping.init(
     ProfessorEntityMapping.buildBaseAttributes({
-        id: {
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-            autoIncrement: true
-        },
+        
 
         name: {
             type: DataTypes.STRING,
             allowNull: false,
+            validate:{
+                min:{
+                    args: [3],
+                    msg: "Name should have at least 3 characters"
+                },
+                max:{
+                    args: [100],
+                    msg: "Name should have up to 100 characters"
+                }
+            }
         },
         email: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true,
+            unique: {
+                msg: "Emails must be unique",
+                name: "unique_email"
+            },
             validate: {
                 isEmail: { msg: "'Email' must be a valid email" }
             }
         },
-
-
+        telephone:{
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                is: {
+                    args: /^\(?\d{2}\)?[\s-]?\d{4,5}-?\d{4}$/,
+                    msg: "'Telephone' must be a valid Brazilian phone number"
+                }
+            }
+        },
         registration: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true
+            unique: {
+                name: "unique_registration",
+                msg: "Registrations must be unique"
+            }
         },
 
 
-        // Default properties
-        createdAt: {
-            type: DataTypes.DATE,
-            defaultValue: DataTypes.NOW,
-        },
-        updatedAt: {
-            type: DataTypes.DATE,
-            defaultValue: DataTypes.NOW,
-        },
-        isVisible: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: true
-        }
+        
     },), {
     modelName: TABLE_NAMES.PROFESSOR,
     tableName: TABLE_NAMES.PROFESSOR,
     sequelize,
-    timestamps: true
 }
 )
 export default ProfessorEntityMapping

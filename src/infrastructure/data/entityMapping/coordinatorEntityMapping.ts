@@ -1,9 +1,9 @@
 import sequelize from "infrastructure/data/sequelize"
 import { DataTypes } from "sequelize";
-import ProfessorEntity from "./professorEntity";
+import ProfessorEntity from "./professorEntityMapping";
 import BaseEntityMapping from "./baseEntityMapping";
 import { TABLE_NAMES } from "../constants/tableNames";
-import ProjectEntity from "./projectEntity";
+import ProjectEntity from "./projectEntityMapping";
 
 class CoordinatorEntityMapping extends BaseEntityMapping {
     declare id: number

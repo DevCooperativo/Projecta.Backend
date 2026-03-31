@@ -4,7 +4,7 @@ import ApplicationException from "application/exceptions/applicationException";
 import IProfessorServices from "application/interfaces/iProfessorServices";
 import Professor from "domain/models/professor";
 import IProfessorRepository from "domain/repositories/iProfessorRepository";
-import { InfrastructureExceptionName } from "infrastructure/constants/infrastructureExceptionName";
+import { InfrastructureExceptionName } from "infrastructure/exceptions/constants/infrastructureExceptionName";
 import InfrastructureException from "infrastructure/exceptions/infrastructureException";
 import { inject, injectable } from "tsyringe";
 
