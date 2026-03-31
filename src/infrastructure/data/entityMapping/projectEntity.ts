@@ -3,6 +3,7 @@ import { DataTypes } from "sequelize";
 import { TABLE_NAMES } from "../constants/tableNames";
 import BaseEntityMapping from "./baseEntityMapping";
 import LaboratoryEntity from "./laboratoryEntity";
+import ProjectCategoryEntityMapping from "./projectCategoryEntityMapping";
 
 class ProjectEntityMapping extends BaseEntityMapping {
     declare id: number
@@ -13,7 +14,7 @@ class ProjectEntityMapping extends BaseEntityMapping {
     declare endDate?: Date
     declare status: string
     declare laboratoryId: number
-    declare projectCategoryId?: number
+    declare projectCategoryId: number
 }
 
 ProjectEntityMapping.init(
@@ -52,7 +53,11 @@ ProjectEntityMapping.init(
         },
         projectCategoryId: {
             type: DataTypes.INTEGER,
-            allowNull: true,
+            allowNull: false,
+            references: {
+                model: ProjectCategoryEntityMapping,
+                key: "id",
+            },
         },
     }),
     {
@@ -64,5 +69,6 @@ ProjectEntityMapping.init(
 )
 
 ProjectEntityMapping.belongsTo(LaboratoryEntity, { as: "Laboratories", foreignKey: "laboratoryId" })
+ProjectEntityMapping.belongsTo(ProjectCategoryEntityMapping, { as: "ProjectCategories", foreignKey: "projectCategoryId" })
 
 export default ProjectEntityMapping
