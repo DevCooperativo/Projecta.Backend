@@ -53,9 +53,19 @@ import ProjectCategoryRepository from "infrastructure/repositories/projectCatego
 import ProjectRepository from "infrastructure/repositories/projectRepository";
 import ResearcherRepository from "infrastructure/repositories/researcherRepository";
 import { container } from "tsyringe";
+import IAdministratorRepository from "domain/repositories/iAdministratorRepository";
+import AdministratorRepository from "infrastructure/repositories/administratorRepository";
+import StudentRepository from "infrastructure/repositories/studentRepository";
+import IStudentRepository from "domain/repositories/iStudentRepository";
+import StudentServices from "application/services/studentServices";
+import IStudentServices from "application/interfaces/iStudentServices";
+import AdministratorServices from "application/services/administratorServices";
+import IAdministratorServices from "application/interfaces/iAdministratorServices";
 
 // Repositories
 container.registerSingleton<IProfessorRepository>("ProfessorRepository", ProfessorRepository)
+container.registerSingleton<IAdministratorRepository>("AdministratorRepository", AdministratorRepository)
+container.registerSingleton<IStudentRepository>("StudentRepository", StudentRepository)
 container.registerSingleton<ICoordinationRepository>("CoordinationRepository", CoordinationRepository)
 container.registerSingleton<ICoordinatorRepository>("CoordinatorRepository", CoordinatorRepository)
 container.registerSingleton<ILaboratoryRepository>("LaboratoryRepository", LaboratoryRepository)
@@ -66,6 +76,8 @@ container.registerSingleton<IResearcherRepository>("ResearcherRepository", Resea
 
 // Services
 container.registerSingleton<IProfessorServices>("ProfessorServices", ProfessorServices)
+container.registerSingleton<IAdministratorServices>("AdministratorServices", AdministratorServices)
+container.registerSingleton<IStudentServices>("StudentServices", StudentServices)
 container.registerSingleton<ICoordinationServices>("CoordinationServices", CoordinationServices)
 container.registerSingleton<ICoordinatorServices>("CoordinatorServices", CoordinatorServices)
 container.registerSingleton<ILaboratoryServices>("LaboratoryServices", LaboratoryServices)

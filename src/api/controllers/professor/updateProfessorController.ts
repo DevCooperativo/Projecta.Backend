@@ -3,7 +3,7 @@ import BaseController from "../baseController";
 import ControllerExceptionThrowHelper from "api/helpers/controllerExceptionThrowHelper";
 import { inject, injectable } from "tsyringe";
 import IStudentServices from "application/interfaces/iStudentServices";
-import StudentDTO from "application/dtos/professorDTO";
+import StudentDTO from "application/dtos/studentDTO";
 import CheckRequestPropertiesHelper from "api/helpers/checkRequestPropertiesHelper";
 import { ValidationError } from "sequelize";
 
