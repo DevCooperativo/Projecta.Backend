@@ -1,6 +1,7 @@
 import {
     DataTypes,
     Model,
+    ModelAttributes,
 } from "sequelize";
 
 abstract class BaseEntityMapping extends Model {
@@ -9,22 +10,12 @@ abstract class BaseEntityMapping extends Model {
     declare updatedAt: Date;
     declare isVisible: boolean;
 
-    static buildBaseAttributes<T extends Record<string, unknown>>(attributes: T): T {
+    static buildBaseAttributes<T extends ModelAttributes>(attributes: T): T {
         const baseAttributes = {
             id: {
                 type: DataTypes.INTEGER,
                 primaryKey: true,
                 autoIncrement: true,
-            },
-            createdAt: {
-                type: DataTypes.DATE,
-                allowNull: false,
-                defaultValue: DataTypes.NOW,
-            },
-            updatedAt: {
-                type: DataTypes.DATE,
-                allowNull: false,
-                defaultValue: DataTypes.NOW,
             },
             isVisible: {
                 type: DataTypes.BOOLEAN,

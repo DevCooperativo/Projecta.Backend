@@ -1,7 +1,7 @@
 import { DataTypes, Model } from "sequelize"
 import sequelize from "../sequelize"
 import FundingNoticeEntity from "./fundingNoticeEntityMapping"
-import ProjectEntity from "./projectEntity"
+import ProjectEntity from "./projectEntityMapping"
 import LaboratoryEntity from "./laboratoryEntity"
 
 class ItemEntity extends Model {

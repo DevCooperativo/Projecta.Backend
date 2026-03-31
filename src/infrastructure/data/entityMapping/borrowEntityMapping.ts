@@ -2,7 +2,7 @@ import { DataTypes } from "sequelize";
 import sequelize from "../sequelize";
 import StudentEntity from "./studentEntityMapping";
 import ResearcherEntity from "./researcherEntity";
-import ProfessorEntity from "./professorEntity";
+import ProfessorEntity from "./professorEntityMapping";
 import ItemEntity from "./itemEntity";
 import BaseEntityMapping from "./baseEntityMapping";
 
