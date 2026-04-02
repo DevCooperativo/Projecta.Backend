@@ -10,21 +10,16 @@ class BorrowEntityMapping extends BaseEntityMapping {
     declare id: number
     declare equipmentId: string
     declare studentId?: string
-    declare researcherId?: string
     declare professorId?: string
     declare borrowDate: Date
     declare returnDate?: Date
+    declare isStillBorrowed: boolean
     declare createdAt: Date
     declare updatedAt: Date
     declare isVisible: boolean
 }
 BorrowEntityMapping.init(
     BorrowEntityMapping.buildBaseAttributes({
-        id: {
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-            autoIncrement: true
-        },
         equipmentId: {
             type: DataTypes.INTEGER,
             references: {
@@ -37,14 +32,6 @@ BorrowEntityMapping.init(
             references: {
                 key: "id",
                 model: StudentEntity
-            },
-            allowNull: true
-        },
-        researcherId: {
-            type: DataTypes.INTEGER,
-            references: {
-                key: "id",
-                model: ResearcherEntity
             },
             allowNull: true
         },
@@ -61,23 +48,15 @@ BorrowEntityMapping.init(
             allowNull: false,
             defaultValue: Date.now()
         },
+        isStillBorrowed:{
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: true
+        },
         returnDate: {
             type: DataTypes.DATE,
             allowNull: false
         },
-        // Default properties
-        createdAt: {
-            type: DataTypes.DATE,
-            defaultValue: Date.now,
-        },
-        updatedAt: {
-            type: DataTypes.DATE,
-            defaultValue: Date.now,
-        },
-        isVisible: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: true
-        }
     },),
     {
         modelName: "Borrows",

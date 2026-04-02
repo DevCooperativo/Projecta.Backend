@@ -3,13 +3,11 @@ import { DataTypes } from "sequelize";
 import { TABLE_NAMES } from "../constants/tableNames";
 import BaseEntityMapping from "./baseEntityMapping";
 class ProfessorEntityMapping extends BaseEntityMapping {
-    declare id: number
     declare registration: string
     declare name: string
     declare email: string
-    declare createdAt: Date
-    declare updatedAt: Date
-    declare isVisible: boolean
+    declare telephone: string
+    declare coordinationId: number
 }
 ProfessorEntityMapping.init(
     ProfessorEntityMapping.buildBaseAttributes({
@@ -58,13 +56,20 @@ ProfessorEntityMapping.init(
                 msg: "Registrations must be unique"
             }
         },
-
-
-        
+        coordinationId:{
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                key: "id",
+                model: TABLE_NAMES.COORDINATION
+             }
+        }
     },), {
     modelName: TABLE_NAMES.PROFESSOR,
     tableName: TABLE_NAMES.PROFESSOR,
     sequelize,
 }
 )
+
+ProfessorEntityMapping.belongsTo(sequelize.models.Coordinations, { foreignKey: "coordinationId", as: "coordination" })
 export default ProfessorEntityMapping

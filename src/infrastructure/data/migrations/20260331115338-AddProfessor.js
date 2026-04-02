@@ -59,6 +59,14 @@ module.exports = {
                     }
                 }
             },
+            coordinationId: {
+                type: Sequelize.INTEGER,
+                allowNull: false,
+                references: {
+                    key: "id",
+                    model: "coordinations"
+                }
+            },
             registration: {
                 type: Sequelize.STRING,
                 allowNull: false,
