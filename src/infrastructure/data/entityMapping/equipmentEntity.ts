@@ -3,6 +3,7 @@ import sequelize from "../sequelize"
 import ProjectEntity from "./projectEntityMapping"
 import LaboratoryEntity from "./laboratoryEntity"
 import EquipmentCategoryEntityMapping from "./equipmentCategoryEntityMapping"
+import { TABLE_NAMES } from "../constants/tableNames"
 
 class EquipmentEntity extends Model {
     declare id: number
@@ -64,8 +65,8 @@ EquipmentEntity.init({
     }
 },
     {
-        modelName: "Equipments",
-        tableName: "Equipments",
+        modelName: TABLE_NAMES.EQUIPMENTS,
+        tableName: TABLE_NAMES.EQUIPMENTS,
         sequelize
     })
 

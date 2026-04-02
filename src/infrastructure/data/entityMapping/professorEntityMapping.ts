@@ -2,6 +2,7 @@ import { sequelize } from "infrastructure/data/sequelize";
 import { DataTypes } from "sequelize";
 import { TABLE_NAMES } from "../constants/tableNames";
 import BaseEntityMapping from "./baseEntityMapping";
+import CoordinationEntityMapping from "./coordinationEntityMapping";
 class ProfessorEntityMapping extends BaseEntityMapping {
     declare registration: string
     declare name: string
@@ -71,5 +72,5 @@ ProfessorEntityMapping.init(
 }
 )
 
-ProfessorEntityMapping.belongsTo(sequelize.models.Coordinations, { foreignKey: "coordinationId", as: "coordination" })
+ProfessorEntityMapping.belongsTo(CoordinationEntityMapping, { foreignKey: "coordinationId", as: "coordination" })
 export default ProfessorEntityMapping
