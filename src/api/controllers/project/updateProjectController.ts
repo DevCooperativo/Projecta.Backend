@@ -14,10 +14,10 @@ class UpdateProjectController implements BaseController {
     ) { }
     async Handle(req: Request, res: Response) {
         try {
-            const { name, fundingNotice, description, startDate, endDate, status, laboratoryId, projectCategoryId } = req.body
+            const { name, description, startDate, endDate, status, laboratoryId, projectCategoryId } = req.body
             const { id } = req.params as unknown as { id: number }
-            CheckRequestPropertiesHelper.CheckRequired({ id, name, fundingNotice, description, startDate, status, laboratoryId, projectCategoryId })
-            const projectDTO: ProjectDTO = { name, fundingNotice, description, startDate, endDate, status, laboratoryId, projectCategoryId } as ProjectDTO
+            CheckRequestPropertiesHelper.CheckRequired({ id, name, description, startDate, status, laboratoryId, projectCategoryId })
+            const projectDTO: ProjectDTO = { name, description, startDate, endDate, status, laboratoryId, projectCategoryId } as ProjectDTO
             const result = await this.projectServices.UpdateAsync(id, projectDTO)
             return res.status(200).json(result)
         } catch (ex) {

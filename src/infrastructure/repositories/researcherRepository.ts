@@ -1,6 +1,6 @@
 import Researcher from "domain/models/researcher";
 import IResearcherRepository from "domain/repositories/iResearcherRepository";
-import ResearcherEntityMapping from "infrastructure/data/entityMapping/researcherEntity";
+import ResearcherEntityMapping from "infrastructure/data/entityMapping/researcherEntityMappping";
 import { injectable } from "tsyringe";
 
 @injectable()

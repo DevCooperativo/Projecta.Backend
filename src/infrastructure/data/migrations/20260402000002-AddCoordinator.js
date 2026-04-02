@@ -3,7 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
-        await queryInterface.createTable('project_categories', {
+        await queryInterface.createTable('coordinators', {
             id: {
                 type: Sequelize.INTEGER,
                 primaryKey: true,
@@ -24,26 +24,42 @@ module.exports = {
                 allowNull: false,
                 defaultValue: true,
             },
-            name: {
-                type: Sequelize.STRING,
-                allowNull: false,
-            },
-            commerciallyRelevant: {
-                type: Sequelize.BOOLEAN,
-                allowNull: false,
-            },
             area: {
                 type: Sequelize.STRING,
                 allowNull: false,
             },
-            description: {
-                type: Sequelize.STRING,
+            startDate: {
+                type: Sequelize.DATE,
                 allowNull: false,
+            },
+            endDate: {
+                type: Sequelize.DATE,
+                allowNull: true,
+            },
+            professorId: {
+                type: Sequelize.INTEGER,
+                allowNull: false,
+                references: {
+                    model: 'professors',
+                    key: 'id',
+                },
+                onUpdate: 'CASCADE',
+                onDelete: 'RESTRICT',
+            },
+            projectId: {
+                type: Sequelize.INTEGER,
+                allowNull: false,
+                references: {
+                    model: 'projects',
+                    key: 'id',
+                },
+                onUpdate: 'CASCADE',
+                onDelete: 'RESTRICT',
             },
         });
     },
 
     async down(queryInterface, Sequelize) {
-        await queryInterface.dropTable('project_categories');
+        await queryInterface.dropTable('coordinators');
     },
 };

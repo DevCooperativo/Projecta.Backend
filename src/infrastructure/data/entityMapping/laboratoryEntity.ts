@@ -56,8 +56,8 @@ LaboratoryEntity.init({
     }
 },
     {
-        modelName: "Laboratories",
-        tableName: "Laboratories",
+        modelName: "laboratories",
+        tableName: "laboratories",
         sequelize
     })
 
