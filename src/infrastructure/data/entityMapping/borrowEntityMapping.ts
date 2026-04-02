@@ -55,7 +55,7 @@ BorrowEntityMapping.init(
         },
         returnDate: {
             type: DataTypes.DATE,
-            allowNull: false
+            allowNull: true
         },
     },),
     {
