@@ -4,7 +4,7 @@ import FundingNoticeEntity from "./fundingNoticeEntityMapping"
 import ProjectEntity from "./projectEntityMapping"
 import LaboratoryEntity from "./laboratoryEntity"
 
-class ItemEntity extends Model {
+class EquipmentEntity extends Model {
     declare id: number
     declare name: string
     declare originalValue: number
@@ -17,7 +17,7 @@ class ItemEntity extends Model {
     declare updatedAt: Date
     declare isVisible: boolean
 }
-ItemEntity.init({
+EquipmentEntity.init({
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -35,7 +35,7 @@ ItemEntity.init({
         type: DataTypes.INTEGER,
         references: {
             key: "id",
-            model: ItemEntity
+            model: EquipmentEntity
         },
         allowNull: true
     },
@@ -87,15 +87,15 @@ ItemEntity.init({
     }
 },
     {
-        modelName: "Items",
-        tableName: "Items",
+        modelName: "Equipments",
+        tableName: "Equipments",
         sequelize
     })
 
-ItemEntity.belongsTo(ItemEntity, { as: "Itens", foreignKey: "containerId" })
-ItemEntity.belongsTo(ProjectEntity, { as: "Projects", foreignKey: "projectId" })
-ItemEntity.belongsTo(FundingNoticeEntity, { as: "FundingNotices", foreignKey: "fundingNoticeId" })
-ItemEntity.belongsTo(LaboratoryEntity, { as: "Laboratories", foreignKey: "laboratoryId" })
-ItemEntity.belongsTo(LaboratoryEntity, { as: "Laboratories", foreignKey: "cacheLaboratoryId" })
+EquipmentEntity.belongsTo(EquipmentEntity, { as: "Equipments", foreignKey: "containerId" })
+EquipmentEntity.belongsTo(ProjectEntity, { as: "Projects", foreignKey: "projectId" })
+EquipmentEntity.belongsTo(FundingNoticeEntity, { as: "FundingNotices", foreignKey: "fundingNoticeId" })
+EquipmentEntity.belongsTo(LaboratoryEntity, { as: "Laboratories", foreignKey: "laboratoryId" })
+EquipmentEntity.belongsTo(LaboratoryEntity, { as: "Laboratories", foreignKey: "cacheLaboratoryId" })
 
-export default ItemEntity
+export default EquipmentEntity

@@ -1,6 +1,6 @@
 import BaseModel from "../abstractions/BaseModel";
 
-class Item extends BaseModel {
+class Equipment extends BaseModel {
     name: string
     laboratoryId: number
     projectId: number
@@ -14,4 +14,4 @@ class Item extends BaseModel {
         this.equipmentCategoryId = equipmentCategoryId
     }
 }
-export default Item
+export default Equipment
