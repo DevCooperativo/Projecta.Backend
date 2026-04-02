@@ -15,9 +15,9 @@ class EquipmentCategoryRepository implements IEquipmentCategoryRepository {
     async Create(data: EquipmentCategory) {
         return await EquipmentCategoryEntityMapping.create({ ...data }) as EquipmentCategory
     }
-    async Update(data: EquipmentCategory) {
-        await EquipmentCategoryEntityMapping.update(data, { where: { id: data.id } })
-        return (await EquipmentCategoryEntityMapping.findByPk(data.id)) as EquipmentCategory
+    async Update(id: number, data: EquipmentCategory) {
+        await EquipmentCategoryEntityMapping.update(data, { where: { id }, validate: true })
+        return (await EquipmentCategoryEntityMapping.findByPk(id)) as EquipmentCategory
     }
     async Delete(id: number) {
         const result = await EquipmentCategoryEntityMapping.destroy({ where: { id: id } })

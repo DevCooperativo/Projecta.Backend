@@ -7,6 +7,7 @@ import researcherRoutes from "./researcherRoutes";
 import laboratoriesRoutes from "./laboratoryRoutes";
 import projectCategoriesRoutes from "./projectCategoryRoutes";
 import equipmentCategoriesRoutes from "./equipmentCategoryRoutes";
+import equipmentsRoutes from "./equipmentRoutes";
 
 const routes = Router()
 
@@ -18,6 +19,6 @@ routes.use("/researchers", researcherRoutes)
 routes.use("/laboratories", laboratoriesRoutes)
 routes.use("/projectCategories", projectCategoriesRoutes)
 routes.use("/equipmentCategories", equipmentCategoriesRoutes)
-
+routes.use("/equipments", equipmentsRoutes)
 
 export default routes

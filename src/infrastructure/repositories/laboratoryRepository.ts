@@ -15,9 +15,9 @@ class LaboratoryRepository implements ILaboratoryRepository {
     async Create(data: Laboratory) {
         return await LaboratoryEntity.create({ ...data }) as Laboratory
     }
-    async Update(data: Laboratory) {
-        await LaboratoryEntity.update(data, { where: { id: data.id } })
-        return (await LaboratoryEntity.findByPk(data.id)) as Laboratory
+    async Update(id: number, data: Laboratory) {
+        await LaboratoryEntity.update(data, { where: { id }, validate: true })
+        return (await LaboratoryEntity.findByPk(id)) as Laboratory
     }
     async Delete(id: number) {
         const result = await LaboratoryEntity.destroy({ where: { id: id } })

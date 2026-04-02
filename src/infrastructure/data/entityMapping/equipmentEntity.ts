@@ -1,18 +1,15 @@
 import { DataTypes, Model } from "sequelize"
 import sequelize from "../sequelize"
-import FundingNoticeEntity from "./fundingNoticeEntityMapping"
 import ProjectEntity from "./projectEntityMapping"
 import LaboratoryEntity from "./laboratoryEntity"
+import EquipmentCategoryEntityMapping from "./equipmentCategoryEntityMapping"
 
 class EquipmentEntity extends Model {
     declare id: number
     declare name: string
-    declare originalValue: number
-    declare fundingNoticeId: string
-    declare containerId?: string
-    declare laboratoryId?: string
-    declare cacheLaboratoryId: string
-    declare projectId: string
+    declare laboratoryId: number
+    declare projectId: number
+    declare equipmentCategoryId: number
     declare createdAt: Date
     declare updatedAt: Date
     declare isVisible: boolean
@@ -27,35 +24,7 @@ EquipmentEntity.init({
         type: DataTypes.STRING,
         allowNull: false
     },
-    originalValue: {
-        type: DataTypes.DOUBLE,
-        allowNull: false
-    },
-    contianerId: {
-        type: DataTypes.INTEGER,
-        references: {
-            key: "id",
-            model: EquipmentEntity
-        },
-        allowNull: true
-    },
-    fundingNoticeId: {
-        type: DataTypes.INTEGER,
-        references: {
-            key: "id",
-            model: FundingNoticeEntity
-        },
-        allowNull: false
-    },
     laboratoryId: {
-        type: DataTypes.INTEGER,
-        references: {
-            key: "id",
-            model: LaboratoryEntity
-        },
-        allowNull: true
-    },
-    cacheLaboratoryId: {
         type: DataTypes.INTEGER,
         references: {
             key: "id",
@@ -68,6 +37,14 @@ EquipmentEntity.init({
         references: {
             key: "id",
             model: ProjectEntity
+        },
+        allowNull: false
+    },
+    equipmentCategoryId: {
+        type: DataTypes.INTEGER,
+        references: {
+            key: "id",
+            model: EquipmentCategoryEntityMapping
         },
         allowNull: false
     },
@@ -92,10 +69,8 @@ EquipmentEntity.init({
         sequelize
     })
 
-EquipmentEntity.belongsTo(EquipmentEntity, { as: "Equipments", foreignKey: "containerId" })
 EquipmentEntity.belongsTo(ProjectEntity, { as: "Projects", foreignKey: "projectId" })
-EquipmentEntity.belongsTo(FundingNoticeEntity, { as: "FundingNotices", foreignKey: "fundingNoticeId" })
 EquipmentEntity.belongsTo(LaboratoryEntity, { as: "Laboratories", foreignKey: "laboratoryId" })
-EquipmentEntity.belongsTo(LaboratoryEntity, { as: "Laboratories", foreignKey: "cacheLaboratoryId" })
+EquipmentEntity.belongsTo(EquipmentCategoryEntityMapping, { as: "EquipmentCategories", foreignKey: "equipmentCategoryId" })
 
 export default EquipmentEntity
