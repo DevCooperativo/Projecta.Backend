@@ -3,7 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
-        await queryInterface.createTable('project_categories', {
+        await queryInterface.createTable('projects', {
             id: {
                 type: Sequelize.INTEGER,
                 primaryKey: true,
@@ -28,11 +28,7 @@ module.exports = {
                 type: Sequelize.STRING,
                 allowNull: false,
             },
-            commerciallyRelevant: {
-                type: Sequelize.BOOLEAN,
-                allowNull: false,
-            },
-            area: {
+            fundingNotice: {
                 type: Sequelize.STRING,
                 allowNull: false,
             },
@@ -40,10 +36,42 @@ module.exports = {
                 type: Sequelize.STRING,
                 allowNull: false,
             },
+            startDate: {
+                type: Sequelize.DATE,
+                allowNull: false,
+            },
+            endDate: {
+                type: Sequelize.DATE,
+                allowNull: true,
+            },
+            status: {
+                type: Sequelize.STRING,
+                allowNull: false,
+            },
+            laboratoryId: {
+                type: Sequelize.INTEGER,
+                allowNull: false,
+                references: {
+                    model: 'laboratories',
+                    key: 'id',
+                },
+                onUpdate: 'CASCADE',
+                onDelete: 'RESTRICT',
+            },
+            projectCategoryId: {
+                type: Sequelize.INTEGER,
+                allowNull: false,
+                references: {
+                    model: 'project_categories',
+                    key: 'id',
+                },
+                onUpdate: 'CASCADE',
+                onDelete: 'RESTRICT',
+            },
         });
     },
 
     async down(queryInterface, Sequelize) {
-        await queryInterface.dropTable('project_categories');
+        await queryInterface.dropTable('projects');
     },
 };

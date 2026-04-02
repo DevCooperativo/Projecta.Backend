@@ -19,14 +19,40 @@ CoordinatorEntityMapping.init(
         area: {
             type: DataTypes.STRING,
             allowNull: false,
+            validate: {
+                min: {
+                    args: [3],
+                    msg: "Area should have at least 3 characters"
+                },
+                max: {
+                    args: [100],
+                    msg: "Area should have up to 100 characters"
+                },
+                notEmpty: {
+                    args: true,
+                    msg: "Area cannot be empty"
+                }
+            }
         },
         startDate: {
             type: DataTypes.DATE,
             allowNull: false,
+            validate: {
+                isDate: {
+                    args: true,
+                    msg: "Start date must be a valid date"
+                }
+            }
         },
         endDate: {
             type: DataTypes.DATE,
             allowNull: true,
+            validate: {
+                isDate: {
+                    args: true,
+                    msg: "End date must be a valid date"
+                }
+            }
         },
         professorId: {
             type: DataTypes.INTEGER,

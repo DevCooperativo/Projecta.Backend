@@ -14,15 +14,49 @@ CoordinationEntityMapping.init(
     CoordinationEntityMapping.buildBaseAttributes({
         area: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
+            validate: {
+                min: {
+                    args: [3],
+                    msg: "Area should have at least 3 characters"
+                },
+                max: {
+                    args: [100],
+                    msg: "Area should have up to 100 characters"
+                },
+                notEmpty: {
+                    args: true,
+                    msg: "Area cannot be empty"
+                }
+            }
         },
         block: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
+            validate: {
+                notEmpty: {
+                    args: true,
+                    msg: "Block cannot be empty"
+                }
+            }
         },
         description: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
+            validate: {
+                min: {
+                    args: [10],
+                    msg: "Description should have at least 10 characters"
+                },
+                max: {
+                    args: [500],
+                    msg: "Description should have up to 500 characters"
+                },
+                notEmpty: {
+                    args: true,
+                    msg: "Description cannot be empty"
+                }
+            }
         }
     }),
     {

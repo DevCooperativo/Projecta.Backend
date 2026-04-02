@@ -23,22 +23,72 @@ ResearcherEntityMapping.init(
         name: {
             type: DataTypes.STRING,
             allowNull: false,
+            validate: {
+                min: {
+                    args: [3],
+                    msg: "Name should have at least 3 characters"
+                },
+                max: {
+                    args: [100],
+                    msg: "Name should have up to 100 characters"
+                },
+                notEmpty: {
+                    args: true,
+                    msg: "Name cannot be empty"
+                }
+            }
         },
         functionName: {
             type: DataTypes.STRING,
             allowNull: false,
+            validate: {
+                min: {
+                    args: [3],
+                    msg: "Function name should have at least 3 characters"
+                },
+                max: {
+                    args: [100],
+                    msg: "Function name should have up to 100 characters"
+                },
+                notEmpty: {
+                    args: true,
+                    msg: "Function name cannot be empty"
+                }
+            }
         },
         weeklyHours: {
             type: DataTypes.INTEGER,
             allowNull: false,
+            validate: {
+                min: {
+                    args: [1],
+                    msg: "Weekly hours should be at least 1"
+                },
+                max: {
+                    args: [44],
+                    msg: "Weekly hours should be at most 44"
+                }
+            }
         },
         startDate: {
             type: DataTypes.DATE,
             allowNull: false,
+            validate: {
+                isDate: {
+                    args: true,
+                    msg: "Start date must be a valid date"
+                }
+            }
         },
         endDate: {
             type: DataTypes.DATE,
             allowNull: true,
+            validate: {
+                isDate: {
+                    args: true,
+                    msg: "End date must be a valid date"
+                }
+            }
         },
         projectId: {
             type: DataTypes.INTEGER,
