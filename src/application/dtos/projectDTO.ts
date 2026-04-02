@@ -1,7 +1,6 @@
 class ProjectDTO {
     id: number
     name: string
-    fundingNotice: string
     description: string
     startDate: Date
     endDate?: Date

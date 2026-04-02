@@ -2,26 +2,26 @@ import { Request, Response } from "express";
 import BaseController from "../baseController";
 import ControllerExceptionThrowHelper from "api/helpers/controllerExceptionThrowHelper";
 import { inject, injectable } from "tsyringe";
-import IStudentServices from "application/interfaces/iStudentServices";
-import StudentDTO from "application/dtos/studentDTO";
+import ILaboratoryServices from "application/interfaces/iLaboratoryServices";
+import { LaboratoryDTO } from "application/dtos/laboratoryDTO";
 import CheckRequestPropertiesHelper from "api/helpers/checkRequestPropertiesHelper";
 import { ValidationError } from "sequelize";
 
 @injectable()
-class UpdateStudentController implements BaseController {
+class UpdateLaboratoryController implements BaseController {
     constructor(
-        @inject("StudentServices")
-        private readonly studentServices: IStudentServices
+        @inject("LaboratoryServices")
+        private readonly laboratoryServices: ILaboratoryServices
     ) { }
     async Handle(req: Request, res: Response) {
         try {
-            const { name, email, registration, birthdate, term, shift } = req.body
+            const { name, storageSpace, maxOccupants, description } = req.body
             const { id } = req.params as unknown as { id: number }
-            CheckRequestPropertiesHelper.CheckRequired({ id, name, email, registration, birthdate, term, shift })
+            CheckRequestPropertiesHelper.CheckRequired({ id, name, storageSpace, maxOccupants, description })
             const user = req.user
             // ApiException.When(!user, ApiExceptionNameEnum.UNAUTHENTICATED_USER, "You are not authenticated to the API. Authenticate yourself", 401)
-            const studentDTO: StudentDTO = { name, email, registration, birthdate, term, shift } as StudentDTO
-            const result = await this.studentServices.UpdateAsync(id, studentDTO)
+            const laboratoryDTO: LaboratoryDTO = { name, storageSpace, maxOccupants, description } as LaboratoryDTO
+            const result = await this.laboratoryServices.UpdateAsync(id, laboratoryDTO)
             return res.status(200).json(result)
         } catch (ex) {
             if (ex instanceof ValidationError)
@@ -31,4 +31,4 @@ class UpdateStudentController implements BaseController {
     }
 
 }
-export default UpdateStudentController
+export default UpdateLaboratoryController

@@ -28,10 +28,6 @@ module.exports = {
                 type: Sequelize.STRING,
                 allowNull: false,
             },
-            fundingNotice: {
-                type: Sequelize.STRING,
-                allowNull: false,
-            },
             description: {
                 type: Sequelize.STRING,
                 allowNull: false,

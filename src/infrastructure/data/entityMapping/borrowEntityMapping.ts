@@ -3,12 +3,12 @@ import sequelize from "../sequelize";
 import StudentEntity from "./studentEntityMapping";
 import ResearcherEntity from "./researcherEntityMappping";
 import ProfessorEntity from "./professorEntityMapping";
-import ItemEntity from "./itemEntity";
+import EquipmentEntity from "./equipmentEntity";
 import BaseEntityMapping from "./baseEntityMapping";
 
 class BorrowEntityMapping extends BaseEntityMapping {
     declare id: number
-    declare itemId: string
+    declare equipmentId: string
     declare studentId?: string
     declare researcherId?: string
     declare professorId?: string
@@ -25,11 +25,11 @@ BorrowEntityMapping.init(
             primaryKey: true,
             autoIncrement: true
         },
-        itemId: {
+        equipmentId: {
             type: DataTypes.INTEGER,
             references: {
                 key: "id",
-                model: ItemEntity
+                model: EquipmentEntity
             }
         },
         studentId: {
@@ -88,6 +88,6 @@ BorrowEntityMapping.init(
 BorrowEntityMapping.belongsTo(StudentEntity, { as: "Students", foreignKey: "studentId", })
 BorrowEntityMapping.belongsTo(ProfessorEntity, { as: "Professors", foreignKey: "professorId", })
 BorrowEntityMapping.belongsTo(ResearcherEntity, { as: "Researchers", foreignKey: "researcherId", })
-BorrowEntityMapping.belongsTo(ItemEntity, { as: "Itens", foreignKey: "itemId", })
+BorrowEntityMapping.belongsTo(EquipmentEntity, { as: "Equipments", foreignKey: "equipmentId", })
 
 export default BorrowEntityMapping

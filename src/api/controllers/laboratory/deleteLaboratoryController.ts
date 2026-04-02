@@ -2,27 +2,24 @@ import { Request, Response } from "express";
 import BaseController from "../baseController";
 import ControllerExceptionThrowHelper from "api/helpers/controllerExceptionThrowHelper";
 import { inject, injectable } from "tsyringe";
-import IStudentServices from "application/interfaces/iStudentServices";
-import StudentDTO from "application/dtos/studentDTO";
+import ILaboratoryServices from "application/interfaces/iLaboratoryServices";
 import CheckRequestPropertiesHelper from "api/helpers/checkRequestPropertiesHelper";
 import { ValidationError } from "sequelize";
 
 @injectable()
-class UpdateStudentController implements BaseController {
+class DeleteLaboratoryController implements BaseController {
     constructor(
-        @inject("StudentServices")
-        private readonly studentServices: IStudentServices
+        @inject("LaboratoryServices")
+        private readonly laboratoryServices: ILaboratoryServices
     ) { }
     async Handle(req: Request, res: Response) {
         try {
-            const { name, email, registration, birthdate, term, shift } = req.body
             const { id } = req.params as unknown as { id: number }
-            CheckRequestPropertiesHelper.CheckRequired({ id, name, email, registration, birthdate, term, shift })
+            CheckRequestPropertiesHelper.CheckRequired({ id })
             const user = req.user
             // ApiException.When(!user, ApiExceptionNameEnum.UNAUTHENTICATED_USER, "You are not authenticated to the API. Authenticate yourself", 401)
-            const studentDTO: StudentDTO = { name, email, registration, birthdate, term, shift } as StudentDTO
-            const result = await this.studentServices.UpdateAsync(id, studentDTO)
-            return res.status(200).json(result)
+            await this.laboratoryServices.DeleteAsync(id)
+            return res.status(200).json({ message: "Laboratory successfully deleted!" })
         } catch (ex) {
             if (ex instanceof ValidationError)
                 console.log(ex.errors)
@@ -31,4 +28,4 @@ class UpdateStudentController implements BaseController {
     }
 
 }
-export default UpdateStudentController
+export default DeleteLaboratoryController

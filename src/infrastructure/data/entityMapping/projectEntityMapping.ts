@@ -8,7 +8,6 @@ import ProjectCategoryEntityMapping from "./projectCategoryEntityMapping";
 class ProjectEntityMapping extends BaseEntityMapping {
     declare id: number
     declare name: string
-    declare fundingNotice: string
     declare description: string
     declare startDate: Date
     declare endDate?: Date
@@ -34,16 +33,6 @@ ProjectEntityMapping.init(
                 notEmpty: {
                     args: true,
                     msg: "Name cannot be empty"
-                }
-            }
-        },
-        fundingNotice: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                notEmpty: {
-                    args: true,
-                    msg: "Funding notice cannot be empty"
                 }
             }
         },

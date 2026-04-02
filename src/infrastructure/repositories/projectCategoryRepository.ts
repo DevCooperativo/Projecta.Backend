@@ -15,9 +15,9 @@ class ProjectCategoryRepository implements IProjectCategoryRepository {
     async Create(data: ProjectCategory) {
         return await ProjectCategoryEntityMapping.create({ ...data }) as ProjectCategory
     }
-    async Update(data: ProjectCategory) {
-        await ProjectCategoryEntityMapping.update(data, { where: { id: data.id } })
-        return (await ProjectCategoryEntityMapping.findByPk(data.id)) as ProjectCategory
+    async Update(id: number, data: ProjectCategory) {
+        await ProjectCategoryEntityMapping.update(data, { where: { id }, validate: true })
+        return (await ProjectCategoryEntityMapping.findByPk(id)) as ProjectCategory
     }
     async Delete(id: number) {
         const result = await ProjectCategoryEntityMapping.destroy({ where: { id: id } })
