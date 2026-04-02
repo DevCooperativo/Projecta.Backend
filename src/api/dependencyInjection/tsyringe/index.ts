@@ -20,6 +20,21 @@ import GetResearcherByIdController from "api/controllers/researcher/getResearche
 import CreateResearcherController from "api/controllers/researcher/createResearcherController";
 import UpdateResearcherController from "api/controllers/researcher/updateResearcherController";
 import DeleteResearcherController from "api/controllers/researcher/deleteResearcherController";
+import GetAllLaboratoriesController from "api/controllers/laboratory/getAllLaboratoriesController";
+import GetLaboratoryByIdController from "api/controllers/laboratory/getLaboratoryByIdController";
+import CreateLaboratoryController from "api/controllers/laboratory/createLaboratoryController";
+import UpdateLaboratoryController from "api/controllers/laboratory/updateLaboratoryController";
+import DeleteLaboratoryController from "api/controllers/laboratory/deleteLaboratoryController";
+import GetAllProjectCategoriesController from "api/controllers/projectCategory/getAllProjectCategoriesController";
+import GetProjectCategoryByIdController from "api/controllers/projectCategory/getProjectCategoryByIdController";
+import CreateProjectCategoryController from "api/controllers/projectCategory/createProjectCategoryController";
+import UpdateProjectCategoryController from "api/controllers/projectCategory/updateProjectCategoryController";
+import DeleteProjectCategoryController from "api/controllers/projectCategory/deleteProjectCategoryController";
+import GetAllEquipmentCategoriesController from "api/controllers/equipmentCategory/getAllEquipmentCategoriesController";
+import GetEquipmentCategoryByIdController from "api/controllers/equipmentCategory/getEquipmentCategoryByIdController";
+import CreateEquipmentCategoryController from "api/controllers/equipmentCategory/createEquipmentCategoryController";
+import UpdateEquipmentCategoryController from "api/controllers/equipmentCategory/updateEquipmentCategoryController";
+import DeleteEquipmentCategoryController from "api/controllers/equipmentCategory/deleteEquipmentCategoryController";
 import ICoordinationServices from "application/interfaces/iCoordinationServices";
 import ICoordinatorServices from "application/interfaces/iCoordinatorServices";
 import IEquipmentCategoryServices from "application/interfaces/iEquipmentCategoryServices";
@@ -116,3 +131,24 @@ container.registerSingleton<BaseController>("GetResearcherByIdController", GetRe
 container.registerSingleton<BaseController>("CreateResearcherController", CreateResearcherController)
 container.registerSingleton<BaseController>("UpdateResearcherController", UpdateResearcherController)
 container.registerSingleton<BaseController>("DeleteResearcherController", DeleteResearcherController)
+
+// Controllers - Laboratory
+container.registerSingleton<BaseController>("GetAllLaboratoriesController", GetAllLaboratoriesController)
+container.registerSingleton<BaseController>("GetLaboratoryByIdController", GetLaboratoryByIdController)
+container.registerSingleton<BaseController>("CreateLaboratoryController", CreateLaboratoryController)
+container.registerSingleton<BaseController>("UpdateLaboratoryController", UpdateLaboratoryController)
+container.registerSingleton<BaseController>("DeleteLaboratoryController", DeleteLaboratoryController)
+
+// Controllers - ProjectCategory
+container.registerSingleton<BaseController>("GetAllProjectCategoriesController", GetAllProjectCategoriesController)
+container.registerSingleton<BaseController>("GetProjectCategoryByIdController", GetProjectCategoryByIdController)
+container.registerSingleton<BaseController>("CreateProjectCategoryController", CreateProjectCategoryController)
+container.registerSingleton<BaseController>("UpdateProjectCategoryController", UpdateProjectCategoryController)
+container.registerSingleton<BaseController>("DeleteProjectCategoryController", DeleteProjectCategoryController)
+
+// Controllers - EquipmentCategory
+container.registerSingleton<BaseController>("GetAllEquipmentCategoriesController", GetAllEquipmentCategoriesController)
+container.registerSingleton<BaseController>("GetEquipmentCategoryByIdController", GetEquipmentCategoryByIdController)
+container.registerSingleton<BaseController>("CreateEquipmentCategoryController", CreateEquipmentCategoryController)
+container.registerSingleton<BaseController>("UpdateEquipmentCategoryController", UpdateEquipmentCategoryController)
+container.registerSingleton<BaseController>("DeleteEquipmentCategoryController", DeleteEquipmentCategoryController)
