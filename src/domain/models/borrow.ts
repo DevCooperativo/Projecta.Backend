@@ -4,17 +4,17 @@ class Borrow extends BaseModel {
     equipmentId: number
     studentId?: number
     professorId?: number
-    researcherId?: number
+    isStillBorrowed: boolean
     borrowDate: Date
     returnDate?: Date
 
-    constructor(equipmentId: number, borrowDate: Date, studentId?: number, professorId?: number, researcherId?: number, returnDate?: Date) {
+    constructor(equipmentId: number, borrowDate: Date, isStillBorrowed: boolean, studentId?: number, professorId?: number, returnDate?: Date) {
         super()
         this.equipmentId = equipmentId
         this.borrowDate = borrowDate
         this.studentId = studentId
         this.professorId = professorId
-        this.researcherId = researcherId
+        this.isStillBorrowed = isStillBorrowed
         this.returnDate = returnDate
     }
 }
