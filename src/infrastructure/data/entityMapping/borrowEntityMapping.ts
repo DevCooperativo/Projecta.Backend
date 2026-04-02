@@ -1,10 +1,10 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../sequelize";
 import StudentEntity from "./studentEntityMapping";
-import ResearcherEntity from "./researcherEntityMappping";
 import ProfessorEntity from "./professorEntityMapping";
 import EquipmentEntity from "./equipmentEntity";
 import BaseEntityMapping from "./baseEntityMapping";
+import { TABLE_NAMES } from "../constants/tableNames";
 
 class BorrowEntityMapping extends BaseEntityMapping {
     declare id: number
@@ -59,14 +59,13 @@ BorrowEntityMapping.init(
         },
     },),
     {
-        modelName: "Borrows",
-        tableName: "Borrows",
+        modelName: TABLE_NAMES.BORROW,
+        tableName: TABLE_NAMES.BORROW,
         sequelize
     })
 
 BorrowEntityMapping.belongsTo(StudentEntity, { as: "Students", foreignKey: "studentId", })
 BorrowEntityMapping.belongsTo(ProfessorEntity, { as: "Professors", foreignKey: "professorId", })
-BorrowEntityMapping.belongsTo(ResearcherEntity, { as: "Researchers", foreignKey: "researcherId", })
 BorrowEntityMapping.belongsTo(EquipmentEntity, { as: "Equipments", foreignKey: "equipmentId", })
 
 export default BorrowEntityMapping
