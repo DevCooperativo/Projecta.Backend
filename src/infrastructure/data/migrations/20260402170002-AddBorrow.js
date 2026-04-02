@@ -24,12 +24,14 @@ module.exports = {
                 allowNull: false,
                 defaultValue: true,
             },
-            itemId: {
+            equipmentId: {
                 type: Sequelize.INTEGER,
                 references: {
                     key: "id",
-                    model: "equipments"
-                }
+                    model: "equipments",
+                },
+                onDelete: "RESTRICT",
+                onUpdate: "CASCADE",
             },
             studentId: {
                 type: Sequelize.INTEGER,
@@ -37,7 +39,9 @@ module.exports = {
                     key: "id",
                     model: "students"
                 },
-                allowNull: true
+                allowNull: true,
+                onDelete: "RESTRICT",
+                onUpdate: "CASCADE",
             },
             professorId: {
                 type: Sequelize.INTEGER,
@@ -45,15 +49,9 @@ module.exports = {
                     key: "id",
                     model: "professors"
                 },
-                allowNull: true
-            },
-            researcherId: {
-                type: Sequelize.INTEGER,
-                references: {
-                    key: "id",
-                    model: "researchers"
-                },
-                allowNull: true
+                allowNull: true,
+                onDelete: "RESTRICT",
+                onUpdate: "CASCADE",
             },
             borrowDate: {
                 type: Sequelize.DATE,
@@ -67,7 +65,7 @@ module.exports = {
             },
             returnDate: {
                 type: Sequelize.DATE,
-                allowNull: false
+                allowNull: true
             },
         })
     },
