@@ -12,8 +12,8 @@ const deleteResearcherController = container.resolve<BaseController>("DeleteRese
 
 researcherRoutes.get("/", (req, res) => getAllResearchersController.Handle(req, res))
 researcherRoutes.get("/:id", (req, res) => getResearcherByIdController.Handle(req, res))
-researcherRoutes.put("/", EnsureAuthenticatedUserMiddleware, (req, res) => createResearcherController.Handle(req, res))
-researcherRoutes.patch("/:id", EnsureAuthenticatedUserMiddleware, (req, res) => updateResearcherController.Handle(req, res))
+researcherRoutes.post("/", EnsureAuthenticatedUserMiddleware, (req, res) => createResearcherController.Handle(req, res))
+researcherRoutes.put("/:id", EnsureAuthenticatedUserMiddleware, (req, res) => updateResearcherController.Handle(req, res))
 researcherRoutes.delete("/:id", (req, res) => deleteResearcherController.Handle(req, res))
 
 export default researcherRoutes
