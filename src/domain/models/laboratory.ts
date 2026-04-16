@@ -5,13 +5,15 @@ class Laboratory extends BaseModel {
     storageSpace: boolean
     maxOccupants: number
     description: string
+    professorId: number
 
-    constructor(name: string, maxOccupants: number, storageSpace: boolean = false, description: string = "") {
+    constructor(name: string, maxOccupants: number, professorId: number, storageSpace: boolean = false, description: string = "") {
         super()
         this.name = name
         this.storageSpace = storageSpace
         this.maxOccupants = maxOccupants
         this.description = description
+        this.professorId = professorId
     }
 }
 export default Laboratory
