@@ -12,8 +12,8 @@ const deleteProjectController = container.resolve<BaseController>("DeleteProject
 
 projectRoutes.get("/", (req, res) => getAllProjectsController.Handle(req, res))
 projectRoutes.get("/:id", (req, res) => getProjectByIdController.Handle(req, res))
-projectRoutes.put("/", EnsureAuthenticatedUserMiddleware, (req, res) => createProjectController.Handle(req, res))
-projectRoutes.patch("/:id", EnsureAuthenticatedUserMiddleware, (req, res) => updateProjectController.Handle(req, res))
+projectRoutes.post("/", EnsureAuthenticatedUserMiddleware, (req, res) => createProjectController.Handle(req, res))
+projectRoutes.put("/:id", EnsureAuthenticatedUserMiddleware, (req, res) => updateProjectController.Handle(req, res))
 projectRoutes.delete("/:id", (req, res) => deleteProjectController.Handle(req, res))
 
 export default projectRoutes

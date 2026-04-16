@@ -12,8 +12,8 @@ const deleteCoordinatorController = container.resolve<BaseController>("DeleteCoo
 
 coordinatorRoutes.get("/", (req, res) => getAllCoordinatorsController.Handle(req, res))
 coordinatorRoutes.get("/:id", (req, res) => getCoordinatorByIdController.Handle(req, res))
-coordinatorRoutes.put("/", EnsureAuthenticatedUserMiddleware, (req, res) => createCoordinatorController.Handle(req, res))
-coordinatorRoutes.patch("/:id", EnsureAuthenticatedUserMiddleware, (req, res) => updateCoordinatorController.Handle(req, res))
+coordinatorRoutes.post("/", EnsureAuthenticatedUserMiddleware, (req, res) => createCoordinatorController.Handle(req, res))
+coordinatorRoutes.put("/:id", EnsureAuthenticatedUserMiddleware, (req, res) => updateCoordinatorController.Handle(req, res))
 coordinatorRoutes.delete("/:id", (req, res) => deleteCoordinatorController.Handle(req, res))
 
 export default coordinatorRoutes
