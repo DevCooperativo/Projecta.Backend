@@ -34,7 +34,6 @@ EquipmentEntity.init({
                 msg: "Name should have up to 100 characters"
             },
             notEmpty: {
-                args: true,
                 msg: "Name cannot be empty"
             }
         }
@@ -48,7 +47,6 @@ EquipmentEntity.init({
         allowNull: false,
         validate: {
             isInt: {
-                args: true,
                 msg: "Laboratory ID must be an integer"
             },
             min: {
@@ -66,7 +64,6 @@ EquipmentEntity.init({
         allowNull: false,
         validate: {
             isInt: {
-                args: true,
                 msg: "Project ID must be an integer"
             },
             min: {
@@ -84,7 +81,6 @@ EquipmentEntity.init({
         allowNull: false,
         validate: {
             isInt: {
-                args: true,
                 msg: "Equipment category ID must be an integer"
             },
             min: {
