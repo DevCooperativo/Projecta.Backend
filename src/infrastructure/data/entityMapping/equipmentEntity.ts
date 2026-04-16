@@ -23,7 +23,21 @@ EquipmentEntity.init({
     },
     name: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+            min: {
+                args: [3],
+                msg: "Name should have at least 3 characters"
+            },
+            max: {
+                args: [100],
+                msg: "Name should have up to 100 characters"
+            },
+            notEmpty: {
+                args: true,
+                msg: "Name cannot be empty"
+            }
+        }
     },
     laboratoryId: {
         type: DataTypes.INTEGER,
@@ -31,7 +45,17 @@ EquipmentEntity.init({
             key: "id",
             model: LaboratoryEntity
         },
-        allowNull: false
+        allowNull: false,
+        validate: {
+            isInt: {
+                args: true,
+                msg: "Laboratory ID must be an integer"
+            },
+            min: {
+                args: [1],
+                msg: "Laboratory ID must be greater than 0"
+            }
+        }
     },
     projectId: {
         type: DataTypes.INTEGER,
@@ -39,7 +63,17 @@ EquipmentEntity.init({
             key: "id",
             model: ProjectEntity
         },
-        allowNull: false
+        allowNull: false,
+        validate: {
+            isInt: {
+                args: true,
+                msg: "Project ID must be an integer"
+            },
+            min: {
+                args: [1],
+                msg: "Project ID must be greater than 0"
+            }
+        }
     },
     equipmentCategoryId: {
         type: DataTypes.INTEGER,
@@ -47,7 +81,17 @@ EquipmentEntity.init({
             key: "id",
             model: EquipmentCategoryEntityMapping
         },
-        allowNull: false
+        allowNull: false,
+        validate: {
+            isInt: {
+                args: true,
+                msg: "Equipment category ID must be an integer"
+            },
+            min: {
+                args: [1],
+                msg: "Equipment category ID must be greater than 0"
+            }
+        }
     },
 
     // Default properties
