@@ -9,7 +9,7 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "strict": true,
-    "module": "commonjs",
+    "module": "nodenext",
     "target": "es2020",
     "outDir": "./dist",
     "rootDir": "./src",
@@ -25,7 +25,7 @@
         "shared/*"
       ]
     },
-    "moduleResolution": "node",
+    "moduleResolution": "node16",
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
     "emitDecoratorMetadata": true
