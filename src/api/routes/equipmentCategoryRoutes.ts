@@ -12,8 +12,8 @@ const deleteEquipmentCategoryController = container.resolve<BaseController>("Del
 
 equipmentCategoriesRoutes.get("/", (req, res) => getAllEquipmentCategoriesController.Handle(req, res))
 equipmentCategoriesRoutes.get("/:id", (req, res) => getEquipmentCategoryByIdController.Handle(req, res))
-equipmentCategoriesRoutes.put("/", EnsureAuthenticatedUserMiddleware, (req, res) => createEquipmentCategoryController.Handle(req, res))
-equipmentCategoriesRoutes.patch("/:id", EnsureAuthenticatedUserMiddleware, (req, res) => updateEquipmentCategoryController.Handle(req, res))
-equipmentCategoriesRoutes.delete("/:id", (req, res) => deleteEquipmentCategoryController.Handle(req, res))
+equipmentCategoriesRoutes.post("/", EnsureAuthenticatedUserMiddleware, (req, res) => createEquipmentCategoryController.Handle(req, res))
+equipmentCategoriesRoutes.put("/:id", EnsureAuthenticatedUserMiddleware, (req, res) => updateEquipmentCategoryController.Handle(req, res))
+equipmentCategoriesRoutes.delete("/:id", EnsureAuthenticatedUserMiddleware, (req, res) => deleteEquipmentCategoryController.Handle(req, res))
 
 export default equipmentCategoriesRoutes
