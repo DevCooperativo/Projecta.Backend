@@ -12,8 +12,8 @@ const deleteEquipmentController = container.resolve<BaseController>("DeleteEquip
 
 equipmentsRoutes.get("/", (req, res) => getAllEquipmentsController.Handle(req, res))
 equipmentsRoutes.get("/:id", (req, res) => getEquipmentByIdController.Handle(req, res))
-equipmentsRoutes.put("/", EnsureAuthenticatedUserMiddleware, (req, res) => createEquipmentController.Handle(req, res))
-equipmentsRoutes.patch("/:id", EnsureAuthenticatedUserMiddleware, (req, res) => updateEquipmentController.Handle(req, res))
-equipmentsRoutes.delete("/:id", (req, res) => deleteEquipmentController.Handle(req, res))
+equipmentsRoutes.post("/", EnsureAuthenticatedUserMiddleware, (req, res) => createEquipmentController.Handle(req, res))
+equipmentsRoutes.put("/:id", EnsureAuthenticatedUserMiddleware, (req, res) => updateEquipmentController.Handle(req, res))
+equipmentsRoutes.delete("/:id", EnsureAuthenticatedUserMiddleware, (req, res) => deleteEquipmentController.Handle(req, res))
 
 export default equipmentsRoutes
