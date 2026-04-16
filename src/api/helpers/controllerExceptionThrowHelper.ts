@@ -17,7 +17,7 @@ class ControllerExceptionThrowHelper {
             return res.status(ex.code).json({ name: ex.name, message: ex.message })
         }
         else if (ex instanceof ApiException) {
-            return res.status(ex.code).json({ name: ex.name, message: ex.message })
+            return res.status(ex.code).json(ex.BuildJsonContent())
         }
         else if (ex instanceof InfrastructureException) {
             return res.status(ex.code).json({ name: ex.name, message: ex.message })
@@ -28,7 +28,7 @@ class ControllerExceptionThrowHelper {
                     return res.status(409).json({ name: InfrastructureExceptionName.CONSTRAINT_ERROR, message: "An unique constraint violation made your request fail. Check the data and try again. If you think this might be a mistake, contact the support team" })
 
                 default:
-                    return res.status(500).json({ name: "INTERNAL_SERVER_ERROR", message: "An error occurred on our side. Please, contact the support team" })
+                    return res.status(500).json({ name: ex.name ?? "INTERNAL_SERVER_ERROR", message: ex.message.replace("\n", "; ") ?? "An error occurred on our side. Please, contact the support team" })
             }
         }
         return res.status(500).json({ name: "INTERNAL_SERVER_ERROR", message: "An error occurred on our side. Please, contact the support team" })

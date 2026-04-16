@@ -1,7 +1,7 @@
-export const AccounType = {
-    STUDENT: "student",
-    PROFESSOR: "professor",
-    ADMINISTRATOR: "administrator"
+export const AccountType = {
+    student: "student",
+    professor: "professor",
+    administrator: "administrator"
 } as const
 
-export type AccountTypeType = keyof typeof AccounType
+export type AccountTypeType = keyof typeof AccountType
