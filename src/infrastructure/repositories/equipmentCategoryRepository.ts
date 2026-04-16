@@ -5,7 +5,7 @@ import { injectable } from "tsyringe";
 
 @injectable()
 class EquipmentCategoryRepository implements IEquipmentCategoryRepository {
-    
+
     async Find() {
         return await EquipmentCategoryEntityMapping.findAll() as EquipmentCategory[]
     }

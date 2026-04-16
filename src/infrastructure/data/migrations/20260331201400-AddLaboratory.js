@@ -41,6 +41,16 @@ module.exports = {
                 type: Sequelize.STRING,
                 allowNull: true,
             },
+            professorId: {
+                type: Sequelize.INTEGER,
+                allowNull: false,
+                references: {
+                    model: 'professors',
+                    key: 'id',
+                },
+                onUpdate: 'CASCADE',
+                onDelete: 'RESTRICT',
+            },
         });
     },
 

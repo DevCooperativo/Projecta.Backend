@@ -5,7 +5,7 @@ import { injectable } from "tsyringe";
 
 @injectable()
 class ProjectCategoryRepository implements IProjectCategoryRepository {
-    
+
     async Find() {
         return await ProjectCategoryEntityMapping.findAll() as ProjectCategory[]
     }

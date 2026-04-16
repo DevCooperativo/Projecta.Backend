@@ -16,6 +16,8 @@ import Project from "domain/models/project";
 import Professor from "domain/models/professor";
 import Student from "domain/models/student";
 import EquipmentCategory from "domain/models/equipmentCategory";
+import { EquipmentPowerSources } from "domain/constants/equipmentPowerSources";
+import { KnowledgeAreas } from "domain/constants/knowledgeAreas";
 import { Model } from "sequelize";
 import Coordination from "domain/models/coordination";
 import Equipment from "domain/models/equipment";
@@ -82,28 +84,13 @@ class DataSeed {
         await ensureSeeded(AdministratorEntityMapping, adminSeeds, 'email');
 
         const equipmentCategorySeeds = [
-            { powerSource: "Elétrica", fragile: true, description: "Equipamentos eletrônicos sensíveis a variações de tensão" },
-            { powerSource: "Bateria", fragile: false, description: "Equipamentos portáteis alimentados por bateria" },
-            { powerSource: "Solar", fragile: true, description: "Equipamentos de captação e conversão de energia solar" },
-            { powerSource: "Manual", fragile: false, description: "Equipamentos manuais sem necessidade de fonte de energia" },
+            { powerSource: EquipmentPowerSources.ELECTRIC_110_220V, fragile: true, description: "Equipamentos eletrônicos sensíveis a variações de tensão" },
+            { powerSource: EquipmentPowerSources.BATTERY, fragile: false, description: "Equipamentos portáteis alimentados por bateria" },
+            { powerSource: EquipmentPowerSources.USB, fragile: true, description: "Equipamentos alimentados por conexão USB" },
+            { powerSource: EquipmentPowerSources.SOLAR, fragile: false, description: "Equipamentos de captação e conversão de energia solar" },
+            { powerSource: EquipmentPowerSources.MANUAL_NO_POWER, fragile: false, description: "Equipamentos manuais sem necessidade de fonte de energia" },
         ];
         const equipmentCategories = await ensureSeeded(EquipmentCategoryEntityMapping, equipmentCategorySeeds, 'powerSource');
-
-        const laboratorySeeds = [
-            { name: "Laboratório de Redes", maxOccupants: 30, storageSpace: true, description: "Laboratório dedicado a redes de computadores e infraestrutura" },
-            { name: "Laboratório de Inteligência Artificial", maxOccupants: 20, storageSpace: false, description: "Laboratório de pesquisa em inteligência artificial e aprendizado de máquina" },
-            { name: "Laboratório de Hardware", maxOccupants: 15, storageSpace: true, description: "Laboratório de hardware embarcado e sistemas de controle" },
-            { name: "Laboratório de Engenharia de Software", maxOccupants: 25, storageSpace: false, description: "Laboratório de desenvolvimento e qualidade de software" },
-        ];
-        const laboratories = await ensureSeeded(LaboratoryEntity, laboratorySeeds, 'name');
-
-        const projectCategorySeeds = [
-            { name: "Pesquisa Aplicada", commerciallyRelevant: true, area: "Tecnologia", description: "Projetos de pesquisa aplicada com foco em soluções tecnológicas" },
-            { name: "Extensão Universitária", commerciallyRelevant: false, area: "Educação", description: "Projetos de extensão com impacto educacional na comunidade" },
-            { name: "Inovação Tecnológica", commerciallyRelevant: true, area: "Inovação", description: "Projetos voltados ao desenvolvimento de tecnologias inovadoras" },
-            { name: "Desenvolvimento Social", commerciallyRelevant: false, area: "Social", description: "Projetos que aplicam tecnologia para promover desenvolvimento social" },
-        ];
-        const projectCategories = await ensureSeeded(ProjectCategoryEntityMapping, projectCategorySeeds, 'name');
 
         // 2. Professor e Student (dependem de Coordination se criados agora)
         const professorSeeds = [
@@ -113,6 +100,22 @@ class DataSeed {
             { name: "Fernanda Costa", email: "fernanda.costa@projecta.com", telephone: "(11) 99999-4444", registration: "PROF004", coordinationId: (coordinations[3] as Coordination)?.id },
         ];
         const professors = await ensureSeeded(ProfessorEntityMapping, professorSeeds, 'registration');
+
+        const laboratorySeeds = [
+            { name: "Laboratório de Redes", maxOccupants: 30, storageSpace: true, description: "Laboratório dedicado a redes de computadores e infraestrutura", professorId: (professors[0] as Professor)?.id },
+            { name: "Laboratório de Inteligência Artificial", maxOccupants: 20, storageSpace: false, description: "Laboratório de pesquisa em inteligência artificial e aprendizado de máquina", professorId: (professors[1] as Professor)?.id },
+            { name: "Laboratório de Hardware", maxOccupants: 15, storageSpace: true, description: "Laboratório de hardware embarcado e sistemas de controle", professorId: (professors[2] as Professor)?.id },
+            { name: "Laboratório de Engenharia de Software", maxOccupants: 25, storageSpace: false, description: "Laboratório de desenvolvimento e qualidade de software", professorId: (professors[3] as Professor)?.id },
+        ];
+        const laboratories = await ensureSeeded(LaboratoryEntity, laboratorySeeds, 'name');
+
+        const projectCategorySeeds = [
+            { name: "Pesquisa Aplicada", commerciallyRelevant: true, area: KnowledgeAreas.EXACT_AND_EARTH_SCIENCES, description: "Projetos de pesquisa aplicada com foco em soluções tecnológicas" },
+            { name: "Extensão Universitária", commerciallyRelevant: false, area: KnowledgeAreas.HUMAN_SCIENCES, description: "Projetos de extensão com impacto educacional na comunidade" },
+            { name: "Inovação Tecnológica", commerciallyRelevant: true, area: KnowledgeAreas.ENGINEERING, description: "Projetos voltados ao desenvolvimento de tecnologias inovadoras" },
+            { name: "Desenvolvimento Social", commerciallyRelevant: false, area: KnowledgeAreas.APPLIED_SOCIAL_SCIENCES, description: "Projetos que aplicam tecnologia para promover desenvolvimento social" },
+        ];
+        const projectCategories = await ensureSeeded(ProjectCategoryEntityMapping, projectCategorySeeds, 'name');
 
         const studentSeeds = [
             { name: "Lucas Pereira", email: "lucas.pereira@aluno.com", registration: "ALU001", birthdate: new Date("2002-03-15"), term: 4, shift: "MORNING" },

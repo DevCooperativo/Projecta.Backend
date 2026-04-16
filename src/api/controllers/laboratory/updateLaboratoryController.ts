@@ -15,12 +15,12 @@ class UpdateLaboratoryController implements BaseController {
     ) { }
     async Handle(req: Request, res: Response) {
         try {
-            const { name, storageSpace, maxOccupants, description } = req.body
+            const { name, storageSpace, maxOccupants, description, professorId } = req.body
             const { id } = req.params as unknown as { id: number }
-            CheckRequestPropertiesHelper.CheckRequired({ id, name, storageSpace, maxOccupants, description })
+            CheckRequestPropertiesHelper.CheckRequired({ id, name, storageSpace, maxOccupants, description, professorId })
             const user = req.user
             // ApiException.When(!user, ApiExceptionNameEnum.UNAUTHENTICATED_USER, "You are not authenticated to the API. Authenticate yourself", 401)
-            const laboratoryDTO: LaboratoryDTO = { name, storageSpace, maxOccupants, description } as LaboratoryDTO
+            const laboratoryDTO: LaboratoryDTO = { name, storageSpace, maxOccupants, description, professorId } as LaboratoryDTO
             const result = await this.laboratoryServices.UpdateAsync(id, laboratoryDTO)
             return res.status(200).json(result)
         } catch (ex) {

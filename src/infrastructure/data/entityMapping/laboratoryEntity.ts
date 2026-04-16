@@ -1,5 +1,6 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../sequelize";
+import ProfessorEntityMapping from "./professorEntityMapping";
 
 class LaboratoryEntity extends Model {
     declare id: number
@@ -7,6 +8,7 @@ class LaboratoryEntity extends Model {
     declare maxOccupants: number
     declare storageSpace: boolean
     declare description: string
+    declare professorId: number
     declare createdAt: Date
     declare updatedAt: Date
     declare isVisible: boolean
@@ -20,7 +22,21 @@ LaboratoryEntity.init({
     },
     name: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+            min: {
+                args: [3],
+                msg: "Name should have at least 3 characters"
+            },
+            max: {
+                args: [100],
+                msg: "Name should have up to 100 characters"
+            },
+            notEmpty: {
+                args: true,
+                msg: "Name cannot be empty"
+            }
+        }
     },
     maxOccupants: {
         type: DataTypes.INTEGER,
@@ -28,7 +44,11 @@ LaboratoryEntity.init({
         validate: {
             min: {
                 args: [1],
-                msg: "The minimum amount of accupants is 1"
+                msg: "The minimum amount of occupants is 1"
+            },
+            isInt: {
+                args: true,
+                msg: "Max occupants must be an integer"
             }
         }
     },
@@ -38,7 +58,40 @@ LaboratoryEntity.init({
     },
     description: {
         type: DataTypes.TEXT,
-        defaultValue: ""
+        allowNull: false,
+        defaultValue: "",
+        validate: {
+            min: {
+                args: [10],
+                msg: "Description should have at least 10 characters"
+            },
+            max: {
+                args: [500],
+                msg: "Description should have up to 500 characters"
+            },
+            notEmpty: {
+                args: true,
+                msg: "Description cannot be empty"
+            }
+        }
+    },
+    professorId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: ProfessorEntityMapping,
+            key: "id"
+        },
+        validate: {
+            isInt: {
+                args: true,
+                msg: "Professor ID must be an integer"
+            },
+            min: {
+                args: [1],
+                msg: "Professor ID must be greater than 0"
+            }
+        }
     },
 
     // Default properties
@@ -60,5 +113,7 @@ LaboratoryEntity.init({
         tableName: "laboratories",
         sequelize
     })
+
+LaboratoryEntity.belongsTo(ProfessorEntityMapping, { as: "Professors", foreignKey: "professorId" })
 
 export default LaboratoryEntity

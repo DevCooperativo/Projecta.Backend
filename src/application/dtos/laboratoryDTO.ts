@@ -7,5 +7,6 @@ export class LaboratoryDTO {
     storageSpace: boolean
     maxOccupants: number
     description: string
+    professorId: number
     constructor() { }
 }
