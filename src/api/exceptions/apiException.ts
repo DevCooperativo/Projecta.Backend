@@ -1,22 +1,30 @@
-import ApiExceptionNameEnum from "api/enums/apiExceptionNameEnum";
-import AppError from "domain/constants/appError";
+import { ApiExceptionNameType } from "api/constants/apiExceptionNames";
 
-class ApiException implements AppError {
+class ApiException implements Error {
     code: number;
-    name: ApiExceptionNameEnum;
+    name: ApiExceptionNameType;
     message: string;
     stack?: string | undefined;
     cause?: unknown;
+    validationInfo: object
 
-    constructor(name: ApiExceptionNameEnum, message: string, code: number, stack?: string) {
+    constructor(name: ApiExceptionNameType, message: string, code: number, validationInfo: object, stack?: string) {
         this.name = name
         this.code = code
         this.message = message
+        this.validationInfo = validationInfo
         this.stack = stack
     }
-    public static When(condition: boolean, name: ApiExceptionNameEnum, message: string, code: number) {
+    public static When(condition: boolean, name: ApiExceptionNameType, message: string, code: number) {
         if (condition)
-            throw new ApiException(name, message, code)
+            throw new ApiException(name, message, code, {})
+    }
+    BuildJsonContent() {
+        return {
+            name: (this.name),
+            message: (this.message),
+            validationInfo: (this.validationInfo)
+        }
     }
 }
 export default ApiException

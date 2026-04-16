@@ -2,25 +2,32 @@ import { Request, Response } from "express";
 import BaseController from "../baseController";
 import ControllerExceptionThrowHelper from "api/helpers/controllerExceptionThrowHelper";
 import { inject, injectable } from "tsyringe";
-import IProfessorServices from "application/interfaces/iProfessorServices";
-import ProfessorDTO from "application/dtos/professorDTO";
-import CheckRequestPropertiesHelper from "api/helpers/checkRequestPropertiesHelper";
+import IStudentServices from "application/interfaces/iStudentServices";
+import StudentDTO from "application/dtos/studentDTO";
+import { CheckData } from "api/helpers/checkRequestPropertiesHelper";
 
 @injectable()
-class CreateProfessorController implements BaseController {
+class CreateStudentController implements BaseController {
     constructor(
-        @inject("ProfessorServices")
-        private readonly professorServices: IProfessorServices
+        @inject("StudentServices")
+        private readonly studentServices: IStudentServices
     ) { }
     async Handle(req: Request, res: Response) {
         try {
-            const { name, email, registration } = req.body
-            CheckRequestPropertiesHelper.CheckRequired({name, email, registration})
-            
+            const { name, email, registration, password, birthdate, term, shift } = req.body
+            CheckData({
+                name: { type: "string", value: name, required: true },
+                email: { type: "string", value: email, required: true },
+                registration: { type: "string", value: registration, required: true },
+                password: { type: "string", value: password, required: true },
+                birthdate: { type: "string", value: birthdate, required: true },
+                term: { type: "string", value: term, required: true },
+                shift: { type: "string", value: shift, required: true }
+            })
+
             // ApiException.When(!user, ApiExceptionNameEnum.UNAUTHENTICATED_USER, "You are not authenticated to the API. Authenticate yourself", 401)
-            const professorDTO: ProfessorDTO = { name, email, registration } as ProfessorDTO
-            console.log(professorDTO)
-            const result = await this.professorServices.CreateAsync(professorDTO)
+            const studentDTO: StudentDTO = { name, email, registration, password, birthdate, term, shift } as StudentDTO
+            const result = await this.studentServices.CreateAsync(studentDTO)
             return res.status(200).json(result)
         } catch (ex) {
             return ControllerExceptionThrowHelper.Throw(res, ex)
@@ -28,4 +35,4 @@ class CreateProfessorController implements BaseController {
     }
 
 }
-export default CreateProfessorController
+export default CreateStudentController

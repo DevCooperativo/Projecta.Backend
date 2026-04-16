@@ -8,9 +8,15 @@ import laboratoriesRoutes from "./laboratoryRoutes";
 import projectCategoriesRoutes from "./projectCategoryRoutes";
 import equipmentCategoriesRoutes from "./equipmentCategoryRoutes";
 import equipmentsRoutes from "./equipmentRoutes";
+import { studentRoutes } from "./studentRoutes";
+import { authRoutes } from "./authRoutes";
+import { borrowRoutes } from "./borrowRoutes";
 
 const routes = Router()
 
+routes.use("/auth", authRoutes)
+routes.use("/borrow", borrowRoutes)
+routes.use("/students", studentRoutes)
 routes.use("/coordinators", coordinatorRoutes)
 routes.use("/professors", professorsRoutes)
 routes.use("/coordinations", coordinationRoutes)

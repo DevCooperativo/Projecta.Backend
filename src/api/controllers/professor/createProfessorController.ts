@@ -4,7 +4,7 @@ import ControllerExceptionThrowHelper from "api/helpers/controllerExceptionThrow
 import { inject, injectable } from "tsyringe";
 import IProfessorServices from "application/interfaces/iProfessorServices";
 import ProfessorDTO from "application/dtos/professorDTO";
-import CheckRequestPropertiesHelper from "api/helpers/checkRequestPropertiesHelper";
+import { CheckData } from "api/helpers/checkRequestPropertiesHelper";
 
 @injectable()
 class CreateProfessorController implements BaseController {
@@ -14,11 +14,17 @@ class CreateProfessorController implements BaseController {
     ) { }
     async Handle(req: Request, res: Response) {
         try {
-            const { name, email, registration } = req.body
-            CheckRequestPropertiesHelper.CheckRequired({name, email, registration})
-            
+            const { name, email, registration, telephone, coordinationId } = req.body || {}
+            CheckData({
+                name: { type: "string", required: true, value: name },
+                email: { type: "string", required: true, value: email },
+                registration: { type: "string", required: true, value: registration },
+                telephone: { type: "string", required: true, value: telephone },
+                coordinationId: { type: "number", required: true, value: coordinationId }
+            })
+
             // ApiException.When(!user, ApiExceptionNameEnum.UNAUTHENTICATED_USER, "You are not authenticated to the API. Authenticate yourself", 401)
-            const professorDTO: ProfessorDTO = { name, email, registration } as ProfessorDTO
+            const professorDTO: ProfessorDTO = { name, email, registration, telephone, coordinationId } as ProfessorDTO
             console.log(professorDTO)
             const result = await this.professorServices.CreateAsync(professorDTO)
             return res.status(200).json(result)
