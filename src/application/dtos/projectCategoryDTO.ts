@@ -1,3 +1,5 @@
+import { KnowledgeAreasType } from "domain/constants/knowledgeAreas";
+
 export class ProjectCategoryDTO {
     id: number
     createdAt: Date
@@ -5,7 +7,7 @@ export class ProjectCategoryDTO {
     isVisible: boolean
     name: string
     commerciallyRelevant: boolean
-    area: string
+    area: KnowledgeAreasType
     description: string
     constructor() { }
 }
