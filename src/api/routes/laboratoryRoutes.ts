@@ -12,8 +12,8 @@ const deleteLaboratoryController = container.resolve<BaseController>("DeleteLabo
 
 laboratoriesRoutes.get("/", (req, res) => getAllLaboratoriesController.Handle(req, res))
 laboratoriesRoutes.get("/:id", (req, res) => getLaboratoryByIdController.Handle(req, res))
-laboratoriesRoutes.put("/", EnsureAuthenticatedUserMiddleware, (req, res) => createLaboratoryController.Handle(req, res))
-laboratoriesRoutes.patch("/:id", EnsureAuthenticatedUserMiddleware, (req, res) => updateLaboratoryController.Handle(req, res))
-laboratoriesRoutes.delete("/:id", (req, res) => deleteLaboratoryController.Handle(req, res))
+laboratoriesRoutes.post("/", EnsureAuthenticatedUserMiddleware, (req, res) => createLaboratoryController.Handle(req, res))
+laboratoriesRoutes.put("/:id", EnsureAuthenticatedUserMiddleware, (req, res) => updateLaboratoryController.Handle(req, res))
+laboratoriesRoutes.delete("/:id", EnsureAuthenticatedUserMiddleware, (req, res) => deleteLaboratoryController.Handle(req, res))
 
 export default laboratoriesRoutes
