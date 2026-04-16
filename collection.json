@@ -94,6 +94,48 @@
                     "response": []
                 },
                 {
+                    "name": "Create - Validation Errors",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "name": "Content-Type",
+                                "type": "text",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "name": "Authorization",
+                                "type": "text",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"ab\",\n  \"storageSpace\": true,\n  \"maxOccupants\": 0,\n  \"description\": \"short\",\n  \"professorId\": 0\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://localhost:3000/api/laboratories",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "api",
+                                "laboratories"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
                     "name": "Update",
                     "request": {
                         "method": "PUT",
@@ -231,6 +273,48 @@
                         "body": {
                             "mode": "raw",
                             "raw": "{\n  \"powerSource\": \"USB\",\n  \"fragile\": true,\n  \"description\": \"Category for USB-powered equipment\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://localhost:3000/api/equipmentCategories",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "api",
+                                "equipmentCategories"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create - Validation Errors",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "name": "Content-Type",
+                                "type": "text",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "name": "Authorization",
+                                "type": "text",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"powerSource\": \"INVALID\",\n  \"fragile\": true,\n  \"description\": \"short\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -412,6 +496,48 @@
                     "response": []
                 },
                 {
+                    "name": "Create - Validation Errors",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "name": "Content-Type",
+                                "type": "text",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "name": "Authorization",
+                                "type": "text",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"ab\",\n  \"commerciallyRelevant\": true,\n  \"area\": \"INVALID AREA\",\n  \"description\": \"short\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://localhost:3000/api/projectCategories",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "api",
+                                "projectCategories"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
                     "name": "Update",
                     "request": {
                         "method": "PUT",
@@ -549,6 +675,48 @@
                         "body": {
                             "mode": "raw",
                             "raw": "{\n  \"name\": \"Raspberry Pi 4\",\n  \"laboratoryId\": 1,\n  \"projectId\": 1,\n  \"equipmentCategoryId\": 1\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://localhost:3000/api/equipments",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "api",
+                                "equipments"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create - Validation Errors",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "name": "Content-Type",
+                                "type": "text",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "name": "Authorization",
+                                "type": "text",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"ab\",\n  \"laboratoryId\": 0,\n  \"projectId\": 0,\n  \"equipmentCategoryId\": 0\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
