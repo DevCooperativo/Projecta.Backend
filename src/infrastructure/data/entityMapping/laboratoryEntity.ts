@@ -33,7 +33,6 @@ LaboratoryEntity.init({
                 msg: "Name should have up to 100 characters"
             },
             notEmpty: {
-                args: true,
                 msg: "Name cannot be empty"
             }
         }
@@ -47,7 +46,6 @@ LaboratoryEntity.init({
                 msg: "The minimum amount of occupants is 1"
             },
             isInt: {
-                args: true,
                 msg: "Max occupants must be an integer"
             }
         }
@@ -70,7 +68,6 @@ LaboratoryEntity.init({
                 msg: "Description should have up to 500 characters"
             },
             notEmpty: {
-                args: true,
                 msg: "Description cannot be empty"
             }
         }
@@ -84,7 +81,6 @@ LaboratoryEntity.init({
         },
         validate: {
             isInt: {
-                args: true,
                 msg: "Professor ID must be an integer"
             },
             min: {

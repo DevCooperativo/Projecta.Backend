@@ -3,5 +3,8 @@ export class CoordinationDTO {
     area: string;
     block: string;
     description: string;
+    createdAt: Date;
+    updatedAt: Date;
+    isVisible: boolean;
     constructor() { }
 }

@@ -1,5 +1,9 @@
 import BaseController from "api/controllers/baseController";
-import GetAllCoordinationController from "api/controllers/getAllCoordinationController";
+import GetAllCoordinationsController from "api/controllers/coordination/getAllCoordinationsController";
+import GetCoordinationByIdController from "api/controllers/coordination/getCoordinationByIdController";
+import CreateCoordinationController from "api/controllers/coordination/createCoordinationController";
+import UpdateCoordinationController from "api/controllers/coordination/updateCoordinationController";
+import DeleteCoordinationController from "api/controllers/coordination/deleteCoordinationController";
 import CreateProfessorController from "api/controllers/professor/createProfessorController";
 import DeleteProfessorController from "api/controllers/professor/deleteProfessorController";
 import GetAllProfessorsController from "api/controllers/professor/getAllProfessorsController";
@@ -113,7 +117,11 @@ container.registerSingleton<IProjectServices>("ProjectServices", ProjectServices
 container.registerSingleton<IResearcherServices>("ResearcherServices", ResearcherServices)
 
 // Controllers - Coordination
-container.registerSingleton<BaseController>("GetAllCoordinationController", GetAllCoordinationController)
+container.registerSingleton<BaseController>("GetAllCoordinationsController", GetAllCoordinationsController)
+container.registerSingleton<BaseController>("GetCoordinationByIdController", GetCoordinationByIdController)
+container.registerSingleton<BaseController>("CreateCoordinationController", CreateCoordinationController)
+container.registerSingleton<BaseController>("UpdateCoordinationController", UpdateCoordinationController)
+container.registerSingleton<BaseController>("DeleteCoordinationController", DeleteCoordinationController)
 
 // Controllers - Professor
 container.registerSingleton<BaseController>("GetAllProfessorsController", GetAllProfessorsController)
