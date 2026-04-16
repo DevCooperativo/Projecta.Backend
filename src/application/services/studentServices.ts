@@ -22,12 +22,13 @@ class StudentServices implements IStudentServices {
     }
     async CreateAsync(data: StudentDTO) {
         InfrastructureException.When((await this.studentRepository.FindByEmail(data.email) as Student | null) !== null, InfrastructureExceptionName.CONSTRAINT_ERROR, "Email already in use", 409)
-        return (await this.studentRepository.Create(data)) as StudentDTO
+        const newStudent = new Student(data.name, data.email, data.registration, data.birthdate, data.term, data.shift)
+        return (await this.studentRepository.Create(newStudent)) as StudentDTO
     }
     async UpdateAsync(id: number, data: StudentDTO) {
         if (!(await this.GetByIdAsync(id) as Student))
             throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No student was found with the provided id", 404)
-        return (await this.studentRepository.Update(id, data)) as StudentDTO
+        return (await this.studentRepository.Update(id, new Student(data.name, data.email, data.registration, data.birthdate, data.term, data.shift))) as StudentDTO
 
     }
     async DeleteAsync(id: number) {

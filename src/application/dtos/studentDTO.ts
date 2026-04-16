@@ -4,6 +4,7 @@ class StudentDTO {
     id: number
     name: string
     email: string
+    password: string
     registration: string
     birthdate: Date
     term: number

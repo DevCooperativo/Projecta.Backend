@@ -22,6 +22,7 @@ class ProfessorServices implements IProfessorServices {
     }
     async CreateAsync(data: ProfessorDTO) {
         InfrastructureException.When((await this.professorRepository.FindByEmail(data.email) as Professor | null) !== null, InfrastructureExceptionName.CONSTRAINT_ERROR, "Email already in use", 409)
+        console.log(data)
         return (await this.professorRepository.Create(data)) as ProfessorDTO
     }
     async UpdateAsync(id: number, data: ProfessorDTO) {
