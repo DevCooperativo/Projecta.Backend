@@ -1,6 +1,5 @@
-import { Request, Response } from "express";
+﻿import { NextFunction, Request, Response } from "express";
 import BaseController from "../baseController";
-import ControllerExceptionThrowHelper from "api/helpers/controllerExceptionThrowHelper";
 import { inject, injectable } from "tsyringe";
 import IProfessorServices from "application/interfaces/iProfessorServices";
 
@@ -10,7 +9,7 @@ class GetProfessorByIdController implements BaseController {
         @inject("ProfessorServices")
         private readonly professorServices: IProfessorServices
     ) { }
-    async Handle(req: Request, res: Response) {
+    async Handle(req: Request, res: Response, next: NextFunction) {
         const { id } = req.params
         try {
             const user = req.user
@@ -18,7 +17,7 @@ class GetProfessorByIdController implements BaseController {
             const result = await this.professorServices.GetByIdAsync(id as unknown as number)
             return res.status(200).json(result)
         } catch (ex) {
-            return ControllerExceptionThrowHelper.Throw(res, ex)
+            next(ex)
         }
     }
 

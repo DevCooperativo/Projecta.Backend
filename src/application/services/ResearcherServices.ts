@@ -16,7 +16,10 @@ class ResearcherServices implements IResearcherServices {
         return (await this.researcherRepository.Find()) as ResearcherDTO[]
     }
     async GetByIdAsync(id: number) {
-        return (await this.researcherRepository.FindById(id)) as ResearcherDTO
+        const result = await this.researcherRepository.FindById(id)
+        if (!result)
+            throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No researcher was found with the provided id", 404)
+        return result as ResearcherDTO
     }
     async CreateAsync(data: ResearcherDTO) {
         return (await this.researcherRepository.Create(data)) as ResearcherDTO

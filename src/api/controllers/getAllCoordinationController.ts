@@ -1,7 +1,6 @@
-import { inject, injectable } from "tsyringe";
+﻿import { inject, injectable } from "tsyringe";
 import BaseController from "./baseController";
-import { Request, Response } from "express";
-import ControllerExceptionThrowHelper from "../helpers/controllerExceptionThrowHelper";
+import { NextFunction, Request, Response } from "express";
 import ICoordinatorServices from "application/interfaces/iCoordinatorServices";
 
 @injectable()
@@ -13,12 +12,12 @@ class GetAllCoordinationController extends BaseController {
         super()
 
     }
-    async Handle(req: Request, res: Response) {
+    async Handle(req: Request, res: Response, next: NextFunction) {
         try {
             const response = await this.coordinationServices.GetAllAsync();
             return res.status(200).json({ message: "success", data: response })
         } catch (ex) {
-            return ControllerExceptionThrowHelper.Throw(res, ex)
+            next(ex)
         }
     }
 }

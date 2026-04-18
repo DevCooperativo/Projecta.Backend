@@ -1,6 +1,5 @@
-import { Request, Response } from "express";
+﻿import { NextFunction, Request, Response } from "express";
 import BaseController from "../baseController";
-import ControllerExceptionThrowHelper from "api/helpers/controllerExceptionThrowHelper";
 import { inject, injectable } from "tsyringe";
 import IEquipmentServices from "application/interfaces/iEquipmentServices";
 import EquipmentDTO from "application/dtos/equipmentDTO";
@@ -12,7 +11,7 @@ class CreateEquipmentController implements BaseController {
         @inject("EquipmentServices")
         private readonly equipmentServices: IEquipmentServices
     ) { }
-    async Handle(req: Request, res: Response) {
+    async Handle(req: Request, res: Response, next: NextFunction) {
         try {
             const { name, laboratoryId, projectId, equipmentCategoryId } = req.body
             CheckRequestPropertiesHelper.CheckRequired({ name, laboratoryId, projectId, equipmentCategoryId })
@@ -22,7 +21,7 @@ class CreateEquipmentController implements BaseController {
             const result = await this.equipmentServices.CreateAsync(equipmentDTO)
             return res.status(201).json(result)
         } catch (ex) {
-            return ControllerExceptionThrowHelper.Throw(res, ex)
+            next(ex)
         }
     }
 }

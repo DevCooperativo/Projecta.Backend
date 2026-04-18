@@ -16,7 +16,10 @@ class EquipmentCategoryServices implements IEquipmentCategoryServices {
         return (await this.equipmentCategoryRepository.Find()) as EquipmentCategoryDTO[]
     }
     async GetByIdAsync(id: number) {
-        return (await this.equipmentCategoryRepository.FindById(id)) as EquipmentCategoryDTO
+        const result = await this.equipmentCategoryRepository.FindById(id)
+        if (!result)
+            throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No equipment category was found with the provided id", 404)
+        return result as EquipmentCategoryDTO
     }
     async CreateAsync(data: EquipmentCategoryDTO) {
         return (await this.equipmentCategoryRepository.Create(data)) as EquipmentCategoryDTO

@@ -1,4 +1,4 @@
-import { Router } from "express";
+﻿import { Router } from "express";
 import { container } from "tsyringe";
 import BaseController from "../controllers/baseController";
 import EnsureAuthenticatedUserMiddleware from "api/middlewares/ensureAuthenticatedUserMiddleware";
@@ -10,10 +10,10 @@ const createProjectController = container.resolve<BaseController>("CreateProject
 const updateProjectController = container.resolve<BaseController>("UpdateProjectController")
 const deleteProjectController = container.resolve<BaseController>("DeleteProjectController")
 
-projectRoutes.get("/", (req, res) => getAllProjectsController.Handle(req, res))
-projectRoutes.get("/:id", (req, res) => getProjectByIdController.Handle(req, res))
-projectRoutes.post("/", EnsureAuthenticatedUserMiddleware, (req, res) => createProjectController.Handle(req, res))
-projectRoutes.put("/:id", EnsureAuthenticatedUserMiddleware, (req, res) => updateProjectController.Handle(req, res))
-projectRoutes.delete("/:id", (req, res) => deleteProjectController.Handle(req, res))
+projectRoutes.get("/", (req, res, next) => getAllProjectsController.Handle(req, res, next))
+projectRoutes.get("/:id", (req, res, next) => getProjectByIdController.Handle(req, res, next))
+projectRoutes.post("/", EnsureAuthenticatedUserMiddleware, (req, res, next) => createProjectController.Handle(req, res, next))
+projectRoutes.put("/:id", EnsureAuthenticatedUserMiddleware, (req, res, next) => updateProjectController.Handle(req, res, next))
+projectRoutes.delete("/:id", (req, res, next) => deleteProjectController.Handle(req, res, next))
 
 export default projectRoutes

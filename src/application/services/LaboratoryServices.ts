@@ -16,7 +16,10 @@ class LaboratoryServices implements ILaboratoryServices {
         return (await this.laboratoryRepository.Find()) as LaboratoryDTO[]
     }
     async GetByIdAsync(id: number) {
-        return (await this.laboratoryRepository.FindById(id)) as LaboratoryDTO
+        const result = await this.laboratoryRepository.FindById(id)
+        if (!result)
+            throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No laboratory was found with the provided id", 404)
+        return result as LaboratoryDTO
     }
     async CreateAsync(data: LaboratoryDTO) {
         return (await this.laboratoryRepository.Create(data)) as LaboratoryDTO

@@ -16,7 +16,10 @@ class ProjectServices implements IProjectServices {
         return (await this.projectRepository.Find()) as ProjectDTO[]
     }
     async GetByIdAsync(id: number) {
-        return (await this.projectRepository.FindById(id)) as ProjectDTO
+        const result = await this.projectRepository.FindById(id)
+        if (!result)
+            throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No project was found with the provided id", 404)
+        return result as ProjectDTO
     }
     async CreateAsync(data: ProjectDTO) {
         return (await this.projectRepository.Create(data)) as ProjectDTO

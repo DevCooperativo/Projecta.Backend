@@ -21,7 +21,10 @@ class AdministratorServices implements IAdministratorServices {
         return (await this.administratorRepository.Find()) as AdministratorDTO[]
     }
     async GetByIdAsync(id: number) {
-        return (await this.administratorRepository.FindById(id)) as AdministratorDTO
+        const result = await this.administratorRepository.FindById(id)
+        if (!result)
+            throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No administrator was found with the provided id", 404)
+        return result as AdministratorDTO
     }
     async CreateAsync(data: AdministratorDTO) {
         InfrastructureException.When((await this.administratorRepository.FindByEmail(data.email) as Administrator | null) !== null, InfrastructureExceptionName.CONSTRAINT_ERROR, "Email already in use", 409)

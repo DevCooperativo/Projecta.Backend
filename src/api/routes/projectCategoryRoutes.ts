@@ -1,4 +1,4 @@
-import { Router } from "express";
+﻿import { Router } from "express";
 import { container } from "tsyringe";
 import BaseController from "../controllers/baseController";
 import EnsureAuthenticatedUserMiddleware from "api/middlewares/ensureAuthenticatedUserMiddleware";
@@ -10,10 +10,10 @@ const createProjectCategoryController = container.resolve<BaseController>("Creat
 const updateProjectCategoryController = container.resolve<BaseController>("UpdateProjectCategoryController")
 const deleteProjectCategoryController = container.resolve<BaseController>("DeleteProjectCategoryController")
 
-projectCategoriesRoutes.get("/", (req, res) => getAllProjectCategoriesController.Handle(req, res))
-projectCategoriesRoutes.get("/:id", (req, res) => getProjectCategoryByIdController.Handle(req, res))
-projectCategoriesRoutes.post("/", EnsureAuthenticatedUserMiddleware, (req, res) => createProjectCategoryController.Handle(req, res))
-projectCategoriesRoutes.put("/:id", EnsureAuthenticatedUserMiddleware, (req, res) => updateProjectCategoryController.Handle(req, res))
-projectCategoriesRoutes.delete("/:id", EnsureAuthenticatedUserMiddleware, (req, res) => deleteProjectCategoryController.Handle(req, res))
+projectCategoriesRoutes.get("/", (req, res, next) => getAllProjectCategoriesController.Handle(req, res, next))
+projectCategoriesRoutes.get("/:id", (req, res, next) => getProjectCategoryByIdController.Handle(req, res, next))
+projectCategoriesRoutes.post("/", EnsureAuthenticatedUserMiddleware, (req, res, next) => createProjectCategoryController.Handle(req, res, next))
+projectCategoriesRoutes.put("/:id", EnsureAuthenticatedUserMiddleware, (req, res, next) => updateProjectCategoryController.Handle(req, res, next))
+projectCategoriesRoutes.delete("/:id", EnsureAuthenticatedUserMiddleware, (req, res, next) => deleteProjectCategoryController.Handle(req, res, next))
 
 export default projectCategoriesRoutes

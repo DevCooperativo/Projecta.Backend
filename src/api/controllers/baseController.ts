@@ -1,6 +1,6 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
 abstract class BaseController {
-    abstract Handle(req: Request, res: Response): Promise<Response>
+    abstract Handle(req: Request, res: Response, next: NextFunction): Promise<void>
 }
 export default BaseController
