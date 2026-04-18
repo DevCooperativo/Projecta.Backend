@@ -1,4 +1,4 @@
-import { Router } from "express";
+﻿import { Router } from "express";
 import { container } from "tsyringe";
 import BaseController from "../controllers/baseController";
 import EnsureAuthenticatedUserMiddleware from "api/middlewares/ensureAuthenticatedUserMiddleware";
@@ -10,10 +10,10 @@ const createProfessorController = container.resolve<BaseController>("CreateProfe
 const updateProfessorController = container.resolve<BaseController>("UpdateProfessorController")
 const deleteProfessorController = container.resolve<BaseController>("DeleteProfessorController")
 
-professorsRoutes.get("/", (req, res) => getAllProfessorsController.Handle(req, res))
-professorsRoutes.get("/:id", (req, res) => getProfessorByIdController.Handle(req, res))
-professorsRoutes.post("/", EnsureAuthenticatedUserMiddleware, (req, res) => createProfessorController.Handle(req, res))
-professorsRoutes.patch("/:id", EnsureAuthenticatedUserMiddleware, (req, res) => updateProfessorController.Handle(req, res))
-professorsRoutes.delete("/:id", (req, res) => deleteProfessorController.Handle(req, res))
+professorsRoutes.get("/", (req, res, next) => getAllProfessorsController.Handle(req, res, next))
+professorsRoutes.get("/:id", (req, res, next) => getProfessorByIdController.Handle(req, res, next))
+professorsRoutes.post("/", EnsureAuthenticatedUserMiddleware, (req, res, next) => createProfessorController.Handle(req, res, next))
+professorsRoutes.patch("/:id", EnsureAuthenticatedUserMiddleware, (req, res, next) => updateProfessorController.Handle(req, res, next))
+professorsRoutes.delete("/:id", (req, res, next) => deleteProfessorController.Handle(req, res, next))
 
 export default professorsRoutes

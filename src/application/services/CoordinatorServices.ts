@@ -16,7 +16,10 @@ class CoordinatorServices implements ICoordinatorServices {
         return (await this.coordinatorRepository.Find()) as CoordinatorDTO[]
     }
     async GetByIdAsync(id: number) {
-        return (await this.coordinatorRepository.FindById(id)) as CoordinatorDTO
+        const result = await this.coordinatorRepository.FindById(id)
+        if (!result)
+            throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No coordinator was found with the provided id", 404)
+        return result as CoordinatorDTO
     }
     async CreateAsync(data: CoordinatorDTO) {
         return (await this.coordinatorRepository.Create(data)) as CoordinatorDTO

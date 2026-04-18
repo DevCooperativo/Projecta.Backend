@@ -18,7 +18,10 @@ class ProfessorServices implements IProfessorServices {
         return (await this.professorRepository.Find()) as ProfessorDTO[]
     }
     async GetByIdAsync(id: number) {
-        return (await this.professorRepository.FindById(id)) as ProfessorDTO
+        const result = await this.professorRepository.FindById(id)
+        if (!result)
+            throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No professor was found with the provided id", 404)
+        return result as ProfessorDTO
     }
     async CreateAsync(data: ProfessorDTO) {
         InfrastructureException.When((await this.professorRepository.FindByEmail(data.email) as Professor | null) !== null, InfrastructureExceptionName.CONSTRAINT_ERROR, "Email already in use", 409)

@@ -1,4 +1,4 @@
-import { Router } from "express";
+﻿import { Router } from "express";
 import { container } from "tsyringe";
 import BaseController from "../controllers/baseController";
 import EnsureAuthenticatedUserMiddleware from "api/middlewares/ensureAuthenticatedUserMiddleware";
@@ -10,10 +10,10 @@ const createEquipmentCategoryController = container.resolve<BaseController>("Cre
 const updateEquipmentCategoryController = container.resolve<BaseController>("UpdateEquipmentCategoryController")
 const deleteEquipmentCategoryController = container.resolve<BaseController>("DeleteEquipmentCategoryController")
 
-equipmentCategoriesRoutes.get("/", (req, res) => getAllEquipmentCategoriesController.Handle(req, res))
-equipmentCategoriesRoutes.get("/:id", (req, res) => getEquipmentCategoryByIdController.Handle(req, res))
-equipmentCategoriesRoutes.post("/", EnsureAuthenticatedUserMiddleware, (req, res) => createEquipmentCategoryController.Handle(req, res))
-equipmentCategoriesRoutes.put("/:id", EnsureAuthenticatedUserMiddleware, (req, res) => updateEquipmentCategoryController.Handle(req, res))
-equipmentCategoriesRoutes.delete("/:id", EnsureAuthenticatedUserMiddleware, (req, res) => deleteEquipmentCategoryController.Handle(req, res))
+equipmentCategoriesRoutes.get("/", (req, res, next) => getAllEquipmentCategoriesController.Handle(req, res, next))
+equipmentCategoriesRoutes.get("/:id", (req, res, next) => getEquipmentCategoryByIdController.Handle(req, res, next))
+equipmentCategoriesRoutes.post("/", EnsureAuthenticatedUserMiddleware, (req, res, next) => createEquipmentCategoryController.Handle(req, res, next))
+equipmentCategoriesRoutes.put("/:id", EnsureAuthenticatedUserMiddleware, (req, res, next) => updateEquipmentCategoryController.Handle(req, res, next))
+equipmentCategoriesRoutes.delete("/:id", EnsureAuthenticatedUserMiddleware, (req, res, next) => deleteEquipmentCategoryController.Handle(req, res, next))
 
 export default equipmentCategoriesRoutes

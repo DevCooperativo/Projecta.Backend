@@ -1,6 +1,5 @@
-import { Request, Response } from "express";
+﻿import { NextFunction, Request, Response } from "express";
 import BaseController from "../baseController";
-import ControllerExceptionThrowHelper from "api/helpers/controllerExceptionThrowHelper";
 import { inject, injectable } from "tsyringe";
 import ILaboratoryServices from "application/interfaces/iLaboratoryServices";
 import { LaboratoryDTO } from "application/dtos/laboratoryDTO";
@@ -12,7 +11,7 @@ class CreateLaboratoryController implements BaseController {
         @inject("LaboratoryServices")
         private readonly laboratoryServices: ILaboratoryServices
     ) { }
-    async Handle(req: Request, res: Response) {
+    async Handle(req: Request, res: Response, next: NextFunction) {
         try {
             const { name, storageSpace, maxOccupants, description, professorId } = req.body
             CheckRequestPropertiesHelper.CheckRequired({ name, storageSpace, maxOccupants, description, professorId })
@@ -23,7 +22,7 @@ class CreateLaboratoryController implements BaseController {
             const result = await this.laboratoryServices.CreateAsync(laboratoryDTO)
             return res.status(200).json(result)
         } catch (ex) {
-            return ControllerExceptionThrowHelper.Throw(res, ex)
+            next(ex)
         }
     }
 

@@ -16,7 +16,10 @@ class ProjectCategoryServices implements IProjectCategoryServices {
         return (await this.projectCategoryRepository.Find()) as ProjectCategoryDTO[]
     }
     async GetByIdAsync(id: number) {
-        return (await this.projectCategoryRepository.FindById(id)) as ProjectCategoryDTO
+        const result = await this.projectCategoryRepository.FindById(id)
+        if (!result)
+            throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No project category was found with the provided id", 404)
+        return result as ProjectCategoryDTO
     }
     async CreateAsync(data: ProjectCategoryDTO) {
         return (await this.projectCategoryRepository.Create(data)) as ProjectCategoryDTO

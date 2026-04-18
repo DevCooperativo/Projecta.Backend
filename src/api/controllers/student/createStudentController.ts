@@ -1,6 +1,5 @@
-import { Request, Response } from "express";
+﻿import { NextFunction, Request, Response } from "express";
 import BaseController from "../baseController";
-import ControllerExceptionThrowHelper from "api/helpers/controllerExceptionThrowHelper";
 import { inject, injectable } from "tsyringe";
 import IStudentServices from "application/interfaces/iStudentServices";
 import StudentDTO from "application/dtos/studentDTO";
@@ -12,7 +11,7 @@ class CreateStudentController implements BaseController {
         @inject("StudentServices")
         private readonly studentServices: IStudentServices
     ) { }
-    async Handle(req: Request, res: Response) {
+    async Handle(req: Request, res: Response, next: NextFunction) {
         try {
             const { name, email, registration, password, birthdate, term, shift } = req.body
             CheckData({
@@ -30,7 +29,7 @@ class CreateStudentController implements BaseController {
             const result = await this.studentServices.CreateAsync(studentDTO)
             return res.status(200).json(result)
         } catch (ex) {
-            return ControllerExceptionThrowHelper.Throw(res, ex)
+            next(ex)
         }
     }
 

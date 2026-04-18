@@ -1,6 +1,5 @@
-import { Request, Response } from "express";
+﻿import { NextFunction, Request, Response } from "express";
 import BaseController from "../baseController";
-import ControllerExceptionThrowHelper from "api/helpers/controllerExceptionThrowHelper";
 import { inject, injectable } from "tsyringe";
 import IStudentServices from "application/interfaces/iStudentServices";
 import StudentDTO from "application/dtos/studentDTO";
@@ -13,7 +12,7 @@ class UpdateStudentController implements BaseController {
         @inject("StudentServices")
         private readonly studentServices: IStudentServices
     ) { }
-    async Handle(req: Request, res: Response) {
+    async Handle(req: Request, res: Response, next: NextFunction) {
         try {
             const { name, email, registration, birthdate, term, shift } = req.body
             const { id } = req.params as unknown as { id: number }
@@ -26,7 +25,7 @@ class UpdateStudentController implements BaseController {
         } catch (ex) {
             if (ex instanceof ValidationError)
                 console.log(ex.errors)
-            return ControllerExceptionThrowHelper.Throw(res, ex)
+            next(ex)
         }
     }
 

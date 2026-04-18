@@ -1,6 +1,5 @@
-import { Request, Response } from "express";
+﻿import { NextFunction, Request, Response } from "express";
 import BaseController from "../baseController";
-import ControllerExceptionThrowHelper from "api/helpers/controllerExceptionThrowHelper";
 import { inject, injectable } from "tsyringe";
 import IEquipmentCategoryServices from "application/interfaces/iEquipmentCategoryServices";
 import CheckRequestPropertiesHelper from "api/helpers/checkRequestPropertiesHelper";
@@ -12,7 +11,7 @@ class DeleteEquipmentCategoryController implements BaseController {
         @inject("EquipmentCategoryServices")
         private readonly equipmentCategoryServices: IEquipmentCategoryServices
     ) { }
-    async Handle(req: Request, res: Response) {
+    async Handle(req: Request, res: Response, next: NextFunction) {
         try {
             const { id } = req.params as unknown as { id: number }
             CheckRequestPropertiesHelper.CheckRequired({ id })
@@ -23,7 +22,7 @@ class DeleteEquipmentCategoryController implements BaseController {
         } catch (ex) {
             if (ex instanceof ValidationError)
                 console.log(ex.errors)
-            return ControllerExceptionThrowHelper.Throw(res, ex)
+            next(ex)
         }
     }
 

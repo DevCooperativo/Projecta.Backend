@@ -18,7 +18,10 @@ class StudentServices implements IStudentServices {
         return (await this.studentRepository.Find()) as StudentDTO[]
     }
     async GetByIdAsync(id: number) {
-        return (await this.studentRepository.FindById(id)) as StudentDTO
+        const result = await this.studentRepository.FindById(id)
+        if (!result)
+            throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No student was found with the provided id", 404)
+        return result as StudentDTO
     }
     async CreateAsync(data: StudentDTO) {
         InfrastructureException.When((await this.studentRepository.FindByEmail(data.email) as Student | null) !== null, InfrastructureExceptionName.CONSTRAINT_ERROR, "Email already in use", 409)

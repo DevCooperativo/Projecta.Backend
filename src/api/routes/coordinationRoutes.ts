@@ -1,4 +1,4 @@
-import { Router } from "express";
+﻿import { Router } from "express";
 import { container } from "tsyringe";
 import BaseController from "../controllers/baseController";
 import EnsureAuthenticatedUserMiddleware from "api/middlewares/ensureAuthenticatedUserMiddleware";
@@ -10,10 +10,10 @@ const createCoordinationController = container.resolve<BaseController>("CreateCo
 const updateCoordinationController = container.resolve<BaseController>("UpdateCoordinationController")
 const deleteCoordinationController = container.resolve<BaseController>("DeleteCoordinationController")
 
-coordinationRoutes.get("/", (req, res) => getAllCoordinationsController.Handle(req, res))
-coordinationRoutes.get("/:id", (req, res) => getCoordinationByIdController.Handle(req, res))
-coordinationRoutes.post("/", EnsureAuthenticatedUserMiddleware, (req, res) => createCoordinationController.Handle(req, res))
-coordinationRoutes.put("/:id", EnsureAuthenticatedUserMiddleware, (req, res) => updateCoordinationController.Handle(req, res))
-coordinationRoutes.delete("/:id", (req, res) => deleteCoordinationController.Handle(req, res))
+coordinationRoutes.get("/", (req, res, next) => getAllCoordinationsController.Handle(req, res, next))
+coordinationRoutes.get("/:id", (req, res, next) => getCoordinationByIdController.Handle(req, res, next))
+coordinationRoutes.post("/", EnsureAuthenticatedUserMiddleware, (req, res, next) => createCoordinationController.Handle(req, res, next))
+coordinationRoutes.put("/:id", EnsureAuthenticatedUserMiddleware, (req, res, next) => updateCoordinationController.Handle(req, res, next))
+coordinationRoutes.delete("/:id", (req, res, next) => deleteCoordinationController.Handle(req, res, next))
 
 export default coordinationRoutes

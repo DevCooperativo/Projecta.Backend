@@ -1,6 +1,5 @@
-import { Request, Response } from "express";
+﻿import { NextFunction, Request, Response } from "express";
 import BaseController from "../baseController";
-import ControllerExceptionThrowHelper from "api/helpers/controllerExceptionThrowHelper";
 import { inject, injectable } from "tsyringe";
 import IEquipmentCategoryServices from "application/interfaces/iEquipmentCategoryServices";
 import { EquipmentCategoryDTO } from "application/dtos/equipmentCategoryDTO";
@@ -13,7 +12,7 @@ class UpdateEquipmentCategoryController implements BaseController {
         @inject("EquipmentCategoryServices")
         private readonly equipmentCategoryServices: IEquipmentCategoryServices
     ) { }
-    async Handle(req: Request, res: Response) {
+    async Handle(req: Request, res: Response, next: NextFunction) {
         try {
             const { powerSource, fragile, description } = req.body
             const { id } = req.params as unknown as { id: number }
@@ -26,7 +25,7 @@ class UpdateEquipmentCategoryController implements BaseController {
         } catch (ex) {
             if (ex instanceof ValidationError)
                 console.log(ex.errors)
-            return ControllerExceptionThrowHelper.Throw(res, ex)
+            next(ex)
         }
     }
 

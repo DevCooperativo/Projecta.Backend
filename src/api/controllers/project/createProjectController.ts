@@ -1,6 +1,5 @@
-import { Request, Response } from "express";
+﻿import { NextFunction, Request, Response } from "express";
 import BaseController from "../baseController";
-import ControllerExceptionThrowHelper from "api/helpers/controllerExceptionThrowHelper";
 import { inject, injectable } from "tsyringe";
 import IProjectServices from "application/interfaces/iProjectServices";
 import ProjectDTO from "application/dtos/projectDTO";
@@ -12,7 +11,7 @@ class CreateProjectController implements BaseController {
         @inject("ProjectServices")
         private readonly projectServices: IProjectServices
     ) { }
-    async Handle(req: Request, res: Response) {
+    async Handle(req: Request, res: Response, next: NextFunction) {
         try {
             const { name, description, startDate, status, laboratoryId, projectCategoryId } = req.body
             CheckRequestPropertiesHelper.CheckRequired({ name, description, startDate, status, laboratoryId, projectCategoryId })
@@ -20,7 +19,7 @@ class CreateProjectController implements BaseController {
             const result = await this.projectServices.CreateAsync(projectDTO)
             return res.status(200).json(result)
         } catch (ex) {
-            return ControllerExceptionThrowHelper.Throw(res, ex)
+            next(ex)
         }
     }
 }

@@ -1,6 +1,5 @@
-import { Request, Response } from "express";
+﻿import { NextFunction, Request, Response } from "express";
 import BaseController from "../baseController";
-import ControllerExceptionThrowHelper from "api/helpers/controllerExceptionThrowHelper";
 import { inject, injectable } from "tsyringe";
 import IEquipmentServices from "application/interfaces/iEquipmentServices";
 
@@ -10,7 +9,7 @@ class GetEquipmentByIdController implements BaseController {
         @inject("EquipmentServices")
         private readonly equipmentServices: IEquipmentServices
     ) { }
-    async Handle(req: Request, res: Response) {
+    async Handle(req: Request, res: Response, next: NextFunction) {
         const { id } = req.params
         try {
             const user = req.user
@@ -18,7 +17,7 @@ class GetEquipmentByIdController implements BaseController {
             const result = await this.equipmentServices.GetByIdAsync(id as unknown as number)
             return res.status(200).json(result)
         } catch (ex) {
-            return ControllerExceptionThrowHelper.Throw(res, ex)
+            next(ex)
         }
     }
 }
