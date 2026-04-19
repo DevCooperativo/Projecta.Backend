@@ -10,17 +10,17 @@ import ResearcherEntityMapping from "../entityMapping/researcherEntityMappping";
 import CoordinatorEntityMapping from "../entityMapping/coordinatorEntityMapping";
 import EquipmentEntity from "../entityMapping/equipmentEntity";
 import BorrowEntityMapping from "../entityMapping/borrowEntityMapping";
-import { SequelizeErrorHandler } from "infrastructure/helpers/sequelizeErrorHandler";
-import Laboratory from "domain/models/laboratory";
-import Project from "domain/models/project";
-import Professor from "domain/models/professor";
-import Student from "domain/models/student";
-import EquipmentCategory from "domain/models/equipmentCategory";
-import { EquipmentPowerSources } from "domain/constants/equipmentPowerSources";
-import { KnowledgeAreas } from "domain/constants/knowledgeAreas";
+import { SequelizeErrorHandler } from "@/infrastructure/helpers/sequelizeErrorHandler";
+import Laboratory from "@/domain/models/laboratory";
+import Project from "@/domain/models/project";
+import Professor from "@/domain/models/professor";
+import Student from "@/domain/models/student";
+import EquipmentCategory from "@/domain/models/equipmentCategory";
+import { EquipmentPowerSources } from "@/domain/constants/equipmentPowerSources";
+import { KnowledgeAreas } from "@/domain/constants/knowledgeAreas";
 import { Model } from "sequelize";
-import Coordination from "domain/models/coordination";
-import Equipment from "domain/models/equipment";
+import Coordination from "@/domain/models/coordination";
+import Equipment from "@/domain/models/equipment";
 
 class DataSeed {
 
