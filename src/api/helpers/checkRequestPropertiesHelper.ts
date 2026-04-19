@@ -1,6 +1,6 @@
-import { ApiExceptionNames } from "api/constants/apiExceptionNames"
-import { RequestDataError, RequestDataErrorType } from "api/constants/requestDataError"
-import ApiException from "api/exceptions/apiException"
+import { ApiExceptionNames } from "@/api/constants/apiExceptionNames"
+import { RequestDataError, RequestDataErrorType } from "@/api/constants/requestDataError"
+import ApiException from "@/api/exceptions/apiException"
 
 const CheckRequired = (params: Record<string, unknown>) => {
     const values: Record<string, { type: RequestDataErrorType, error: string }> = {}
