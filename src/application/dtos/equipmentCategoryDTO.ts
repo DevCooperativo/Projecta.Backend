@@ -1,4 +1,4 @@
-import { EquipmentPowerSourcesType } from "domain/constants/equipmentPowerSources";
+import { EquipmentPowerSourcesType } from "@/domain/constants/equipmentPowerSources";
 
 export class EquipmentCategoryDTO {
     id: number
