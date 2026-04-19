@@ -1,4 +1,4 @@
-import EquipmentDTO from "application/dtos/equipmentDTO";
+import EquipmentDTO from "@/application/dtos/equipmentDTO";
 
 interface IEquipmentServices {
     GetAllAsync: () => Promise<EquipmentDTO[]>

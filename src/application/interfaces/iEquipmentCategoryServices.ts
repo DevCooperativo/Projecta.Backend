@@ -1,4 +1,4 @@
-import { EquipmentCategoryDTO } from "application/dtos/equipmentCategoryDTO"
+import { EquipmentCategoryDTO } from "@/application/dtos/equipmentCategoryDTO"
 
 interface IEquipmentCategoryServices {
     GetAllAsync: () => Promise<EquipmentCategoryDTO[]>
