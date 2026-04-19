@@ -1,10 +1,11 @@
+import { Transaction } from "@/application/unitOfWork/transaction";
 import Laboratory from "../models/laboratory";
 
 interface ILaboratoryRepository {
-    Find: () => Promise<Laboratory[]>
-    FindById: (id: number) => Promise<Laboratory | null>
-    Create: (data: Laboratory) => Promise<Laboratory | null>
-    Update: (id: number, data: Laboratory) => Promise<Laboratory | null>
-    Delete: (id: number) => Promise<boolean>
+    Find: (trx?: Transaction) => Promise<Laboratory[]>
+    FindById: (id: number, trx?: Transaction) => Promise<Laboratory | null>
+    Create: (data: Laboratory, trx?: Transaction) => Promise<Laboratory | null>
+    Update: (id: number, data: Laboratory, trx?: Transaction) => Promise<Laboratory | null>
+    Delete: (id: number, trx?: Transaction) => Promise<boolean>
 }
 export default ILaboratoryRepository
