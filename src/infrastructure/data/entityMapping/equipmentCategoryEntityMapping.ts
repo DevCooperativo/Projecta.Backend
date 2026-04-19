@@ -1,8 +1,8 @@
 import { DataTypes } from "sequelize";
-import { sequelize } from "infrastructure/data/sequelize";
+import { sequelize } from "@/infrastructure/data/sequelize";
 import { TABLE_NAMES } from "../constants/tableNames";
 import BaseEntityMapping from "./baseEntityMapping";
-import { EquipmentPowerSources } from "domain/constants/equipmentPowerSources";
+import { EquipmentPowerSources } from "@/domain/constants/equipmentPowerSources";
 
 class EquipmentCategoryEntityMapping extends BaseEntityMapping {
     declare id: number

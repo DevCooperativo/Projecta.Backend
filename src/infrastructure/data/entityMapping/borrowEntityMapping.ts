@@ -8,9 +8,9 @@ import { TABLE_NAMES } from "../constants/tableNames";
 
 class BorrowEntityMapping extends BaseEntityMapping {
     declare id: number
-    declare equipmentId: string
-    declare studentId?: string
-    declare professorId?: string
+    declare equipmentId: number
+    declare studentId?: number
+    declare professorId?: number
     declare borrowDate: Date
     declare returnDate?: Date
     declare isStillBorrowed: boolean

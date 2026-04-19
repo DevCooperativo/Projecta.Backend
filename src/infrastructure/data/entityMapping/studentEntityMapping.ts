@@ -1,7 +1,7 @@
-import sequelize from "infrastructure/data/sequelize"
+import sequelize from "@/infrastructure/data/sequelize"
 import { DataTypes } from "sequelize";
 import BaseEntityMapping from "./baseEntityMapping";
-import { Shifts, ShiftsType } from "domain/constants/shifts";
+import { Shifts, ShiftsType } from "@/domain/constants/shifts";
 import { TABLE_NAMES } from "../constants/tableNames";
 
 class StudentEntityMapping extends BaseEntityMapping {

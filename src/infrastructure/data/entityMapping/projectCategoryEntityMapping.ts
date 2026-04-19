@@ -1,8 +1,8 @@
 import { DataTypes } from "sequelize";
-import { sequelize } from "infrastructure/data/sequelize";
+import { sequelize } from "@/infrastructure/data/sequelize";
 import { TABLE_NAMES } from "../constants/tableNames";
 import BaseEntityMapping from "./baseEntityMapping";
-import { KnowledgeAreas } from "domain/constants/knowledgeAreas";
+import { KnowledgeAreas } from "@/domain/constants/knowledgeAreas";
 
 class ProjectCategoryEntityMapping extends BaseEntityMapping {
     declare id: number

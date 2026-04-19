@@ -1,4 +1,4 @@
-import sequelize from "infrastructure/data/sequelize"
+import sequelize from "@/infrastructure/data/sequelize"
 import { DataTypes } from "sequelize";
 import StudentEntity from "./studentEntityMapping";
 import ProfessorEntity from "./professorEntityMapping";
