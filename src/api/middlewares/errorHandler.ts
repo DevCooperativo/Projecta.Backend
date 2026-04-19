@@ -1,13 +1,13 @@
-import { NextFunction, Request, Response } from "express";
-import ApplicationException from "application/exceptions/applicationException";
-import DomainException from "domain/exceptions/domainException";
-import ApiException from "api/exceptions/apiException";
-import InfrastructureException from "infrastructure/exceptions/infrastructureException";
-import { InfrastructureExceptionName } from "infrastructure/exceptions/constants/infrastructureExceptionName";
+import { Request, Response } from "express";
+import ApplicationException from "@/application/exceptions/applicationException";
+import DomainException from "@/domain/exceptions/domainException";
+import ApiException from "@/api/exceptions/apiException";
+import InfrastructureException from "@/infrastructure/exceptions/infrastructureException";
+import { InfrastructureExceptionName } from "@/infrastructure/exceptions/constants/infrastructureExceptionName";
 
-function errorHandler(err: unknown, _req: Request, res: Response, _next: NextFunction): void {
+function errorHandler(err: unknown, _req: Request, res: Response): void {
     if (err instanceof DomainException) {
-        res.status(err.code).json({ name: err.name, message: err.message })
+        res.status(400).json({ name: err.name, message: err.message })
     } else if (err instanceof ApplicationException) {
         res.status(err.code).json({ name: err.name, message: err.message })
     } else if (err instanceof ApiException) {
