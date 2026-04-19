@@ -1,10 +1,9 @@
-﻿import { NextFunction, Request, Response } from "express";
+﻿import { Request, Response } from "express";
 import BaseController from "../baseController";
 import { inject, injectable } from "tsyringe";
-import IStudentServices from "application/interfaces/iStudentServices";
-import StudentDTO from "application/dtos/studentDTO";
-import CheckRequestPropertiesHelper from "api/helpers/checkRequestPropertiesHelper";
-import { ValidationError } from "sequelize";
+import IStudentServices from "@/application/interfaces/iStudentServices";
+import { UpdateStudentInputDTO } from "@/application/dtos/student/updateStudentInputDTO";
+import ControllerExceptionThrowHelper from "@/api/helpers/controllerExceptionThrowHelper";
 
 @injectable()
 class UpdateStudentController implements BaseController {
@@ -12,20 +11,15 @@ class UpdateStudentController implements BaseController {
         @inject("StudentServices")
         private readonly studentServices: IStudentServices
     ) { }
-    async Handle(req: Request, res: Response, next: NextFunction) {
+    async Handle(req: Request, res: Response): Promise<Response>{
         try {
             const { name, email, registration, birthdate, term, shift } = req.body
             const { id } = req.params as unknown as { id: number }
-            CheckRequestPropertiesHelper.CheckRequired({ id, name, email, registration, birthdate, term, shift })
-            const user = req.user
-            // ApiException.When(!user, ApiExceptionNameEnum.UNAUTHENTICATED_USER, "You are not authenticated to the API. Authenticate yourself", 401)
-            const studentDTO: StudentDTO = { name, email, registration, birthdate, term, shift } as StudentDTO
-            const result = await this.studentServices.UpdateAsync(id, studentDTO)
+            const dto = new UpdateStudentInputDTO(name, email, registration, birthdate, term, shift)
+            const result = await this.studentServices.UpdateAsync(id, dto)
             return res.status(200).json(result)
         } catch (ex) {
-            if (ex instanceof ValidationError)
-                console.log(ex.errors)
-            next(ex)
+            return ControllerExceptionThrowHelper.Throw(res, ex)
         }
     }
 

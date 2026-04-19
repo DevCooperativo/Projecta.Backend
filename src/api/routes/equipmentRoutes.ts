@@ -1,7 +1,11 @@
 ﻿import { Router } from "express";
 import { container } from "tsyringe";
 import BaseController from "../controllers/baseController";
-import EnsureAuthenticatedUserMiddleware from "api/middlewares/ensureAuthenticatedUserMiddleware";
+import EnsureAuthenticatedUserMiddleware from "@/api/middlewares/ensureAuthenticatedUserMiddleware";
+import { EnsureCorrectFieldsValidationMiddleware } from "@/api/middlewares/ensureCorrectFieldsValidationMiddleware";
+import { CreateEquipmentPayload } from "@/api/middlewares/validations/equipment/createEquipmentPayload";
+import { UpdateEquipmentPayload } from "@/api/middlewares/validations/equipment/updateEquipmentPayload";
+import { DeleteByIdPayload } from "@/api/middlewares/validations/shared/deleteByIdPayload";
 
 const equipmentsRoutes = Router()
 const getAllEquipmentsController = container.resolve<BaseController>("GetAllEquipmentsController")
@@ -10,10 +14,10 @@ const createEquipmentController = container.resolve<BaseController>("CreateEquip
 const updateEquipmentController = container.resolve<BaseController>("UpdateEquipmentController")
 const deleteEquipmentController = container.resolve<BaseController>("DeleteEquipmentController")
 
-equipmentsRoutes.get("/", (req, res, next) => getAllEquipmentsController.Handle(req, res, next))
-equipmentsRoutes.get("/:id", (req, res, next) => getEquipmentByIdController.Handle(req, res, next))
-equipmentsRoutes.post("/", EnsureAuthenticatedUserMiddleware, (req, res, next) => createEquipmentController.Handle(req, res, next))
-equipmentsRoutes.put("/:id", EnsureAuthenticatedUserMiddleware, (req, res, next) => updateEquipmentController.Handle(req, res, next))
-equipmentsRoutes.delete("/:id", EnsureAuthenticatedUserMiddleware, (req, res, next) => deleteEquipmentController.Handle(req, res, next))
+equipmentsRoutes.get("/", (req, res) => getAllEquipmentsController.Handle(req, res))
+equipmentsRoutes.get("/:id", (req, res) => getEquipmentByIdController.Handle(req, res))
+equipmentsRoutes.post("/", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(CreateEquipmentPayload), (req, res) => createEquipmentController.Handle(req, res))
+equipmentsRoutes.put("/:id", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(UpdateEquipmentPayload), (req, res) => updateEquipmentController.Handle(req, res))
+equipmentsRoutes.delete("/:id", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(DeleteByIdPayload), (req, res) => deleteEquipmentController.Handle(req, res))
 
 export default equipmentsRoutes

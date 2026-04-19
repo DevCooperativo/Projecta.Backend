@@ -1,4 +1,4 @@
-import { SequelizeErrorName } from "infrastructure/enums/sequelizeErrorName";
+import { SequelizeErrorName } from "@/infrastructure/enums/sequelizeErrorName";
 import { Error as SequelizeError } from "sequelize";
 export const SequelizeErrorHandler = () => {
     const throwNormalizedSequelizeError = (error: unknown) => {

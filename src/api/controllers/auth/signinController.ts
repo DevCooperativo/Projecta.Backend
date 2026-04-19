@@ -1,9 +1,9 @@
 ﻿import { NextFunction, Request, Response } from "express";
 import BaseController from "../baseController";
 import { inject, injectable } from "tsyringe";
-import { SigninDTO } from "application/dtos/auth/signinDTO";
-import { IAuthServices } from "application/interfaces/iAuthServices";
-import { CheckData } from "api/helpers/checkRequestPropertiesHelper";
+import { SigninDTO } from "@/application/dtos/auth/signinDTO";
+import { IAuthServices } from "@/application/interfaces/iAuthServices";
+import ControllerExceptionThrowHelper from "@/api/helpers/controllerExceptionThrowHelper";
 
 @injectable()
 export class SigninController extends BaseController {
@@ -13,13 +13,9 @@ export class SigninController extends BaseController {
     ) {
         super()
     }
-    async Handle(req: Request, res: Response, next: NextFunction): Promise<void> {
+    async Handle(req: Request, res: Response): Promise<Response> {
         try {
             const { email, password } = req.body || {}
-            CheckData({
-                email: { type: "string", required: true, value: email },
-                password: { type: "string", required: true, value: password }
-            })
             const signinDTO = new SigninDTO(email, password)
             const result = await this.authServices.SignInAsync(signinDTO)
             res.cookie("auth_cookie", result.token, {
@@ -29,7 +25,7 @@ export class SigninController extends BaseController {
             })
             return res.status(200).json({ token: result.token })
         } catch (ex) {
-            next(ex)
+            return ControllerExceptionThrowHelper.Throw(res, ex)
         }
     }
 }

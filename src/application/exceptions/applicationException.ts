@@ -1,6 +1,4 @@
-import AppError from "domain/constants/appError";
-
-class ApplicationException implements AppError {
+class ApplicationException implements Error {
     code: number;
     name: string;
     message: string;

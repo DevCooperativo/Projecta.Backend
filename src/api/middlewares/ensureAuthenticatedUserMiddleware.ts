@@ -1,4 +1,4 @@
-import ApiExceptionNameEnum from "api/enums/apiExceptionNameEnum";
+import ApiExceptionNameEnum from "@/api/enums/apiExceptionNameEnum";
 import { NextFunction, Request, Response } from "express";
 import jsonwebtoken, { base64url, jwtDecrypt, JWTPayload, JWTVerifyResult } from "jose"
 interface AppJwtPayload extends JWTPayload {

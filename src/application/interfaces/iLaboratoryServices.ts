@@ -1,4 +1,4 @@
-import { LaboratoryDTO } from "application/dtos/laboratoryDTO"
+import { LaboratoryDTO } from "@/application/dtos/laboratoryDTO"
 
 interface ILaboratoryServices {
     GetAllAsync: () => Promise<LaboratoryDTO[]>

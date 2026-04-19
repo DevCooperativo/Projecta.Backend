@@ -1,5 +1,5 @@
 import BaseModel from "../abstractions/BaseModel";
-import { EquipmentPowerSourcesType } from "domain/constants/equipmentPowerSources";
+import { EquipmentPowerSourcesType } from "@/domain/constants/equipmentPowerSources";
 
 class EquipmentCategory extends BaseModel {
     powerSource: EquipmentPowerSourcesType

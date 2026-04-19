@@ -1,7 +1,11 @@
 ﻿import { Router } from "express";
 import { container } from "tsyringe";
 import BaseController from "../controllers/baseController";
-import EnsureAuthenticatedUserMiddleware from "api/middlewares/ensureAuthenticatedUserMiddleware";
+import EnsureAuthenticatedUserMiddleware from "@/api/middlewares/ensureAuthenticatedUserMiddleware";
+import { EnsureCorrectFieldsValidationMiddleware } from "@/api/middlewares/ensureCorrectFieldsValidationMiddleware";
+import { CreateLaboratoryPayload } from "@/api/middlewares/validations/laboratory/createLaboratoryPayload";
+import { UpdateLaboratoryPayload } from "@/api/middlewares/validations/laboratory/updateLaboratoryPayload";
+import { DeleteByIdPayload } from "@/api/middlewares/validations/shared/deleteByIdPayload";
 
 const laboratoriesRoutes = Router()
 const getAllLaboratoriesController = container.resolve<BaseController>("GetAllLaboratoriesController")
@@ -10,10 +14,10 @@ const createLaboratoryController = container.resolve<BaseController>("CreateLabo
 const updateLaboratoryController = container.resolve<BaseController>("UpdateLaboratoryController")
 const deleteLaboratoryController = container.resolve<BaseController>("DeleteLaboratoryController")
 
-laboratoriesRoutes.get("/", (req, res, next) => getAllLaboratoriesController.Handle(req, res, next))
-laboratoriesRoutes.get("/:id", (req, res, next) => getLaboratoryByIdController.Handle(req, res, next))
-laboratoriesRoutes.post("/", EnsureAuthenticatedUserMiddleware, (req, res, next) => createLaboratoryController.Handle(req, res, next))
-laboratoriesRoutes.put("/:id", EnsureAuthenticatedUserMiddleware, (req, res, next) => updateLaboratoryController.Handle(req, res, next))
-laboratoriesRoutes.delete("/:id", EnsureAuthenticatedUserMiddleware, (req, res, next) => deleteLaboratoryController.Handle(req, res, next))
+laboratoriesRoutes.get("/", (req, res) => getAllLaboratoriesController.Handle(req, res))
+laboratoriesRoutes.get("/:id", (req, res) => getLaboratoryByIdController.Handle(req, res))
+laboratoriesRoutes.post("/", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(CreateLaboratoryPayload), (req, res) => createLaboratoryController.Handle(req, res))
+laboratoriesRoutes.put("/:id", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(UpdateLaboratoryPayload), (req, res) => updateLaboratoryController.Handle(req, res))
+laboratoriesRoutes.delete("/:id", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(DeleteByIdPayload), (req, res) => deleteLaboratoryController.Handle(req, res))
 
 export default laboratoriesRoutes

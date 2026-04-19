@@ -1,10 +1,10 @@
-import { SigninDTO } from "application/dtos/auth/signinDTO";
-import { SigninReturnDTO } from "application/dtos/auth/signinReturnDTO";
-import { IAuthServices } from "application/interfaces/iAuthServices";
-import IAdministratorRepository from "domain/repositories/iAdministratorRepository";
-import IProfessorRepository from "domain/repositories/iProfessorRepository";
-import IStudentRepository from "domain/repositories/iStudentRepository";
-import { AccountTypeType, AccountType } from "infrastructure/authentication/constants/accountType";
+import { SigninDTO } from "@/application/dtos/auth/signinDTO";
+import { SigninReturnDTO } from "@/application/dtos/auth/signinReturnDTO";
+import { IAuthServices } from "@/application/interfaces/iAuthServices";
+import IAdministratorRepository from "@/domain/repositories/iAdministratorRepository";
+import IProfessorRepository from "@/domain/repositories/iProfessorRepository";
+import IStudentRepository from "@/domain/repositories/iStudentRepository";
+import { AccountTypeType, AccountType } from "@/infrastructure/authentication/constants/accountType";
 import { base64url, EncryptJWT } from "jose";
 import { inject, injectable } from "tsyringe";
 

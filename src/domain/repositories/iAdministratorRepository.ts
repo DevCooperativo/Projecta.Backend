@@ -1,11 +1,12 @@
+import { Transaction } from "@/application/unitOfWork/transaction";
 import Administrator from "../models/administrator";
 
 interface IAdministratorRepository {
-    Find: () => Promise<Administrator[]>
-    FindById: (id: number) => Promise<Administrator | null>
-    FindByEmail: (email: string) => Promise<Administrator | null>
-    Create: (data: Administrator) => Promise<Administrator | null>
-    Update: (data: Administrator) => Promise<Administrator | null>
-    Delete: (id: number) => Promise<boolean>
+    Find: (trx?: Transaction) => Promise<Administrator[]>
+    FindById: (id: number, trx?: Transaction) => Promise<Administrator | null>
+    FindByEmail: (email: string, trx?: Transaction) => Promise<Administrator | null>
+    Create: (data: Administrator, trx?: Transaction) => Promise<Administrator | null>
+    Update: (data: Administrator, trx?: Transaction) => Promise<Administrator | null>
+    Delete: (id: number, trx?: Transaction) => Promise<boolean>
 }
 export default IAdministratorRepository

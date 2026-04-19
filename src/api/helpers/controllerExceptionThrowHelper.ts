@@ -1,14 +1,14 @@
-import ApplicationException from "application/exceptions/applicationException";
-import DomainException from "domain/exceptions/domainException";
+import ApplicationException from "@/application/exceptions/applicationException";
+import DomainException from "@/domain/exceptions/domainException";
 import { Response } from "express";
 import ApiException from "../exceptions/apiException";
-import InfrastructureException from "infrastructure/exceptions/infrastructureException";
-import { InfrastructureExceptionName } from "infrastructure/exceptions/constants/infrastructureExceptionName";
+import InfrastructureException from "@/infrastructure/exceptions/infrastructureException";
+import { InfrastructureExceptionName } from "@/infrastructure/exceptions/constants/infrastructureExceptionName";
 
 class ControllerExceptionThrowHelper {
     static Throw(res: Response, ex: unknown) {
         if (ex instanceof DomainException) {
-            return res.status(ex.code).json({ name: ex.name, message: ex.message })
+            return res.status(400).json({ name: ex.name, message: ex.message })
         }
         else if (ex instanceof TypeError) {
             return res.status(400).json({ name: "TYPE_ERROR", message: ex.message })

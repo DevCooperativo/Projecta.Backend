@@ -1,4 +1,4 @@
-import { ApiExceptionNameType } from "api/constants/apiExceptionNames";
+import { ApiExceptionNameType } from "@/api/constants/apiExceptionNames";
 
 class ApiException implements Error {
     code: number;

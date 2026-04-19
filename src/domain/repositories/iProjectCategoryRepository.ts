@@ -1,10 +1,11 @@
+import { Transaction } from "@/application/unitOfWork/transaction";
 import ProjectCategory from "../models/projectCategory";
 
 interface IProjectCategoryRepository {
-    Find: () => Promise<ProjectCategory[]>
-    FindById: (id: number) => Promise<ProjectCategory | null>
-    Create: (data: ProjectCategory) => Promise<ProjectCategory | null>
-    Update: (id: number, data: ProjectCategory) => Promise<ProjectCategory | null>
-    Delete: (id: number) => Promise<boolean>
+    Find: (trx?: Transaction) => Promise<ProjectCategory[]>
+    FindById: (id: number, trx?: Transaction) => Promise<ProjectCategory | null>
+    Create: (data: ProjectCategory, trx?: Transaction) => Promise<ProjectCategory | null>
+    Update: (id: number, data: ProjectCategory, trx?: Transaction) => Promise<ProjectCategory | null>
+    Delete: (id: number, trx?: Transaction) => Promise<boolean>
 }
 export default IProjectCategoryRepository
