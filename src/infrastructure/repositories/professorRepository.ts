@@ -16,19 +16,26 @@ class ProfessorRepository implements IProfessorRepository {
     }
     async Find() {
         const result = await ProfessorEntity.findAll()
-        return result as Professor[]
+        return result.map(r => Professor.rehydrate(r.id, r.name, r.email, r.registration, r.telephone!, r.coordinationId, r.createdAt, r.updatedAt, r.isVisible))
     }
     async FindById(id: number) {
-        return await ProfessorEntity.findByPk(id) as Professor
+        const result = await ProfessorEntity.findByPk(id)
+        if (!result)
+            return null
+        return Professor.rehydrate(result.id, result.name, result.email, result.registration, result.telephone!, result.coordinationId, result.createdAt, result.updatedAt, result.isVisible)
     }
     async Create(data: Professor, trx?: Transaction) {
         const transaction = (trx as SequelizeTransactionAdapter)?.trx
-        return await ProfessorEntity.create({ ...data }, { validate: true, transaction }) as Professor
+        const result = await ProfessorEntity.create({ ...data }, { validate: true, transaction })
+        return Professor.rehydrate(result.id, result.name, result.email, result.registration, result.telephone!, result.coordinationId, result.createdAt, result.updatedAt, result.isVisible)
     }
     async Update(id: number, data: Professor, trx?: Transaction) {
         const transaction = (trx as SequelizeTransactionAdapter)?.trx
-        await ProfessorEntity.update(data, { where: { id }, validate: true, transaction })
-        return (await ProfessorEntity.findByPk(id, { transaction })) as Professor
+        const result = await ProfessorEntity.findByPk(id)
+        await result?.update({ ...data }, { validate: true, transaction })
+        if (!result)
+            return null
+        return Professor.rehydrate(result.id, result.name, result.email, result.registration, result.telephone!, result.coordinationId, result.createdAt, result.updatedAt, result.isVisible)
     }
     async Delete(id: number, trx?: Transaction) {
         const transaction = (trx as SequelizeTransactionAdapter)?.trx

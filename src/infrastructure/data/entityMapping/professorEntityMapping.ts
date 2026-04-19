@@ -12,8 +12,6 @@ class ProfessorEntityMapping extends BaseEntityMapping {
 }
 ProfessorEntityMapping.init(
     ProfessorEntityMapping.buildBaseAttributes({
-        
-
         name: {
             type: DataTypes.STRING,
             allowNull: false,

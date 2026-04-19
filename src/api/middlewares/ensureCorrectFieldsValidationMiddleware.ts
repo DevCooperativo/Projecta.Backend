@@ -7,7 +7,6 @@ export const EnsureCorrectFieldsValidationMiddleware = (payload: IPayloadValidat
         const errors: Record<string, { type: RequestDataErrorType, error: string }> = {}
 
 
-        // I need a validation for, in case one or more fields are inserted into the request body, params or query, and it is not present in the payload, it should return an error saying that those fields are not allowed
         const allowedFields = Object.keys(payload)
         const allFields = { ...req.body, ...req.params, ...req.query }
         for (const key in allFields) {
@@ -20,7 +19,6 @@ export const EnsureCorrectFieldsValidationMiddleware = (payload: IPayloadValidat
         for (const key in payload) {
             const field = payload[key]
             const source = field.source === "params" ? req.params : req.body
-
 
             const value = source?.[key]
 
@@ -80,7 +78,7 @@ export const EnsureCorrectFieldsValidationMiddleware = (payload: IPayloadValidat
         }
 
         if (Object.keys(errors).length > 0) {
-            return res.status(400).json({
+            res.status(400).json({
                 name: "BAD_REQUEST",
                 message: "The following properties must be fixed on your request",
                 validationInfo: errors

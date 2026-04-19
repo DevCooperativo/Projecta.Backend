@@ -17,7 +17,7 @@ const deleteProfessorController = container.resolve<BaseController>("DeleteProfe
 professorsRoutes.get("/", (req, res) => getAllProfessorsController.Handle(req, res))
 professorsRoutes.get("/:id", (req, res) => getProfessorByIdController.Handle(req, res))
 professorsRoutes.post("/", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(CreateProfessorPayload), (req, res) => createProfessorController.Handle(req, res))
-professorsRoutes.patch("/:id", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(UpdateProfessorPayload), (req, res) => updateProfessorController.Handle(req, res))
+professorsRoutes.put("/:id", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(UpdateProfessorPayload), (req, res) => updateProfessorController.Handle(req, res))
 professorsRoutes.delete("/:id", EnsureCorrectFieldsValidationMiddleware(DeleteByIdPayload), (req, res) => deleteProfessorController.Handle(req, res))
 
 export default professorsRoutes
