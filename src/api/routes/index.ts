@@ -1,4 +1,5 @@
 ﻿import { Router } from "express";
+import administratorRoutes from "./administratorRoutes";
 import coordinatorRoutes from "./coordinatorRoutes";
 import professorsRoutes from "./professorRoutes";
 import coordinationRoutes from "./coordinationRoutes";
@@ -15,6 +16,7 @@ import { borrowRoutes } from "./borrowRoutes";
 const routes = Router()
 
 routes.use("/auth", authRoutes)
+routes.use("/administrators", administratorRoutes)
 routes.use("/borrow", borrowRoutes)
 routes.use("/students", studentRoutes)
 routes.use("/coordinators", coordinatorRoutes)

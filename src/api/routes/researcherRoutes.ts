@@ -1,7 +1,11 @@
 ﻿import { Router } from "express";
 import { container } from "tsyringe";
 import BaseController from "../controllers/baseController";
-import EnsureAuthenticatedUserMiddleware from "api/middlewares/ensureAuthenticatedUserMiddleware";
+import EnsureAuthenticatedUserMiddleware from "@/api/middlewares/ensureAuthenticatedUserMiddleware";
+import { EnsureCorrectFieldsValidationMiddleware } from "@/api/middlewares/ensureCorrectFieldsValidationMiddleware";
+import { CreateResearcherPayload } from "@/api/middlewares/validations/researcher/createResearcherPayload";
+import { UpdateResearcherPayload } from "@/api/middlewares/validations/researcher/updateResearcherPayload";
+import { DeleteByIdPayload } from "@/api/middlewares/validations/shared/deleteByIdPayload";
 
 const researcherRoutes = Router()
 const getAllResearchersController = container.resolve<BaseController>("GetAllResearchersController")
@@ -10,10 +14,10 @@ const createResearcherController = container.resolve<BaseController>("CreateRese
 const updateResearcherController = container.resolve<BaseController>("UpdateResearcherController")
 const deleteResearcherController = container.resolve<BaseController>("DeleteResearcherController")
 
-researcherRoutes.get("/", (req, res, next) => getAllResearchersController.Handle(req, res, next))
-researcherRoutes.get("/:id", (req, res, next) => getResearcherByIdController.Handle(req, res, next))
-researcherRoutes.post("/", EnsureAuthenticatedUserMiddleware, (req, res, next) => createResearcherController.Handle(req, res, next))
-researcherRoutes.put("/:id", EnsureAuthenticatedUserMiddleware, (req, res, next) => updateResearcherController.Handle(req, res, next))
-researcherRoutes.delete("/:id", (req, res, next) => deleteResearcherController.Handle(req, res, next))
+researcherRoutes.get("/", (req, res) => getAllResearchersController.Handle(req, res))
+researcherRoutes.get("/:id", (req, res) => getResearcherByIdController.Handle(req, res))
+researcherRoutes.post("/", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(CreateResearcherPayload), (req, res) => createResearcherController.Handle(req, res))
+researcherRoutes.put("/:id", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(UpdateResearcherPayload), (req, res) => updateResearcherController.Handle(req, res))
+researcherRoutes.delete("/:id", EnsureCorrectFieldsValidationMiddleware(DeleteByIdPayload), (req, res) => deleteResearcherController.Handle(req, res))
 
 export default researcherRoutes

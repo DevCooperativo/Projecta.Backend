@@ -1,7 +1,11 @@
 ﻿import { Router } from "express";
 import { container } from "tsyringe";
 import BaseController from "../controllers/baseController";
-import EnsureAuthenticatedUserMiddleware from "api/middlewares/ensureAuthenticatedUserMiddleware";
+import EnsureAuthenticatedUserMiddleware from "@/api/middlewares/ensureAuthenticatedUserMiddleware";
+import { EnsureCorrectFieldsValidationMiddleware } from "@/api/middlewares/ensureCorrectFieldsValidationMiddleware";
+import { CreateProjectPayload } from "@/api/middlewares/validations/project/createProjectPayload";
+import { UpdateProjectPayload } from "@/api/middlewares/validations/project/updateProjectPayload";
+import { DeleteByIdPayload } from "@/api/middlewares/validations/shared/deleteByIdPayload";
 
 const projectRoutes = Router()
 const getAllProjectsController = container.resolve<BaseController>("GetAllProjectsController")
@@ -10,10 +14,10 @@ const createProjectController = container.resolve<BaseController>("CreateProject
 const updateProjectController = container.resolve<BaseController>("UpdateProjectController")
 const deleteProjectController = container.resolve<BaseController>("DeleteProjectController")
 
-projectRoutes.get("/", (req, res, next) => getAllProjectsController.Handle(req, res, next))
-projectRoutes.get("/:id", (req, res, next) => getProjectByIdController.Handle(req, res, next))
-projectRoutes.post("/", EnsureAuthenticatedUserMiddleware, (req, res, next) => createProjectController.Handle(req, res, next))
-projectRoutes.put("/:id", EnsureAuthenticatedUserMiddleware, (req, res, next) => updateProjectController.Handle(req, res, next))
-projectRoutes.delete("/:id", (req, res, next) => deleteProjectController.Handle(req, res, next))
+projectRoutes.get("/", (req, res) => getAllProjectsController.Handle(req, res))
+projectRoutes.get("/:id", (req, res) => getProjectByIdController.Handle(req, res))
+projectRoutes.post("/", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(CreateProjectPayload), (req, res) => createProjectController.Handle(req, res))
+projectRoutes.put("/:id", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(UpdateProjectPayload), (req, res) => updateProjectController.Handle(req, res))
+projectRoutes.delete("/:id", EnsureCorrectFieldsValidationMiddleware(DeleteByIdPayload), (req, res) => deleteProjectController.Handle(req, res))
 
 export default projectRoutes

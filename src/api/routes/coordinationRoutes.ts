@@ -1,7 +1,11 @@
 ﻿import { Router } from "express";
 import { container } from "tsyringe";
 import BaseController from "../controllers/baseController";
-import EnsureAuthenticatedUserMiddleware from "api/middlewares/ensureAuthenticatedUserMiddleware";
+import EnsureAuthenticatedUserMiddleware from "@/api/middlewares/ensureAuthenticatedUserMiddleware";
+import { EnsureCorrectFieldsValidationMiddleware } from "@/api/middlewares/ensureCorrectFieldsValidationMiddleware";
+import { CreateCoordinationPayload } from "@/api/middlewares/validations/coordination/createCoordinationPayload";
+import { UpdateCoordinationPayload } from "@/api/middlewares/validations/coordination/updateCoordinationPayload";
+import { DeleteByIdPayload } from "@/api/middlewares/validations/shared/deleteByIdPayload";
 
 const coordinationRoutes = Router()
 const getAllCoordinationsController = container.resolve<BaseController>("GetAllCoordinationsController")
@@ -10,10 +14,10 @@ const createCoordinationController = container.resolve<BaseController>("CreateCo
 const updateCoordinationController = container.resolve<BaseController>("UpdateCoordinationController")
 const deleteCoordinationController = container.resolve<BaseController>("DeleteCoordinationController")
 
-coordinationRoutes.get("/", (req, res, next) => getAllCoordinationsController.Handle(req, res, next))
-coordinationRoutes.get("/:id", (req, res, next) => getCoordinationByIdController.Handle(req, res, next))
-coordinationRoutes.post("/", EnsureAuthenticatedUserMiddleware, (req, res, next) => createCoordinationController.Handle(req, res, next))
-coordinationRoutes.put("/:id", EnsureAuthenticatedUserMiddleware, (req, res, next) => updateCoordinationController.Handle(req, res, next))
-coordinationRoutes.delete("/:id", (req, res, next) => deleteCoordinationController.Handle(req, res, next))
+coordinationRoutes.get("/", (req, res) => getAllCoordinationsController.Handle(req, res))
+coordinationRoutes.get("/:id", (req, res) => getCoordinationByIdController.Handle(req, res))
+coordinationRoutes.post("/", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(CreateCoordinationPayload), (req, res) => createCoordinationController.Handle(req, res))
+coordinationRoutes.put("/:id", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(UpdateCoordinationPayload), (req, res) => updateCoordinationController.Handle(req, res))
+coordinationRoutes.delete("/:id", EnsureCorrectFieldsValidationMiddleware(DeleteByIdPayload), (req, res) => deleteCoordinationController.Handle(req, res))
 
 export default coordinationRoutes
