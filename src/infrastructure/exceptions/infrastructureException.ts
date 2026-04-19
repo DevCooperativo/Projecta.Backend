@@ -1,6 +1,4 @@
-import AppError from "domain/constants/appError";
-
-class InfrastructureException implements AppError {
+class InfrastructureException implements Error {
     name: string;
     message: string;
     stack?: string | undefined;
