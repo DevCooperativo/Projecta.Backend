@@ -14,7 +14,10 @@ class DeleteAdministratorController implements BaseController {
         try {
             const { id } = req.params as unknown as { id: number }
             const result = await this.administratorServices.DeleteAsync(id)
-            return res.status(200).json(result)
+            if(!result) {
+                return res.status(404).json({ message: "Administrator not found" })
+            }
+            return res.status(200).json({ message: "Administrator deleted successfully" })
         } catch (ex) {
             return ControllerExceptionThrowHelper.Throw(res, ex)
         }

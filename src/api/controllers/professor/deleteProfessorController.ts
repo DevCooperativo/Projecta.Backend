@@ -1,8 +1,7 @@
-﻿import { NextFunction, Request, Response } from "express";
+﻿import { Request, Response } from "express";
 import BaseController from "../baseController";
 import { inject, injectable } from "tsyringe";
 import IProfessorServices from "@/application/interfaces/iProfessorServices";
-import { ValidationError } from "sequelize";
 import ControllerExceptionThrowHelper from "@/api/helpers/controllerExceptionThrowHelper";
 
 @injectable()
@@ -17,6 +16,8 @@ class DeleteProfessorController implements BaseController {
             const user = req.user
             // ApiException.When(!user, ApiExceptionNameEnum.UNAUTHENTICATED_USER, "You are not authenticated to the API. Authenticate yourself", 401)
             const result = await this.professorServices.DeleteAsync(id)
+            if(!result)
+                return res.status(404).json({ message: "Professor not found" })
             return res.status(200).json({ message: "Professor successfully deleted!" })
         } catch (ex) {
             return ControllerExceptionThrowHelper.Throw(res, ex)
