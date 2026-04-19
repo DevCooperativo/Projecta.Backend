@@ -1,23 +1,23 @@
-﻿import { inject, injectable } from "tsyringe";
+import { inject, injectable } from "tsyringe";
 import BaseController from "../baseController";
-import {  Request, Response } from "express";
-import ICoordinationServices from "@/application/interfaces/iCoordinationServices";
+import { Request, Response } from "express";
+import IAdministratorServices from "@/application/interfaces/iAdministratorServices";
 import ControllerExceptionThrowHelper from "@/api/helpers/controllerExceptionThrowHelper";
 
 @injectable()
-class DeleteCoordinationController implements BaseController {
+class DeleteAdministratorController implements BaseController {
     constructor(
-        @inject("CoordinationServices")
-        private readonly coordinationServices: ICoordinationServices
+        @inject("AdministratorServices")
+        private readonly administratorServices: IAdministratorServices
     ) { }
     async Handle(req: Request, res: Response): Promise<Response>{
         try {
             const { id } = req.params as unknown as { id: number }
-            const result = await this.coordinationServices.DeleteAsync(id)
+            const result = await this.administratorServices.DeleteAsync(id)
             return res.status(200).json(result)
         } catch (ex) {
             return ControllerExceptionThrowHelper.Throw(res, ex)
         }
     }
 }
-export default DeleteCoordinationController
+export default DeleteAdministratorController
