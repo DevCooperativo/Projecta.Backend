@@ -43,7 +43,9 @@ class ProfessorServices implements IProfessorServices {
             if (!professorToUpdate)
                 throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No professor was found with the provided id", 404)
             professorToUpdate.update(data.name, data.email, data.registration, data.telephone, data.coordinationId)
-            return (await this.professorRepository.Update(id, professorToUpdate, trx)) as UpdateProfessorReturnDTO
+            console.log(professorToUpdate)
+            await this.professorRepository.Update(id, professorToUpdate, trx)
+            return new UpdateProfessorReturnDTO(professorToUpdate.id, professorToUpdate.name, professorToUpdate.email, professorToUpdate.registration, professorToUpdate.telephone, professorToUpdate.coordinationId)
         })
     }
     async DeleteAsync(id: number) {
