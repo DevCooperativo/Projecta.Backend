@@ -28,7 +28,6 @@ const limiter = rateLimit({
 app.use(limiter);
 
 app.use("/api", routes)
-app.use(errorHandler)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 const PORT = process.env.PORT ?? 3000;
 app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
