@@ -1,4 +1,4 @@
-import { ApiExceptionNameType } from "api/constants/apiExceptionNames";
+import { ApiExceptionNameType } from "@/api/constants/apiExceptionNames";
 
 abstract class AppError extends Error {
     abstract readonly name: ApiExceptionNameType;
