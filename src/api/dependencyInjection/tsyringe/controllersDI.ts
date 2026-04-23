@@ -61,6 +61,7 @@ import GetAllStudentsController from "@/api/controllers/student/getAllStudentsCo
 import GetStudentByIdController from "@/api/controllers/student/getStudentByIdController"
 import UpdateStudentController from "@/api/controllers/student/updateStudentController"
 import { container } from "tsyringe"
+import UpdateProfessorCoordinationController from "@/api/controllers/professor/updateProfessorCoordinationController copy"
 
 export const ControllersDI = () => {
     container.registerSingleton<BaseController>("SignInController", SigninController)
@@ -99,6 +100,7 @@ export const ControllersDI = () => {
     container.registerSingleton<BaseController>("GetProfessorByIdController", GetProfessorByIdController)
     container.registerSingleton<BaseController>("CreateProfessorController", CreateProfessorController)
     container.registerSingleton<BaseController>("UpdateProfessorController", UpdateProfessorController)
+    container.registerSingleton<BaseController>("UpdateProfessorCoordinationController", UpdateProfessorCoordinationController)
     container.registerSingleton<BaseController>("DeleteProfessorController", DeleteProfessorController)
 
     // Controllers - Coordinator

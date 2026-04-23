@@ -12,6 +12,8 @@ import { InfrastructureExceptionName } from "@/infrastructure/exceptions/constan
 import InfrastructureException from "@/infrastructure/exceptions/infrastructureException";
 import { inject, injectable } from "tsyringe";
 import { IUnitOfWork } from "../unitOfWork/iUnitOfWork";
+import { DeleteAdministratorInputDTO } from "../dtos/administrator/deleteAdministratorInputDTO";
+import { DeleteAdministratorReturnDTO } from "../dtos/administrator/deleteAdministratorReturnDTO";
 
 @injectable()
 class AdministratorServices implements IAdministratorServices {
@@ -36,27 +38,28 @@ class AdministratorServices implements IAdministratorServices {
     async CreateAsync(data: CreateAdministratorInputDTO) {
         return await this.unitOfWork.execute(async (trx) => {
             InfrastructureException.When((await this.administratorRepository.FindByEmail(data.email) as Administrator | null) !== null, InfrastructureExceptionName.CONSTRAINT_ERROR, "Email already in use", 409)
-            const administrator = await this.administratorRepository.Create(Administrator.create(data.email), trx)
+            const administrator = await this.administratorRepository.Create(Administrator.create(data.name, data.email), trx)
             if (!administrator)
                 throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "Failed to create administrator", 500)
             return new CreateAdministratorReturnDTO(administrator.id, administrator.email)
         })
     }
-    async UpdateAsync(id: number, data: UpdateAdministratorInputDTO) {
+    async UpdateAsync(data: UpdateAdministratorInputDTO) {
         return await this.unitOfWork.execute(async (trx) => {
-            const existingAdministrator = await this.administratorRepository.FindById(id)
+            const existingAdministrator = await this.administratorRepository.FindById(data.adminId)
             if (!existingAdministrator)
                 throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No administrator was found with the provided id", 404)
-            existingAdministrator.update(data.email)
+            existingAdministrator.update(data.name)
             const updatedAdministrator = await this.administratorRepository.Update(existingAdministrator, trx)
             if (!updatedAdministrator)
                 throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "Failed to update administrator", 500)
             return new UpdateAdministratorReturnDTO(updatedAdministrator.id, updatedAdministrator.email)
         })
     }
-    async DeleteAsync(id: number) {
+    async DeleteAsync(data: DeleteAdministratorInputDTO) {
         return await this.unitOfWork.execute(async (trx) => {
-            return (await this.administratorRepository.Delete(id, trx))
+            const result = await this.administratorRepository.Delete(data.adminId, trx)
+            return new DeleteAdministratorReturnDTO(result)
         })
     }
 }

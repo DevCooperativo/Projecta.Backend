@@ -12,29 +12,29 @@ class AdministratorRepository implements IAdministratorRepository {
     async FindByEmail(email: string) {
         const result = await AdministratorEntityMapping.findOne({ where: { email: email } })
         if (!result) return null
-        return Administrator.rehydrate(result.id, result.email, result.createdAt, result.updatedAt, result.isVisible) as Administrator
+        return Administrator.rehydrate(result.id, result.name, result.email, result.createdAt, result.updatedAt, result.isVisible) as Administrator
     }
     async Find() {
         const results = await AdministratorEntityMapping.findAll()
-        return results.map(result => Administrator.rehydrate(result.id, result.email, result.createdAt, result.updatedAt, result.isVisible)) as Administrator[]
+        return results.map(result => Administrator.rehydrate(result.id, result.name, result.email, result.createdAt, result.updatedAt, result.isVisible)) as Administrator[]
     }
     async FindById(id: number) {
         const result = await AdministratorEntityMapping.findByPk(id)
         if (!result) return null
-        return Administrator.rehydrate(result.id, result.email, result.createdAt, result.updatedAt, result.isVisible) as Administrator
+        return Administrator.rehydrate(result.id, result.name, result.email, result.createdAt, result.updatedAt, result.isVisible) as Administrator
     }
     async Create(data: Administrator, trx?: Transaction) {
 
         const transaction = (trx as SequelizeTransactionAdapter)?.trx
         const result = await AdministratorEntityMapping.create({ ...data }, { transaction })
-        return Administrator.rehydrate(result.id, result.email, result.createdAt, result.updatedAt, result.isVisible) as Administrator
+        return Administrator.rehydrate(result.id, result.name, result.email, result.createdAt, result.updatedAt, result.isVisible) as Administrator
     }
     async Update(data: Administrator, trx?: Transaction) {
         const transaction = (trx as SequelizeTransactionAdapter)?.trx
         await AdministratorEntityMapping.update(data, { where: { id: data.id }, transaction })
         const result = await AdministratorEntityMapping.findByPk(data.id, { transaction })
         if (!result) return null
-        return Administrator.rehydrate(result.id, result.email, result.createdAt, result.updatedAt, result.isVisible) as Administrator
+        return Administrator.rehydrate(result.id, result.name, result.email, result.createdAt, result.updatedAt, result.isVisible) as Administrator
     }
     async Delete(id: number, trx?: Transaction) {
         const transaction = (trx as SequelizeTransactionAdapter)?.trx

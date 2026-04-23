@@ -3,28 +3,19 @@ import sequelize from "../sequelize";
 import BaseEntityMapping from "./baseEntityMapping";
 import { TABLE_NAMES } from "../constants/tableNames";
 
-class AdministratorEntityMapping extends BaseEntityMapping {
+class AccountEntityMapping extends BaseEntityMapping {
     declare id: number
-    declare name: string
     declare email: string
+    declare passwordHash: string
     declare createdAt: Date
     declare updatedAt: Date
     declare isVisible: boolean
 }
-AdministratorEntityMapping.init(
-    AdministratorEntityMapping.buildBaseAttributes({
-        name: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                min: {
-                    args: [3],
-                    msg: "Name must be greater than 3 characters"
-                }
-            }
-        },
+AccountEntityMapping.init(
+    AccountEntityMapping.buildBaseAttributes({
         email: {
             type: DataTypes.STRING,
+            allowNull: false,
             unique: {
                 name: "unique_email",
                 msg: "Emails must be unique"
@@ -33,11 +24,16 @@ AdministratorEntityMapping.init(
                 isEmail: { msg: "'Email' must be a valid email" }
             }
         },
-    },),
+        passwordHash: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        }
+    }),
     {
-        modelName: TABLE_NAMES.ADMINISTRATOR,
-        tableName: TABLE_NAMES.ADMINISTRATOR,
+        modelName: TABLE_NAMES.ACCOUNT,
+        tableName: TABLE_NAMES.ACCOUNT,
         sequelize
-    })
+    }
+)
 
-export default AdministratorEntityMapping
+export default AccountEntityMapping

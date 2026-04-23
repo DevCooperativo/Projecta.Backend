@@ -2,8 +2,8 @@
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up(queryInterface, Sequelize) {
-        await queryInterface.createTable('administrators', {
+    async up(queryInterface, Sequelize) {
+        await queryInterface.createTable('accounts', {
             id: {
                 type: Sequelize.INTEGER,
                 primaryKey: true,
@@ -24,34 +24,19 @@ module.exports = {
                 allowNull: false,
                 defaultValue: true,
             },
-            name:{
-                type: Sequelize.STRING,
-                allowNull: false,
-                validate:{
-                    min:{
-                        args: [3],
-                        msg:"Name must be greater than 3 characters"
-                    }
-                }
-            },
             email: {
                 type: Sequelize.STRING,
                 allowNull: false,
-                unique: {
-                    name: "unique_email",
-                    msg: "Emails must be unique"
-                },
-                validate: {
-                    isEmail: {
-                        args: true,
-                        msg: "Email must be valid"
-                    }
-                }
+                unique: true,
+            },
+            passwordHash: {
+                type: Sequelize.STRING,
+                allowNull: false,
             },
         });
     },
 
     async down(queryInterface, Sequelize) {
-        await queryInterface.dropTable('administrators');
+        await queryInterface.dropTable('accounts');
     }
 };

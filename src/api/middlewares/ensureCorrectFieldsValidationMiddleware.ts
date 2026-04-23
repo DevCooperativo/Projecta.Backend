@@ -83,8 +83,9 @@ export const EnsureCorrectFieldsValidationMiddleware = (payload: IPayloadValidat
                 message: "The following properties must be fixed on your request",
                 validationInfo: errors
             })
+            return
         }
-
         next()
+
     }
 }

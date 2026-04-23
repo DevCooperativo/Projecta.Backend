@@ -1,7 +1,6 @@
-export class UpdateAdministratorInputDTO {
+export class DeleteAdministratorInputDTO {
     constructor(
         readonly adminId: number,
         readonly userId: number,
-        readonly name: string
     ) { }
 }

@@ -41,11 +41,13 @@ class StudentServices implements IStudentServices {
     }
     async UpdateAsync(id: number, data: UpdateStudentInputDTO) {
         return await this.unitOfWork.execute(async (trx) => {
-            console.log(id, data)
             const studentToUpdate = await this.studentRepository.FindById(id)
             if (!studentToUpdate)
                 throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No student was found with the provided id", 404)
-            studentToUpdate.update(studentToUpdate.id, data.name, data.email, data.registration, data.birthdate, data.term, data.shift)
+            if (data.creatorId !== studentToUpdate.id)
+                throw new ApplicationException(ApplicationExceptionName.NOT_BELONGS_TO, "Student don't belongs to the current user", 403)
+
+            studentToUpdate.update(studentToUpdate.id, data.name, data.registration, data.birthdate, data.term, data.shift)
             return (await this.studentRepository.Update(id, studentToUpdate, trx)) as UpdateStudentReturnDTO
         })
     }

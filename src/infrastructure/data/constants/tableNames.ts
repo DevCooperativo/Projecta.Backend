@@ -12,5 +12,6 @@ export const TABLE_NAMES = {
     PROJECT_CATEGORY: 'project_categories',
     RESEARCHER: 'researchers',
     ADMINISTRATOR: 'administrators',
-    EQUIPMENT_CATEGORY: 'equipment_categories'
+    EQUIPMENT_CATEGORY: 'equipment_categories',
+    ACCOUNT: 'accounts'
 }
