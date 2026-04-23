@@ -4,6 +4,8 @@ import { Request, Response } from "express";
 import IAdministratorServices from "@/application/interfaces/iAdministratorServices";
 import { UpdateAdministratorInputDTO } from "@/application/dtos/administrator/updateAdministratorInputDTO";
 import ControllerExceptionThrowHelper from "@/api/helpers/controllerExceptionThrowHelper";
+import ApiException from "@/api/exceptions/apiException";
+import { ApiExceptionNames } from "@/api/constants/apiExceptionNames";
 
 @injectable()
 class UpdateAdministratorController implements BaseController {
@@ -11,12 +13,15 @@ class UpdateAdministratorController implements BaseController {
         @inject("AdministratorServices")
         private readonly administratorServices: IAdministratorServices
     ) { }
-    async Handle(req: Request, res: Response): Promise<Response>{
+    async Handle(req: Request, res: Response): Promise<Response> {
         try {
-            const { email } = req.body
+            const { name } = req.body
             const { id } = req.params as unknown as { id: number }
-            const dto = new UpdateAdministratorInputDTO(email)
-            const result = await this.administratorServices.UpdateAsync(id, dto)
+            const user = req.user
+            if (!user)
+                throw new ApiException(ApiExceptionNames.UNAUTHORIZED, "User is not logged in")
+            const dto = new UpdateAdministratorInputDTO(id, user.id, name)
+            const result = await this.administratorServices.UpdateAsync(dto)
             return res.status(200).json(result)
         } catch (ex) {
             return ControllerExceptionThrowHelper.Throw(res, ex)

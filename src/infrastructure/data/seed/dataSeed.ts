@@ -1,5 +1,6 @@
 import CoordinationEntityMapping from "../entityMapping/coordinationEntityMapping";
 import AdministratorEntityMapping from "../entityMapping/administratorEntityMapping";
+import AccountEntityMapping from "../entityMapping/accountEntityMapping";
 import EquipmentCategoryEntityMapping from "../entityMapping/equipmentCategoryEntityMapping";
 import LaboratoryEntity from "../entityMapping/laboratoryEntity";
 import ProjectCategoryEntityMapping from "../entityMapping/projectCategoryEntityMapping";
@@ -21,6 +22,7 @@ import { KnowledgeAreas } from "@/domain/constants/knowledgeAreas";
 import { Model } from "sequelize";
 import Coordination from "@/domain/models/coordination";
 import Equipment from "@/domain/models/equipment";
+import { createHash } from "crypto";
 
 class DataSeed {
 
@@ -169,6 +171,15 @@ class DataSeed {
             { equipmentId: (equipments[3] as Equipment)?.id, borrowDate: new Date("2026-02-10"), returnDate: new Date("2026-03-10"), studentId: (students[3] as Student)?.id },
         ];
         await ensureSeeded(BorrowEntityMapping, borrowSeeds);
+
+        // 8. Accounts — one for the first professor, student, and administrator (default password: "password123")
+        const defaultPasswordHash = createHash('sha256').update('password123').digest('hex');
+        const accountSeeds = [
+            { email: professorSeeds[0].email, passwordHash: defaultPasswordHash },
+            { email: studentSeeds[0].email, passwordHash: defaultPasswordHash },
+            { email: adminSeeds[0].email, passwordHash: defaultPasswordHash },
+        ];
+        await ensureSeeded(AccountEntityMapping, accountSeeds, 'email');
     }
 }
 

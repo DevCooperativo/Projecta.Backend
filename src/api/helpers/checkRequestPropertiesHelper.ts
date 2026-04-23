@@ -10,7 +10,7 @@ const CheckRequired = (params: Record<string, unknown>) => {
         }
     })
     if (Object.entries(values).length !== 0)
-        throw new ApiException(ApiExceptionNames.BAD_REQUEST, "The following properties must be fixed on your request", 400, values)
+        throw new ApiException(ApiExceptionNames.BAD_REQUEST, "The following properties must be fixed on your request", values)
 }
 
 const CheckData = (params: Record<string, { type: string, value: unknown, required: boolean }>) => {
@@ -54,7 +54,7 @@ const CheckData = (params: Record<string, { type: string, value: unknown, requir
         }
     })
     if (Object.entries(values).length !== 0)
-        throw new ApiException(ApiExceptionNames.BAD_REQUEST, `The following properties must be fixed on your request`, 400, values)
+        throw new ApiException(ApiExceptionNames.BAD_REQUEST, `The following properties must be fixed on your request`, values)
 }
 
 export { CheckData, CheckRequired }

@@ -1,5 +1,6 @@
 import { IUnitOfWork } from "@/application/unitOfWork/iUnitOfWork"
 import IAdministratorRepository from "@/domain/repositories/iAdministratorRepository"
+import IAuthRepository from "@/domain/repositories/iAuthRepository"
 import IBorrowRepository from "@/domain/repositories/iBorrowRepository"
 import ICoordinationRepository from "@/domain/repositories/iCoordinationRepository"
 import ICoordinatorRepository from "@/domain/repositories/iCoordinatorRepository"
@@ -13,6 +14,7 @@ import IResearcherRepository from "@/domain/repositories/iResearcherRepository"
 import IStudentRepository from "@/domain/repositories/iStudentRepository"
 import { SequelizeUnitOfWork } from "@/infrastructure/data/unitOfWork"
 import AdministratorRepository from "@/infrastructure/repositories/administratorRepository"
+import AuthRepository from "@/infrastructure/repositories/authRepository"
 import BorrowRepository from "@/infrastructure/repositories/borrowRepository"
 import CoordinationRepository from "@/infrastructure/repositories/coordinationRepository"
 import CoordinatorRepository from "@/infrastructure/repositories/coordinatorRepository"
@@ -28,6 +30,7 @@ import { container } from "tsyringe"
 
 export const RepositoriesDI = () => {
     container.registerSingleton<IUnitOfWork>("SequelizeUnitOfWork", SequelizeUnitOfWork)
+    container.registerSingleton<IAuthRepository>("AuthRepository", AuthRepository)
     container.registerSingleton<IStudentRepository>("StudentRepository", StudentRepository)
 
     container.registerSingleton<IAdministratorRepository>("AdministratorRepository", AdministratorRepository)

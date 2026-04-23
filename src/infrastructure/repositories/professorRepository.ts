@@ -8,15 +8,18 @@ import { SequelizeTransactionAdapter } from "../data/transactionAdapter";
 @injectable()
 class ProfessorRepository implements IProfessorRepository {
     async FindByEmail(email: string) {
-        return await ProfessorEntity.findOne({
+        const result = await ProfessorEntity.findOne({
             where: {
                 email
             }
-        }) as Professor
+        })
+        if (!result)
+            return null
+        return Professor.rehydrate(result.id, result.name, result.email, result.registration, result.telephone, result.coordinationId, result.createdAt, result.updatedAt)
     }
     async Find() {
         const result = await ProfessorEntity.findAll()
-        return result.map(r => Professor.rehydrate(r.id, r.name, r.email, r.registration, r.telephone!, r.coordinationId, r.createdAt, r.updatedAt, r.isVisible))
+        return result.map(r => Professor.rehydrate(r.id, r.name, r.email, r.registration, r.telephone, r.coordinationId, r.createdAt, r.updatedAt, r.isVisible))
     }
     async FindById(id: number) {
         const result = await ProfessorEntity.findByPk(id)
@@ -32,6 +35,9 @@ class ProfessorRepository implements IProfessorRepository {
     async Update(id: number, data: Professor, trx?: Transaction) {
         const transaction = (trx as SequelizeTransactionAdapter)?.trx
         const result = await ProfessorEntity.findByPk(id)
+        
+        //@ts-expect-error: known problem to delete required field
+        delete data.id
         await result?.update({ ...data }, { validate: true, transaction })
         if (!result)
             return null

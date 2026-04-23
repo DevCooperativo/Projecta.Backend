@@ -1,4 +1,5 @@
 import BaseModel from "@/domain/abstractions/BaseModel";
+import DomainException from "@/domain/exceptions/domainException";
 import { Guard } from "@/domain/validations/guard";
 
 export class Account extends BaseModel {
@@ -7,9 +8,12 @@ export class Account extends BaseModel {
     }
 
     static create(email: string, passwordHash: string): Account {
-        Guard.againstNullOrUndefined(email, "Email is required");
-        Guard.againstRegularExpression(email, /^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Invalid email format");
-        Guard.againstNullOrUndefined(passwordHash, "Password hash is required");
+        const errors = [
+            Guard.againstNullOrUndefined(email, "Email is required"),
+            Guard.againstRegularExpression(email, /^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Invalid email format"),
+            Guard.againstNullOrUndefined(passwordHash, "Password hash is required"),
+        ].filter((e): e is string => e !== null)
+        this.throwDomainException(errors);
         return new Account(email, passwordHash);
     }
 

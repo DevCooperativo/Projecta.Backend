@@ -6,6 +6,8 @@ import { EnsureCorrectFieldsValidationMiddleware } from "@/api/middlewares/ensur
 import { CreateProfessorPayload } from "@/api/middlewares/validations/professor/createProfessorPayload";
 import { UpdateProfessorPayload } from "@/api/middlewares/validations/professor/updateProfessorPayload";
 import { DeleteByIdPayload } from "@/api/middlewares/validations/shared/deleteByIdPayload";
+import { AccountType } from "@/infrastructure/authentication/constants/accountType";
+import { EnsureUserRoleMiddleware } from "../middlewares/ensureUserRoleMiddleware";
 
 const professorsRoutes = Router()
 const getAllProfessorsController = container.resolve<BaseController>("GetAllProfessorsController")
@@ -16,8 +18,8 @@ const deleteProfessorController = container.resolve<BaseController>("DeleteProfe
 
 professorsRoutes.get("/", (req, res) => getAllProfessorsController.Handle(req, res))
 professorsRoutes.get("/:id", (req, res) => getProfessorByIdController.Handle(req, res))
-professorsRoutes.post("/", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(CreateProfessorPayload), (req, res) => createProfessorController.Handle(req, res))
-professorsRoutes.put("/:id", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(UpdateProfessorPayload), (req, res) => updateProfessorController.Handle(req, res))
-professorsRoutes.delete("/:id", EnsureCorrectFieldsValidationMiddleware(DeleteByIdPayload), (req, res) => deleteProfessorController.Handle(req, res))
+professorsRoutes.post("/", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(CreateProfessorPayload), EnsureUserRoleMiddleware([AccountType.administrator]), (req, res) => createProfessorController.Handle(req, res))
+professorsRoutes.put("/:id", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(UpdateProfessorPayload), EnsureUserRoleMiddleware([AccountType.administrator, AccountType.professor]), (req, res) => updateProfessorController.Handle(req, res))
+professorsRoutes.delete("/:id", EnsureCorrectFieldsValidationMiddleware(DeleteByIdPayload), EnsureUserRoleMiddleware([AccountType.administrator, AccountType.professor]), (req, res) => deleteProfessorController.Handle(req, res))
 
 export default professorsRoutes

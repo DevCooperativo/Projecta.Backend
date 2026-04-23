@@ -12,6 +12,8 @@ import { InfrastructureExceptionName } from "@/infrastructure/exceptions/constan
 import InfrastructureException from "@/infrastructure/exceptions/infrastructureException";
 import { inject, injectable } from "tsyringe";
 import { IUnitOfWork } from "../unitOfWork/iUnitOfWork";
+import { UpdateProfessorCoordinationInputDTO } from "../dtos/professor/updateProfessorCoordinationInputDTO";
+import { UpdateProfessorCoordinationReturnDTO } from "../dtos/professor/updateProfessorCoordinationReturnDTO";
 
 @injectable()
 class ProfessorServices implements IProfessorServices {
@@ -21,6 +23,7 @@ class ProfessorServices implements IProfessorServices {
         @inject("SequelizeUnitOfWork")
         private readonly unitOfWork: IUnitOfWork
     ) { }
+
     async GetAllAsync() {
         return (await this.professorRepository.Find()) as ProfessorDTO[]
     }
@@ -37,15 +40,25 @@ class ProfessorServices implements IProfessorServices {
             return (await this.professorRepository.Create(professor, trx)) as CreateProfessorReturnDTO
         })
     }
-    async UpdateAsync(id: number, data: UpdateProfessorInputDTO) {
+    async UpdateAsync(data: UpdateProfessorInputDTO) {
         return await this.unitOfWork.execute(async (trx) => {
-            const professorToUpdate = await this.professorRepository.FindById(id)
+            const professorToUpdate = await this.professorRepository.FindById(data.creatorId)
             if (!professorToUpdate)
                 throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No professor was found with the provided id", 404)
-            professorToUpdate.update(data.name, data.email, data.registration, data.telephone, data.coordinationId)
+            professorToUpdate.update(data.name, data.registration, data.telephone)
             console.log(professorToUpdate)
-            await this.professorRepository.Update(id, professorToUpdate, trx)
+            await this.professorRepository.Update(data.creatorId, professorToUpdate, trx)
             return new UpdateProfessorReturnDTO(professorToUpdate.id, professorToUpdate.name, professorToUpdate.email, professorToUpdate.registration, professorToUpdate.telephone, professorToUpdate.coordinationId)
+        })
+    }
+    async UpdateProfessorCoordinationAsync(data: UpdateProfessorCoordinationInputDTO) {
+        return await this.unitOfWork.execute(async (trx) => {
+            const professorToUpdate = await this.professorRepository.FindById(data.professorId)
+            if (!professorToUpdate)
+                throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No professor was found with the provided id", 404)
+            professorToUpdate.changeCoordination(data.coordinationId)
+            await this.professorRepository.Update(professorToUpdate.id, professorToUpdate, trx)
+            return new UpdateProfessorCoordinationReturnDTO(professorToUpdate.id, professorToUpdate.name, professorToUpdate.email, professorToUpdate.registration, professorToUpdate.telephone, professorToUpdate.coordinationId)
         })
     }
     async DeleteAsync(id: number) {

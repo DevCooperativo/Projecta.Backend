@@ -1,6 +1,7 @@
 import BaseModel from "../abstractions/BaseModel";
 import { Shifts, ShiftsType } from "../constants/shifts";
 import { Guard } from "../validations/guard";
+
 class Student extends BaseModel {
     name: string
     email: string
@@ -20,35 +21,38 @@ class Student extends BaseModel {
     }
 
     static create(name: string, email: string, registration: string, birthdate: Date, term: number, shift: ShiftsType): Student {
-        Guard.againstNullOrUndefined(name, "Name is required")
-        Guard.againstRangeLenght(name, 3, 100, "Name must be between 3 and 100 characters long")
-        Guard.againstNullOrUndefined(email, "Email is required")
-        Guard.againstRegularExpression(email, /^\S+@\S+\.\S+$/, "Email is invalid")
-        Guard.againstNullOrUndefined(registration, "Registration is required")
-        Guard.againstNullOrUndefined(birthdate, "Birthdate is required")
-        Guard.againstInvalidDateFormat(birthdate, "Birthdate is invalid. Must be in the format YYYY-MM-DD")
-        Guard.againstFutureDate(birthdate, "Birthdate cannot be in the future")
-        Guard.againstNullOrUndefined(term, "Term is required")
-        Guard.againstNullOrUndefined(shift, "Shift is required")
-        Guard.againstValueSet(shift, Shifts, "Shift must be a valid shift")
+        const errors = [
+            Guard.againstNullOrUndefined(name, "Name is required"),
+            Guard.againstRangeLenght(name, 3, 100, "Name must be between 3 and 100 characters long"),
+            Guard.againstNullOrUndefined(email, "Email is required"),
+            Guard.againstRegularExpression(email, /^\S+@\S+\.\S+$/, "Email is invalid"),
+            Guard.againstNullOrUndefined(registration, "Registration is required"),
+            Guard.againstNullOrUndefined(birthdate, "Birthdate is required"),
+            Guard.againstInvalidDateFormat(birthdate, "Birthdate is invalid. Must be in the format YYYY-MM-DD"),
+            Guard.againstFutureDate(birthdate, "Birthdate cannot be in the future"),
+            Guard.againstNullOrUndefined(term, "Term is required"),
+            Guard.againstNullOrUndefined(shift, "Shift is required"),
+            Guard.againstValueSet(shift, Shifts, "Shift must be a valid shift"),
+        ].filter((e): e is string => e !== null)
+        this.throwDomainException(errors);
         return new Student(name, email, registration, birthdate, term, shift)
     }
 
-    update(id: number, name: string, email: string, registration: string, birthdate: Date, term: number, shift: ShiftsType): Student {
-        Guard.againstNullOrUndefined(id, "Id is required")
-        Guard.againstNullOrUndefined(name, "Name is required")
-        Guard.againstRangeLenght(name, 3, 100, "Name must be between 3 and 100 characters long")
-        Guard.againstNullOrUndefined(email, "Email is required")
-        Guard.againstRegularExpression(email, /^\S+@\S+\.\S+$/, "Email is invalid")
-        Guard.againstNullOrUndefined(registration, "Registration is required")
-        Guard.againstNullOrUndefined(birthdate, "Birthdate is required")
-        Guard.againstInvalidDateFormat(birthdate, "Birthdate is invalid. Must be in the format YYYY-MM-DD")
-        Guard.againstFutureDate(birthdate, "Birthdate cannot be in the future")
-        Guard.againstNullOrUndefined(term, "Term is required")
-        Guard.againstNullOrUndefined(shift, "Shift is required")
-        Guard.againstValueSet(shift, Shifts, "Shift must be a valid shift")
+    update(id: number, name: string,registration: string, birthdate: Date, term: number, shift: ShiftsType): Student {
+        const errors = [
+            Guard.againstNullOrUndefined(id, "Id is required"),
+            Guard.againstNullOrUndefined(name, "Name is required"),
+            Guard.againstRangeLenght(name, 3, 100, "Name must be between 3 and 100 characters long"),
+            Guard.againstNullOrUndefined(registration, "Registration is required"),
+            Guard.againstNullOrUndefined(birthdate, "Birthdate is required"),
+            Guard.againstInvalidDateFormat(birthdate, "Birthdate is invalid. Must be in the format YYYY-MM-DD"),
+            Guard.againstFutureDate(birthdate, "Birthdate cannot be in the future"),
+            Guard.againstNullOrUndefined(term, "Term is required"),
+            Guard.againstNullOrUndefined(shift, "Shift is required"),
+            Guard.againstValueSet(shift, Shifts, "Shift must be a valid shift"),
+        ].filter((e): e is string => e !== null)
+        this.throwDomainException(errors);
         this.name = name
-        this.email = email
         this.registration = registration
         this.birthdate = birthdate
         this.term = term
@@ -64,6 +68,8 @@ class Student extends BaseModel {
         student.isVisible = isVisible
         return student
     }
+
+
 }
 
 export default Student

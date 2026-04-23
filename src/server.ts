@@ -7,7 +7,6 @@ import cors from "cors";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import routes from "./api/routes";
-import errorHandler from "@/api/middlewares/errorHandler";
 import DataSeed from "@/infrastructure/data/seed/dataSeed";
 import cookieParser from "cookie-parser"
 import swaggerUi from "swagger-ui-express"

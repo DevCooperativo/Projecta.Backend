@@ -5,6 +5,8 @@ import { UpdateStudentPayload } from "@/api/middlewares/validations/student/upda
 import { DeleteByIdPayload } from "@/api/middlewares/validations/shared/deleteByIdPayload";
 import { Router } from "express";
 import { container } from "tsyringe";
+import { EnsureUserRoleMiddleware } from "../middlewares/ensureUserRoleMiddleware";
+import { AccountType } from "@/infrastructure/authentication/constants/accountType";
 
 export const studentRoutes = Router()
 
@@ -17,5 +19,5 @@ const deleteStudentController = container.resolve<BaseController>("DeleteStudent
 studentRoutes.get("/", async (req, res) => getAllStudentsController.Handle(req,res))
 studentRoutes.get("/:id", async (req, res) => getStudentByIdController.Handle(req,res))
 studentRoutes.post("/", EnsureCorrectFieldsValidationMiddleware(CreateStudentPayload), async (req, res) => createStudentController.Handle(req,res))
-studentRoutes.put("/:id", EnsureCorrectFieldsValidationMiddleware(UpdateStudentPayload), async (req, res) => updateStudentController.Handle(req,res))
-studentRoutes.delete("/:id", EnsureCorrectFieldsValidationMiddleware(DeleteByIdPayload), async (req, res) => deleteStudentController.Handle(req,res))
+studentRoutes.put("/:id", EnsureCorrectFieldsValidationMiddleware(UpdateStudentPayload), EnsureUserRoleMiddleware([AccountType.student]), async (req, res) => updateStudentController.Handle(req,res))
+studentRoutes.delete("/:id", EnsureCorrectFieldsValidationMiddleware(DeleteByIdPayload), EnsureUserRoleMiddleware([AccountType.student]), async (req, res) => deleteStudentController.Handle(req,res))
