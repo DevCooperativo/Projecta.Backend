@@ -1,4 +1,4 @@
-﻿import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import BaseController from "../baseController";
 import { inject, injectable } from "tsyringe";
 import IProjectServices from "@/application/interfaces/iProjectServices";
@@ -10,9 +10,15 @@ class GetAllProjectsController implements BaseController {
         @inject("ProjectServices")
         private readonly projectServices: IProjectServices
     ) { }
-    async Handle(req: Request, res: Response): Promise<Response>{
+    async Handle(req: Request, res: Response): Promise<Response> {
         try {
-            const result = await this.projectServices.GetAllAsync()
+            const { categoryId, laboratoryId, name } = req.query
+            const filters = {
+                categoryId: categoryId ? Number(categoryId) : undefined,
+                laboratoryId: laboratoryId ? Number(laboratoryId) : undefined,
+                name: name as string | undefined,
+            }
+            const result = await this.projectServices.GetAllAsync(filters)
             return res.status(200).json(result)
         } catch (ex) {
             return ControllerExceptionThrowHelper.Throw(res, ex)
