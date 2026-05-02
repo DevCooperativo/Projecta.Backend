@@ -41,7 +41,11 @@ class ProjectServices implements IProjectServices {
     ) { }
 
     async GetAllAsync(filters?: { categoryId?: number; laboratoryId?: number; name?: string }) {
-        return (await this.projectRepository.Find(filters)) as ProjectDTO[]
+        const projects = await this.projectRepository.Find(filters)
+        return projects.map((p: any) => ({
+            ...p.dataValues,
+            participantCount: (p.dataValues.Coordinators?.length ?? 0) + (p.dataValues.Researchers?.length ?? 0)
+        })) as ProjectDTO[]
     }
 
     async GetByIdAsync(id: number) {
@@ -52,6 +56,18 @@ class ProjectServices implements IProjectServices {
     }
 
     async CreateAsync(data: CreateProjectInputDTO) {
+        // RN1: laboratório não pode ter mais de 10 projetos
+        const projectCountInLab = await this.projectRepository.CountByLaboratoryId(data.laboratoryId)
+        if (projectCountInLab >= 10)
+            throw new ApplicationException(ApplicationExceptionName.BUSINESS_RULE_VIOLATION, "The laboratory has already reached the maximum limit of 10 active projects", 422)
+
+        // RN2: professor não pode coordenar mais de 5 projetos
+        for (const coord of data.coordinators ?? []) {
+            const coordinationCount = await this.coordinatorRepository.CountByProfessorId(coord.professorId)
+            if (coordinationCount >= 5)
+                throw new ApplicationException(ApplicationExceptionName.BUSINESS_RULE_VIOLATION, `Professor with id ${coord.professorId} has already reached the maximum limit of 5 coordinations`, 422)
+        }
+
         return await this.unitOfWork.execute(async (trx) => {
             if (!await this.laboratoryRepository.FindById(data.laboratoryId))
                 throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No laboratory was found with the provided id", 404)
@@ -131,6 +147,7 @@ class ProjectServices implements IProjectServices {
             const updatedProject = (await this.projectRepository.Update(existing as Project, trx)) as Project
 
             if (data.coordinators) {
+                await this.coordinatorRepository.DeleteByProjectId(data.id, trx)
                 for (const coord of data.coordinators) {
                     const coordinator = Coordinator.create(coord.area, new Date(coord.startDate), coord.professorId, data.id, coord.endDate ? new Date(coord.endDate) : undefined)
                     await this.coordinatorRepository.Create(coordinator, trx)
@@ -138,6 +155,7 @@ class ProjectServices implements IProjectServices {
             }
 
             if (data.researchers) {
+                await this.researcherRepository.DeleteByProjectId(data.id, trx)
                 for (const res of data.researchers) {
                     const researcher = Researcher.create(res.name, res.functionName, res.weeklyHours, new Date(res.startDate), data.id, res.studentId, res.professorId, res.endDate ? new Date(res.endDate) : undefined)
                     await this.researcherRepository.Create(researcher, trx)

@@ -8,6 +8,52 @@
     },
     "item": [
         {
+            "name": "auth",
+            "item": [
+                {
+                    "name": "Sign In",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "if (pm.response.code === 200) {",
+                                    "    const body = pm.response.json();",
+                                    "    pm.collectionVariables.set('token', body.token);",
+                                    "}"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "name": "Content-Type",
+                                "type": "text",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"email\": \"admin@projecta.com\",\n  \"password\": \"admin123\"\n}",
+                            "options": { "raw": { "language": "json" } }
+                        },
+                        "url": {
+                            "raw": "http://localhost:3000/api/auth/signin",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "3000",
+                            "path": ["api", "auth", "signin"]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
             "name": "laboratories",
             "item": [
                 {
@@ -831,6 +877,44 @@
                     "response": []
                 },
                 {
+                    "name": "List - Filtrar por Categoria (RF30)",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:3000/api/projects?categoryId=1",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "3000",
+                            "path": ["api", "projects"],
+                            "query": [
+                                { "key": "categoryId", "value": "1", "description": "ID da categoria de projeto" },
+                                { "key": "name", "value": "", "description": "Filtro por nome (like)", "disabled": true }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "List - Filtrar por Laboratório (RF31)",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:3000/api/projects?laboratoryId=1",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "3000",
+                            "path": ["api", "projects"],
+                            "query": [
+                                { "key": "laboratoryId", "value": "1", "description": "ID do laboratório" },
+                                { "key": "name", "value": "", "description": "Filtro por nome (like)", "disabled": true }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
                     "name": "Get",
                     "request": {
                         "method": "GET",
@@ -841,6 +925,21 @@
                             "host": ["localhost"],
                             "port": "3000",
                             "path": ["api", "projects", "1"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get - Not Found",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:3000/api/projects/9999",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "3000",
+                            "path": ["api", "projects", "9999"]
                         }
                     },
                     "response": []
@@ -857,15 +956,15 @@
                                 "value": "application/json"
                             },
                             {
-                                "key": "Authorization",
-                                "name": "Authorization",
+                                "key": "Cookie",
+                                "name": "Cookie",
                                 "type": "text",
-                                "value": "Bearer {{token}}"
+                                "value": "auth_cookie={{token}}"
                             }
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n  \"name\": \"Smart Campus\",\n  \"description\": \"IoT-based campus automation project\",\n  \"startDate\": \"2025-01-15\",\n  \"status\": \"active\",\n  \"laboratoryId\": 1,\n  \"projectCategoryId\": 1\n}",
+                            "raw": "{\n  \"name\": \"Projeto de Pesquisa em IA\",\n  \"description\": \"Pesquisa aplicada em inteligência artificial para otimização de processos industriais\",\n  \"startDate\": \"2025-03-01\",\n  \"endDate\": \"2025-12-31\",\n  \"status\": \"Em andamento\",\n  \"laboratoryId\": 1,\n  \"projectCategoryId\": 1,\n  \"coordinators\": [\n    {\n      \"professorId\": 1,\n      \"area\": \"Inteligência Artificial\",\n      \"startDate\": \"2025-03-01\"\n    }\n  ],\n  \"researchers\": [\n    {\n      \"name\": \"João Silva\",\n      \"functionName\": \"Pesquisador Junior\",\n      \"weeklyHours\": 20,\n      \"startDate\": \"2025-03-01\",\n      \"studentId\": 1\n    }\n  ]\n}",
                             "options": { "raw": { "language": "json" } }
                         },
                         "url": {
@@ -890,15 +989,81 @@
                                 "value": "application/json"
                             },
                             {
-                                "key": "Authorization",
-                                "name": "Authorization",
+                                "key": "Cookie",
+                                "name": "Cookie",
                                 "type": "text",
-                                "value": "Bearer {{token}}"
+                                "value": "auth_cookie={{token}}"
                             }
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n  \"name\": \"\",\n  \"description\": \"\",\n  \"startDate\": \"\",\n  \"status\": \"\",\n  \"laboratoryId\": null,\n  \"projectCategoryId\": null\n}",
+                            "raw": "{\n  \"description\": \"Pesquisa aplicada em inteligência artificial para otimização de processos industriais\",\n  \"startDate\": \"2025-03-01\",\n  \"status\": \"Em andamento\",\n  \"laboratoryId\": 1,\n  \"projectCategoryId\": 1,\n  \"coordinators\": [\n    {\n      \"professorId\": 1,\n      \"area\": \"Inteligência Artificial\",\n      \"startDate\": \"2025-03-01\"\n    }\n  ]\n}",
+                            "options": { "raw": { "language": "json" } }
+                        },
+                        "url": {
+                            "raw": "http://localhost:3000/api/projects",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "3000",
+                            "path": ["api", "projects"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create - RN1: Laboratório com limite de projetos atingido",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "name": "Content-Type",
+                                "type": "text",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Cookie",
+                                "name": "Cookie",
+                                "type": "text",
+                                "value": "auth_cookie={{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"Projeto Extra no Laboratório Lotado\",\n  \"description\": \"Tentativa de criar projeto em laboratório que já possui 10 projetos cadastrados\",\n  \"startDate\": \"2025-03-01\",\n  \"status\": \"Em andamento\",\n  \"laboratoryId\": 1,\n  \"projectCategoryId\": 1,\n  \"coordinators\": [\n    {\n      \"professorId\": 2,\n      \"area\": \"Engenharia de Software\",\n      \"startDate\": \"2025-03-01\"\n    }\n  ]\n}",
+                            "options": { "raw": { "language": "json" } }
+                        },
+                        "url": {
+                            "raw": "http://localhost:3000/api/projects",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "3000",
+                            "path": ["api", "projects"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create - RN2: Professor com limite de coordenações atingido",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "name": "Content-Type",
+                                "type": "text",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Cookie",
+                                "name": "Cookie",
+                                "type": "text",
+                                "value": "auth_cookie={{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"Projeto com Professor Sobrecarregado\",\n  \"description\": \"Tentativa de adicionar como coordenador um professor que já coordena 5 projetos ativos\",\n  \"startDate\": \"2025-03-01\",\n  \"status\": \"Em andamento\",\n  \"laboratoryId\": 2,\n  \"projectCategoryId\": 1,\n  \"coordinators\": [\n    {\n      \"professorId\": 1,\n      \"area\": \"Computação\",\n      \"startDate\": \"2025-03-01\"\n    }\n  ]\n}",
                             "options": { "raw": { "language": "json" } }
                         },
                         "url": {
@@ -923,15 +1088,15 @@
                                 "value": "application/json"
                             },
                             {
-                                "key": "Authorization",
-                                "name": "Authorization",
+                                "key": "Cookie",
+                                "name": "Cookie",
                                 "type": "text",
-                                "value": "Bearer {{token}}"
+                                "value": "auth_cookie={{token}}"
                             }
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n  \"name\": \"Smart Campus Updated\",\n  \"description\": \"Expanded IoT-based campus automation project\",\n  \"startDate\": \"2025-01-15\",\n  \"endDate\": \"2025-12-31\",\n  \"status\": \"active\",\n  \"laboratoryId\": 1,\n  \"projectCategoryId\": 1\n}",
+                            "raw": "{\n  \"name\": \"Projeto de Pesquisa em IA (Atualizado)\",\n  \"description\": \"Descrição atualizada: pesquisa em IA com foco em visão computacional e PLN\",\n  \"startDate\": \"2025-03-01\",\n  \"endDate\": \"2026-06-30\",\n  \"status\": \"Em andamento\",\n  \"laboratoryId\": 1,\n  \"projectCategoryId\": 1,\n  \"coordinators\": [\n    {\n      \"professorId\": 1,\n      \"area\": \"Visão Computacional\",\n      \"startDate\": \"2025-03-01\"\n    }\n  ],\n  \"researchers\": [\n    {\n      \"name\": \"Maria Oliveira\",\n      \"functionName\": \"Pesquisadora Plena\",\n      \"weeklyHours\": 30,\n      \"startDate\": \"2025-03-01\",\n      \"studentId\": 2\n    },\n    {\n      \"name\": \"Carlos Mendes\",\n      \"functionName\": \"Pesquisador Senior\",\n      \"weeklyHours\": 40,\n      \"startDate\": \"2025-03-01\",\n      \"professorId\": 2\n    }\n  ]\n}",
                             "options": { "raw": { "language": "json" } }
                         },
                         "url": {
@@ -950,10 +1115,10 @@
                         "method": "DELETE",
                         "header": [
                             {
-                                "key": "Authorization",
-                                "name": "Authorization",
+                                "key": "Cookie",
+                                "name": "Cookie",
                                 "type": "text",
-                                "value": "Bearer {{token}}"
+                                "value": "auth_cookie={{token}}"
                             }
                         ],
                         "url": {
@@ -962,21 +1127,6 @@
                             "host": ["localhost"],
                             "port": "3000",
                             "path": ["api", "projects", "1"]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "Get - Not Found",
-                    "request": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "http://localhost:3000/api/projects/9999",
-                            "protocol": "http",
-                            "host": ["localhost"],
-                            "port": "3000",
-                            "path": ["api", "projects", "9999"]
                         }
                     },
                     "response": []

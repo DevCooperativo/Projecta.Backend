@@ -29,5 +29,9 @@ class ResearcherRepository implements IResearcherRepository {
         return result !== 0
     }
 
+    async DeleteByProjectId(projectId: number, trx?: Transaction) {
+        const transaction = (trx as SequelizeTransactionAdapter)?.trx
+        await ResearcherEntityMapping.destroy({ where: { projectId }, transaction })
+    }
 }
 export default ResearcherRepository

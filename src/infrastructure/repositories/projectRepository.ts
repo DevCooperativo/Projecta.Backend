@@ -7,6 +7,8 @@ import { injectable } from "tsyringe";
 import { SequelizeTransactionAdapter } from "../data/transactionAdapter";
 import LaboratoryEntity from "../data/entityMapping/laboratoryEntity";
 import ProjectCategoryEntityMapping from "../data/entityMapping/projectCategoryEntityMapping";
+import CoordinatorEntityMapping from "../data/entityMapping/coordinatorEntityMapping";
+import ResearcherEntityMapping from "../data/entityMapping/researcherEntityMappping";
 
 @injectable()
 class ProjectRepository implements IProjectRepository {
@@ -20,13 +22,20 @@ class ProjectRepository implements IProjectRepository {
             where,
             include: [
                 { model: LaboratoryEntity, attributes: ['id', 'name'], as: 'Laboratories' },
-                { model: ProjectCategoryEntityMapping, attributes: ['id', 'name'], as: 'ProjectCategories' }
-            ]
+                { model: ProjectCategoryEntityMapping, attributes: ['id', 'name'], as: 'ProjectCategories' },
+                { model: CoordinatorEntityMapping, attributes: ['id'], as: 'Coordinators' },
+                { model: ResearcherEntityMapping, attributes: ['id'], as: 'Researchers' },
+            ],
+            order: [['name', 'ASC']]
         }) as Project[]
     }
 
     async FindById(id: number) {
         return await ProjectEntityMapping.findByPk(id) as Project
+    }
+
+    async CountByLaboratoryId(laboratoryId: number) {
+        return await ProjectEntityMapping.count({ where: { laboratoryId } })
     }
 
     async Create(data: Project, trx?: Transaction) {

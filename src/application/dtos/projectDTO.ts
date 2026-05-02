@@ -10,6 +10,7 @@ class ProjectDTO {
     createdAt: Date
     updatedAt: Date
     isVisible: boolean
+    participantCount?: number
     constructor() { }
 }
 export default ProjectDTO

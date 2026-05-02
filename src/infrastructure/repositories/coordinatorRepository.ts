@@ -32,10 +32,19 @@ class CoordinatorRepository implements ICoordinatorRepository {
         return (await CoordinatorEntityMapping.findByPk(data.id, { transaction })) as Coordinator
     }
 
+    async CountByProfessorId(professorId: number) {
+        return await CoordinatorEntityMapping.count({ where: { professorId } })
+    }
+
     async Delete(id: number, trx?: Transaction) {
         const transaction = (trx as SequelizeTransactionAdapter)?.trx
         const result = await CoordinatorEntityMapping.destroy({ where: { id: id }, transaction })
         return result !== 0
+    }
+
+    async DeleteByProjectId(projectId: number, trx?: Transaction) {
+        const transaction = (trx as SequelizeTransactionAdapter)?.trx
+        await CoordinatorEntityMapping.destroy({ where: { projectId }, transaction })
     }
 }
 

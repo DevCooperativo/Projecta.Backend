@@ -4,6 +4,7 @@ import Project from "../models/project";
 interface IProjectRepository {
     Find: (filters?: { categoryId?: number; laboratoryId?: number; name?: string }, trx?: Transaction) => Promise<Project[]>
     FindById: (id: number, trx?: Transaction) => Promise<Project | null>
+    CountByLaboratoryId: (laboratoryId: number) => Promise<number>
     Create: (data: Project, trx?: Transaction) => Promise<Project | null>
     Update: (data: Project, trx?: Transaction) => Promise<Project | null>
     Delete: (id: number, trx?: Transaction) => Promise<boolean>

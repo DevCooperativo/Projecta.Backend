@@ -7,5 +7,6 @@ interface IResearcherRepository {
     Create: (data: Researcher, trx?: Transaction) => Promise<Researcher | null>
     Update: (data: Researcher, trx?: Transaction) => Promise<Researcher | null>
     Delete: (id: number, trx?: Transaction) => Promise<boolean>
+    DeleteByProjectId: (projectId: number, trx?: Transaction) => Promise<void>
 }
 export default IResearcherRepository
