@@ -78,10 +78,10 @@ class DataSeed {
         const coordinations = await ensureSeeded(CoordinationEntityMapping, coordinationSeeds, 'area');
 
         const adminSeeds = [
-            { email: "admin1@projecta.com" },
-            { email: "admin2@projecta.com" },
-            { email: "admin3@projecta.com" },
-            { email: "admin4@projecta.com" },
+            { name: "admin1", email: "admin1@projecta.com" },
+            { name: "admin1", email: "admin2@projecta.com" },
+            { name: "admin1", email: "admin3@projecta.com" },
+            { name: "admin1", email: "admin4@projecta.com" },
         ];
         await ensureSeeded(AdministratorEntityMapping, adminSeeds, 'email');
 
