@@ -41,7 +41,9 @@ class EquipmentServices implements IEquipmentServices {
     }
     async CreateAsync(data: EquipmentDTO) {
         return await this.unitOfWork.execute(async (trx) => {
+            // RN1: equipamento deve estar vinculado a laboratorio, projeto e categoria existentes.
             await this.EnsureValidEquipmentLinks(data, trx)
+            // RN2: laboratorio nao pode ter mais de 50 equipamentos cadastrados.
             await this.EnsureLaboratoryCapacity(data.laboratoryId, undefined, trx)
             return (await this.equipmentRepository.Create(data as Equipment, trx)) as EquipmentDTO
         })
@@ -50,6 +52,7 @@ class EquipmentServices implements IEquipmentServices {
         return await this.unitOfWork.execute(async (trx) => {
             if (!(await this.equipmentRepository.FindById(id, trx) as Equipment))
                 throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No equipment was found with the provided id", 404)
+            // RN1 e RN2: ao alterar equipamento, os vinculos e o limite do laboratorio sao revalidados.
             await this.EnsureValidEquipmentLinks(data, trx)
             await this.EnsureLaboratoryCapacity(data.laboratoryId, id, trx)
             return (await this.equipmentRepository.Update(id, data as Equipment, trx)) as EquipmentDTO
@@ -59,11 +62,13 @@ class EquipmentServices implements IEquipmentServices {
         return await this.unitOfWork.execute(async (trx) => {
             if (!(await this.equipmentRepository.FindById(id, trx) as Equipment))
                 throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No equipment was found with the provided id", 404)
-            await this.EnsureEquipmentHasNoBorrows(id, trx)
+            // RN3: equipamento com emprestimo ativo nao pode ser removido.
+            await this.EnsureEquipmentHasNoActiveBorrows(id, trx)
             return (await this.equipmentRepository.Delete(id, trx))
         })
     }
 
+    // RN1: equipamento deve estar vinculado a registros validos no banco.
     private async EnsureValidEquipmentLinks(data: EquipmentDTO, trx?: Transaction) {
         const laboratory = await this.laboratoryRepository.FindById(data.laboratoryId, trx)
         if (!laboratory)
@@ -78,6 +83,7 @@ class EquipmentServices implements IEquipmentServices {
             throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No equipment category was found with the provided id", 404)
     }
 
+    // RN2: cada laboratorio comporta no maximo 50 equipamentos.
     private async EnsureLaboratoryCapacity(laboratoryId: number, currentEquipmentId?: number, trx?: Transaction) {
         const equipments = await this.equipmentRepository.Find(trx)
         const laboratoryEquipmentsCount = equipments.filter(equipment =>
@@ -88,11 +94,12 @@ class EquipmentServices implements IEquipmentServices {
             throw new ApplicationException(ApplicationExceptionName.INVALID_OPERATION, "Laboratory cannot have more than 50 equipments", 400)
     }
 
-    private async EnsureEquipmentHasNoBorrows(equipmentId: number, trx?: Transaction) {
-        const borrowCount = await this.borrowRepository.CountByEquipmentId(equipmentId, trx)
+    // RN3: equipamento com emprestimos ativos fica protegido contra exclusao.
+    private async EnsureEquipmentHasNoActiveBorrows(equipmentId: number, trx?: Transaction) {
+        const borrowCount = await this.borrowRepository.CountActiveByEquipmentId(equipmentId, trx)
 
         if (borrowCount > 0)
-            throw new ApplicationException(ApplicationExceptionName.INVALID_OPERATION, "Equipment has borrows and cannot be deleted", 400)
+            throw new ApplicationException(ApplicationExceptionName.INVALID_OPERATION, "Equipment has active borrows and cannot be deleted", 400)
     }
 }
 export default EquipmentServices

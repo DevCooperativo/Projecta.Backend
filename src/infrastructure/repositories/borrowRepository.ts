@@ -38,9 +38,9 @@ class BorrowRepository implements IBorrowRepository {
         const result = await BorrowEntityMapping.destroy({ where: { id }, transaction })
         return result !== 0
     }
-    async CountByEquipmentId(equipmentId: number, trx?: Transaction) {
+    async CountActiveByEquipmentId(equipmentId: number, trx?: Transaction) {
         const transaction = (trx as SequelizeTransactionAdapter)?.trx
-        return await BorrowEntityMapping.count({ where: { equipmentId }, transaction })
+        return await BorrowEntityMapping.count({ where: { equipmentId, isStillBorrowed: true }, transaction })
     }
     async DeleteByEquipmentIds(equipmentIds: number[], trx?: Transaction) {
         if (equipmentIds.length === 0) return
