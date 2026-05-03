@@ -38,7 +38,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n  \"email\": \"admin@projecta.com\",\n  \"password\": \"admin123\"\n}",
+                            "raw": "{\n  \"email\": \"carlos.silva@projecta.com\",\n  \"password\": \"password123\",\n  \"profileType\": \"professor\"\n}",
                             "options": { "raw": { "language": "json" } }
                         },
                         "url": {
@@ -91,8 +91,7 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -114,8 +113,7 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -137,8 +135,7 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -160,8 +157,7 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -182,8 +178,7 @@
                     "request": {
                         "method": "PUT",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -205,7 +200,7 @@
                     "request": {
                         "method": "DELETE",
                         "header": [
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Cookie", "name": "Cookie", "type": "text", "value": "auth_cookie={{token}}"}
                         ],
                         "url": {
                             "raw": "http://localhost:3000/api/laboratories/1",
@@ -257,8 +252,7 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -280,8 +274,7 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -303,8 +296,7 @@
                     "request": {
                         "method": "PUT",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -326,7 +318,7 @@
                     "request": {
                         "method": "DELETE",
                         "header": [
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Cookie", "name": "Cookie", "type": "text", "value": "auth_cookie={{token}}"}
                         ],
                         "url": {
                             "raw": "http://localhost:3000/api/equipmentCategories/1",
@@ -378,8 +370,7 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -401,8 +392,7 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -424,8 +414,7 @@
                     "request": {
                         "method": "PUT",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -447,7 +436,7 @@
                     "request": {
                         "method": "DELETE",
                         "header": [
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Cookie", "name": "Cookie", "type": "text", "value": "auth_cookie={{token}}"}
                         ],
                         "url": {
                             "raw": "http://localhost:3000/api/projectCategories/1",
@@ -499,8 +488,7 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -522,8 +510,7 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -545,8 +532,7 @@
                     "request": {
                         "method": "PUT",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -568,7 +554,7 @@
                     "request": {
                         "method": "DELETE",
                         "header": [
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Cookie", "name": "Cookie", "type": "text", "value": "auth_cookie={{token}}"}
                         ],
                         "url": {
                             "raw": "http://localhost:3000/api/equipments/1",
@@ -673,12 +659,11 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n  \"name\": \"Projeto de Pesquisa em IA\",\n  \"description\": \"Pesquisa aplicada em inteligência artificial para otimização de processos industriais\",\n  \"startDate\": \"2025-03-01\",\n  \"endDate\": \"2025-12-31\",\n  \"status\": \"Em andamento\",\n  \"laboratoryId\": 1,\n  \"projectCategoryId\": 1,\n  \"coordinators\": [\n    {\n      \"professorId\": 1,\n      \"area\": \"Inteligência Artificial\",\n      \"startDate\": \"2025-03-01\"\n    }\n  ],\n  \"researchers\": [\n    {\n      \"name\": \"João Silva\",\n      \"functionName\": \"Pesquisador Junior\",\n      \"weeklyHours\": 20,\n      \"startDate\": \"2025-03-01\",\n      \"studentId\": 1\n    }\n  ]\n}",
+                            "raw": "{\n  \"name\": \"Projeto de Pesquisa em IA\",\n  \"description\": \"Pesquisa aplicada em inteligência artificial para otimização de processos industriais\",\n  \"startDate\": \"2025-03-01\",\n  \"endDate\": \"2025-12-31\",\n  \"status\": \"Em andamento\",\n  \"laboratoryId\": 2,\n  \"projectCategoryId\": 1,\n  \"coordinators\": [\n    {\n      \"professorId\": 4,\n      \"area\": \"Inteligência Artificial\",\n      \"startDate\": \"2025-03-01\"\n    }\n  ],\n  \"researchers\": [\n    {\n      \"name\": \"João Silva\",\n      \"functionName\": \"Pesquisador Junior\",\n      \"weeklyHours\": 20,\n      \"startDate\": \"2025-03-01\",\n      \"studentId\": 1\n    }\n  ]\n}",
                             "options": { "raw": { "language": "json" } }
                         },
                         "url": {
@@ -696,8 +681,7 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -719,8 +703,7 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -742,8 +725,7 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -765,8 +747,7 @@
                     "request": {
                         "method": "PUT",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -787,9 +768,7 @@
                     "name": "Delete",
                     "request": {
                         "method": "DELETE",
-                        "header": [
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
-                        ],
+                        "header": [],
                         "url": {
                             "raw": "http://localhost:3000/api/projects/1",
                             "protocol": "http",
@@ -840,8 +819,7 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -863,8 +841,7 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -886,8 +863,7 @@
                     "request": {
                         "method": "PUT",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -909,7 +885,7 @@
                     "request": {
                         "method": "DELETE",
                         "header": [
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Cookie", "name": "Cookie", "type": "text", "value": "auth_cookie={{token}}"}
                         ],
                         "url": {
                             "raw": "http://localhost:3000/api/coordinators/1",
@@ -976,8 +952,7 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -999,8 +974,7 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -1022,8 +996,7 @@
                     "request": {
                         "method": "PUT",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -1045,7 +1018,7 @@
                     "request": {
                         "method": "DELETE",
                         "header": [
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Cookie", "name": "Cookie", "type": "text", "value": "auth_cookie={{token}}"}
                         ],
                         "url": {
                             "raw": "http://localhost:3000/api/researchers/1",
@@ -1112,8 +1085,7 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -1135,8 +1107,7 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -1158,8 +1129,7 @@
                     "request": {
                         "method": "PUT",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -1181,7 +1151,7 @@
                     "request": {
                         "method": "DELETE",
                         "header": [
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Cookie", "name": "Cookie", "type": "text", "value": "auth_cookie={{token}}"}
                         ],
                         "url": {
                             "raw": "http://localhost:3000/api/coordinations/1",
@@ -1218,8 +1188,7 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -1271,8 +1240,7 @@
                     "request": {
                         "method": "PUT",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -1294,8 +1262,7 @@
                     "request": {
                         "method": "PUT",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -1317,8 +1284,7 @@
                     "request": {
                         "method": "PUT",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -1340,8 +1306,7 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -1363,8 +1328,7 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -1386,7 +1350,7 @@
                     "request": {
                         "method": "DELETE",
                         "header": [
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Cookie", "name": "Cookie", "type": "text", "value": "auth_cookie={{token}}"}
                         ],
                         "url": {
                             "raw": "http://localhost:3000/api/students/6",
@@ -1408,8 +1372,7 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -1431,8 +1394,7 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -1454,8 +1416,7 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -1507,8 +1468,7 @@
                     "request": {
                         "method": "PUT",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -1530,8 +1490,7 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -1553,7 +1512,7 @@
                     "request": {
                         "method": "DELETE",
                         "header": [
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Cookie", "name": "Cookie", "type": "text", "value": "auth_cookie={{token}}"}
                         ],
                         "url": {
                             "raw": "http://localhost:3000/api/professors/4",
@@ -1575,8 +1534,7 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -1598,8 +1556,7 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -1621,8 +1578,7 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -1674,8 +1630,7 @@
                     "request": {
                         "method": "PUT",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -1697,8 +1652,7 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -1720,7 +1674,7 @@
                     "request": {
                         "method": "DELETE",
                         "header": [
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Cookie", "name": "Cookie", "type": "text", "value": "auth_cookie={{token}}"}
                         ],
                         "url": {
                             "raw": "http://localhost:3000/api/borrow/8",
@@ -1742,8 +1696,7 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -1765,8 +1718,7 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -1818,8 +1770,7 @@
                     "request": {
                         "method": "PUT",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -1841,8 +1792,7 @@
                     "request": {
                         "method": "PUT",
                         "header": [
-                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
                         ],
                         "body": {
                             "mode": "raw",
@@ -1864,7 +1814,7 @@
                     "request": {
                         "method": "DELETE",
                         "header": [
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Cookie", "name": "Cookie", "type": "text", "value": "auth_cookie={{token}}"}
                         ],
                         "url": {
                             "raw": "http://localhost:3000/api/administrators/6",

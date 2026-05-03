@@ -12,6 +12,8 @@ import ILaboratoryRepository from "@/domain/repositories/iLaboratoryRepository";
 import IProjectCategoryRepository from "@/domain/repositories/iProjectCategoryRepository";
 import IProfessorRepository from "@/domain/repositories/iProfessorRepository";
 import IStudentRepository from "@/domain/repositories/iStudentRepository";
+import IEquipmentRepository from "@/domain/repositories/iEquipmentRepository";
+import IBorrowRepository from "@/domain/repositories/iBorrowRepository";
 import Project from "@/domain/models/project";
 import Coordinator from "@/domain/models/coordinator";
 import Researcher from "@/domain/models/researcher";
@@ -36,6 +38,10 @@ class ProjectServices implements IProjectServices {
         private readonly professorRepository: IProfessorRepository,
         @inject("StudentRepository")
         private readonly studentRepository: IStudentRepository,
+        @inject("EquipmentRepository")
+        private readonly equipmentRepository: IEquipmentRepository,
+        @inject("BorrowRepository")
+        private readonly borrowRepository: IBorrowRepository,
         @inject("SequelizeUnitOfWork")
         private readonly unitOfWork: IUnitOfWork
     ) { }
@@ -143,8 +149,9 @@ class ProjectServices implements IProjectServices {
                 }
             }
 
-            existing.update(data.name, data.description, new Date(data.startDate), data.status, data.laboratoryId, data.projectCategoryId, data.endDate ? new Date(data.endDate) : undefined)
-            const updatedProject = (await this.projectRepository.Update(existing as Project, trx)) as Project
+            const project = Project.rehydrate(existing.id, existing.name, existing.description, existing.startDate, existing.status, existing.laboratoryId, existing.projectCategoryId, existing.endDate, existing.createdAt, existing.updatedAt, existing.isVisible)
+            project.update(data.name, data.description, new Date(data.startDate), data.status, data.laboratoryId, data.projectCategoryId, data.endDate ? new Date(data.endDate) : undefined)
+            const updatedProject = (await this.projectRepository.Update(project, trx)) as Project
 
             if (data.coordinators) {
                 await this.coordinatorRepository.DeleteByProjectId(data.id, trx)
@@ -168,6 +175,14 @@ class ProjectServices implements IProjectServices {
 
     async DeleteAsync(id: number) {
         return await this.unitOfWork.execute(async (trx) => {
+            const existing = await this.projectRepository.FindById(id)
+            if (!existing)
+                throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No project was found with the provided id", 404)
+            const equipmentIds = await this.equipmentRepository.FindIdsByProjectId(id, trx)
+            await this.borrowRepository.DeleteByEquipmentIds(equipmentIds, trx)
+            await this.coordinatorRepository.DeleteByProjectId(id, trx)
+            await this.researcherRepository.DeleteByProjectId(id, trx)
+            await this.equipmentRepository.DeleteByProjectId(id, trx)
             return (await this.projectRepository.Delete(id, trx))
         })
     }

@@ -45,7 +45,10 @@ class ProjectRepository implements IProjectRepository {
 
     async Update(data: Project, trx?: Transaction) {
         const transaction = (trx as SequelizeTransactionAdapter)?.trx
-        await ProjectEntityMapping.update(data, { where: { id: data.id }, transaction })
+        await ProjectEntityMapping.update(
+            { name: data.name, description: data.description, startDate: data.startDate, endDate: data.endDate, status: data.status, laboratoryId: data.laboratoryId, projectCategoryId: data.projectCategoryId },
+            { where: { id: data.id }, transaction }
+        )
         return (await ProjectEntityMapping.findByPk(data.id, { transaction })) as Project
     }
 

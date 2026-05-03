@@ -1,3 +1,4 @@
+import { Op } from "sequelize";
 import { Transaction } from "@/application/unitOfWork/transaction";
 import Equipment from "@/domain/models/equipment";
 import IEquipmentRepository from "@/domain/repositories/iEquipmentRepository";
@@ -27,6 +28,15 @@ class EquipmentRepository implements IEquipmentRepository {
         const transaction = (trx as SequelizeTransactionAdapter)?.trx
         const result = await EquipmentEntity.destroy({ where: { id: id }, transaction })
         return result !== 0
+    }
+    async DeleteByProjectId(projectId: number, trx?: Transaction) {
+        const transaction = (trx as SequelizeTransactionAdapter)?.trx
+        await EquipmentEntity.destroy({ where: { projectId }, transaction })
+    }
+    async FindIdsByProjectId(projectId: number, trx?: Transaction) {
+        const transaction = (trx as SequelizeTransactionAdapter)?.trx
+        const results = await EquipmentEntity.findAll({ where: { projectId }, attributes: ['id'], transaction })
+        return results.map(e => e.id)
     }
 }
 export default EquipmentRepository

@@ -1,5 +1,7 @@
 .vscode/
 CLAUDE.md
+.postman/
+postman/
 
 # Logs
 logs
