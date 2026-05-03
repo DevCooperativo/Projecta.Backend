@@ -9,19 +9,19 @@ import { SequelizeTransactionAdapter } from "../data/transactionAdapter";
 class ResearcherRepository implements IResearcherRepository {
     
     async Find() {
-        return await ResearcherEntityMapping.findAll() as Researcher[]
+        return await ResearcherEntityMapping.findAll() as unknown as Researcher[]
     }
     async FindById(id: number) {
-        return await ResearcherEntityMapping.findByPk(id) as Researcher
+        return await ResearcherEntityMapping.findByPk(id) as unknown as Researcher
     }
     async Create(data: Researcher, trx?: Transaction) {
         const transaction = (trx as SequelizeTransactionAdapter)?.trx
-        return await ResearcherEntityMapping.create({ ...data }, { transaction }) as Researcher
+        return await ResearcherEntityMapping.create({ ...data }, { transaction }) as unknown as Researcher
     }
     async Update(data: Researcher, trx?: Transaction) {
         const transaction = (trx as SequelizeTransactionAdapter)?.trx
         await ResearcherEntityMapping.update(data, { where: { id: data.id }, transaction })
-        return (await ResearcherEntityMapping.findByPk(data.id, { transaction })) as Researcher
+        return (await ResearcherEntityMapping.findByPk(data.id, { transaction })) as unknown as Researcher
     }
     async Delete(id: number, trx?: Transaction) {
         const transaction = (trx as SequelizeTransactionAdapter)?.trx

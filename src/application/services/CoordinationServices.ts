@@ -29,7 +29,7 @@ class CoordinationServices implements ICoordinationServices {
     }
     async CreateAsync(data: CoordinationDTO) {
         return await this.unitOfWork.execute(async (trx) => {
-            return (await this.coordinationRepository.Create(data, trx)) as CoordinationDTO
+            return (await this.coordinationRepository.Create(data as Coordination, trx)) as CoordinationDTO
         })
     }
     async UpdateAsync(id: number, data: CoordinationDTO) {

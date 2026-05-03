@@ -18,7 +18,7 @@ class EquipmentCategoryRepository implements IEquipmentCategoryRepository {
     }
     async Create(data: EquipmentCategory, trx?: Transaction) {
         const transaction = (trx as SequelizeTransactionAdapter)?.trx
-        return await EquipmentCategoryEntityMapping.create({ ...data }, { transaction }) as unknown as EquipmentCategory
+        return await EquipmentCategoryEntityMapping.create({ ...data }, { validate: true, transaction }) as unknown as EquipmentCategory
     }
     async Update(id: number, data: EquipmentCategory, trx?: Transaction) {
         const transaction = (trx as SequelizeTransactionAdapter)?.trx

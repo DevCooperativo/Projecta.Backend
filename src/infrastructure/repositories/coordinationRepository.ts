@@ -9,19 +9,19 @@ import { SequelizeTransactionAdapter } from "../data/transactionAdapter";
 class CoordinationRepository implements ICoordinationRepository {
     
     async Find() {
-        return await CoordinationEntityMapping.findAll() as Coordination[]
+        return await CoordinationEntityMapping.findAll() as unknown as Coordination[]
     }
     async FindById(id: number) {
-        return await CoordinationEntityMapping.findByPk(id) as Coordination
+        return await CoordinationEntityMapping.findByPk(id) as unknown as Coordination
     }
     async Create(data: Coordination, trx?: Transaction) {
         const transaction = (trx as SequelizeTransactionAdapter)?.trx
-        return await CoordinationEntityMapping.create({ ...data }, { transaction }) as Coordination
+        return await CoordinationEntityMapping.create({ ...data }, { transaction }) as unknown as Coordination
     }
     async Update(data: Coordination, trx?: Transaction) {
         const transaction = (trx as SequelizeTransactionAdapter)?.trx
         await CoordinationEntityMapping.update(data, { where: { id: data.id }, transaction })
-        return (await CoordinationEntityMapping.findByPk(data.id, { transaction })) as Coordination
+        return (await CoordinationEntityMapping.findByPk(data.id, { transaction })) as unknown as Coordination
     }
     async Delete(id: number, trx?: Transaction) {
         const transaction = (trx as SequelizeTransactionAdapter)?.trx
