@@ -18,6 +18,6 @@ projectRoutes.get("/", (req, res) => getAllProjectsController.Handle(req, res))
 projectRoutes.get("/:id", (req, res) => getProjectByIdController.Handle(req, res))
 projectRoutes.post("/", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(CreateProjectPayload), (req, res) => createProjectController.Handle(req, res))
 projectRoutes.put("/:id", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(UpdateProjectPayload), (req, res) => updateProjectController.Handle(req, res))
-projectRoutes.delete("/:id", EnsureCorrectFieldsValidationMiddleware(DeleteByIdPayload), (req, res) => deleteProjectController.Handle(req, res))
+projectRoutes.delete("/:id", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(DeleteByIdPayload), (req, res) => deleteProjectController.Handle(req, res))
 
 export default projectRoutes

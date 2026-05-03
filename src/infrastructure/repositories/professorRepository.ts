@@ -46,6 +46,8 @@ class ProfessorRepository implements IProfessorRepository {
         const result = await ProfessorEntity.destroy({ where: { id: id }, transaction })
         return result !== 0
     }
-
+    async CountByCoordinationId(coordinationId: number) {
+        return await ProfessorEntity.count({ where: { coordinationId } })
+    }
 }
 export default ProfessorRepository

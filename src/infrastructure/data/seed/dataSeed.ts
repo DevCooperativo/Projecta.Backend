@@ -180,6 +180,47 @@ class DataSeed {
             { email: adminSeeds[0].email, passwordHash: defaultPasswordHash },
         ];
         await ensureSeeded(AccountEntityMapping, accountSeeds, 'email');
+
+        // 9. Business rule test data
+        // RN1: lab 1 must reach 10 projects → add 9 more to lab 1 (already has 1)
+        // RN2: professor 1 must reach 5 coordinations → 4 of the 9 new projects use professor 1 (already has 1)
+        const lab1Id = (laboratories[0] as any)?.id
+        const prof1Id = (professors[0] as Professor)?.id
+        const prof2Id = (professors[1] as Professor)?.id
+        const prof3Id = (professors[2] as Professor)?.id
+        const prof4Id = (professors[3] as Professor)?.id
+        const rnExtraProjects = [
+            { name: "Projeto Extra Lab1-01", categoryId: (projectCategories[1] as any)?.id, professorId: prof1Id },
+            { name: "Projeto Extra Lab1-02", categoryId: (projectCategories[2] as any)?.id, professorId: prof1Id },
+            { name: "Projeto Extra Lab1-03", categoryId: (projectCategories[3] as any)?.id, professorId: prof1Id },
+            { name: "Projeto Extra Lab1-04", categoryId: (projectCategories[0] as any)?.id, professorId: prof1Id },
+            { name: "Projeto Extra Lab1-05", categoryId: (projectCategories[1] as any)?.id, professorId: prof2Id },
+            { name: "Projeto Extra Lab1-06", categoryId: (projectCategories[2] as any)?.id, professorId: prof2Id },
+            { name: "Projeto Extra Lab1-07", categoryId: (projectCategories[3] as any)?.id, professorId: prof3Id },
+            { name: "Projeto Extra Lab1-08", categoryId: (projectCategories[0] as any)?.id, professorId: prof3Id },
+            { name: "Projeto Extra Lab1-09", categoryId: (projectCategories[1] as any)?.id, professorId: prof4Id },
+        ]
+        for (const p of rnExtraProjects) {
+            const [proj] = await ProjectEntityMapping.findOrCreate({
+                where: { name: p.name },
+                defaults: {
+                    description: "Projeto extra para validação de regras de negócio",
+                    startDate: new Date("2025-01-01"),
+                    status: "Em andamento",
+                    laboratoryId: lab1Id,
+                    projectCategoryId: p.categoryId,
+                }
+            })
+            await CoordinatorEntityMapping.findOrCreate({
+                where: { projectId: proj.id, professorId: p.professorId },
+                defaults: {
+                    area: "Área de Validação",
+                    startDate: new Date("2025-01-01"),
+                    professorId: p.professorId,
+                    projectId: proj.id,
+                }
+            })
+        }
     }
 }
 

@@ -7,5 +7,6 @@ interface IBorrowRepository {
     Create: (data: Borrow, trx?: Transaction) => Promise<Borrow | null>
     Update: (id: number, data: Borrow, trx?: Transaction) => Promise<Borrow | null>
     Delete: (id: number, trx?: Transaction) => Promise<boolean>
+    DeleteByEquipmentIds: (equipmentIds: number[], trx?: Transaction) => Promise<void>
 }
 export default IBorrowRepository

@@ -126,5 +126,6 @@ ResearcherEntityMapping.init(
 ResearcherEntityMapping.belongsTo(ProjectEntity, { as: "Projects", foreignKey: "projectId" })
 ResearcherEntityMapping.belongsTo(StudentEntity, { as: "Students", foreignKey: "studentId" })
 ResearcherEntityMapping.belongsTo(ProfessorEntity, { as: "Professors", foreignKey: "professorId" })
+ProjectEntity.hasMany(ResearcherEntityMapping, { as: "Researchers", foreignKey: "projectId" })
 
 export default ResearcherEntityMapping

@@ -1,3 +1,4 @@
+import { Op } from "sequelize";
 import { Transaction } from "@/application/unitOfWork/transaction";
 import Borrow from "@/domain/models/borrow";
 import IBorrowRepository from "@/domain/repositories/iBorrowRepository";
@@ -36,6 +37,11 @@ class BorrowRepository implements IBorrowRepository {
         const transaction = (trx as SequelizeTransactionAdapter)?.trx
         const result = await BorrowEntityMapping.destroy({ where: { id }, transaction })
         return result !== 0
+    }
+    async DeleteByEquipmentIds(equipmentIds: number[], trx?: Transaction) {
+        if (equipmentIds.length === 0) return
+        const transaction = (trx as SequelizeTransactionAdapter)?.trx
+        await BorrowEntityMapping.destroy({ where: { equipmentId: { [Op.in]: equipmentIds } }, transaction })
     }
 }
 export default BorrowRepository

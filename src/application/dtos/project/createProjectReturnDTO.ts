@@ -1,4 +1,4 @@
-class ProjectDTO {
+class CreateProjectReturnDTO {
     id: number
     name: string
     description: string
@@ -8,9 +8,7 @@ class ProjectDTO {
     laboratoryId: number
     projectCategoryId: number
     createdAt: Date
-    updatedAt: Date
-    isVisible: boolean
-    participantCount?: number
-    constructor() { }
+    constructor() {}
 }
-export default ProjectDTO
+
+export default CreateProjectReturnDTO

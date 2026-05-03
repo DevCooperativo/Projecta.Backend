@@ -15,12 +15,10 @@ abstract class BaseModel {
     }
 
     static throwDomainException(errors: string[]) {
-        if (errors.length > 0)
-            throw new DomainException("Domain Exceptions", errors.join(" "));
+        if (errors.length > 0) throw new DomainException("DOMAIN_EXCEPTION", errors.join("; "))
     }
     throwDomainException(errors: string[]) {
-        if (errors.length > 0)
-            throw new DomainException("Domain Exceptions", errors.join(" "));
+        if (errors.length > 0) throw new DomainException("DOMAIN_EXCEPTION", errors.join("; "))
     }
 
     protected updateTimestamps() {

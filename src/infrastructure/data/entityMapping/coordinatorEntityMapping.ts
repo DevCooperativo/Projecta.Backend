@@ -81,5 +81,6 @@ CoordinatorEntityMapping.init(
 
 CoordinatorEntityMapping.belongsTo(ProfessorEntity, { as: "Professors", foreignKey: "professorId" })
 CoordinatorEntityMapping.belongsTo(ProjectEntity, { as: "Projects", foreignKey: "projectId" })
+ProjectEntity.hasMany(CoordinatorEntityMapping, { as: "Coordinators", foreignKey: "projectId" })
 
 export default CoordinatorEntityMapping
