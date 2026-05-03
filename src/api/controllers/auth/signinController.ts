@@ -1,4 +1,4 @@
-﻿import { NextFunction, Request, Response } from "express";
+﻿import { Request, Response } from "express";
 import BaseController from "../baseController";
 import { inject, injectable } from "tsyringe";
 import { SigninDTO } from "@/application/dtos/auth/signinDTO";
@@ -15,8 +15,8 @@ export class SigninController extends BaseController {
     }
     async Handle(req: Request, res: Response): Promise<Response> {
         try {
-            const { email, password } = req.body || {}
-            const signinDTO = new SigninDTO(email, password)
+            const { email, password, profileType } = req.body || {}
+            const signinDTO = new SigninDTO(email, password, profileType)
             const result = await this.authServices.SignInAsync(signinDTO)
             res.cookie("auth_cookie", result.token, {
                 httpOnly: true,

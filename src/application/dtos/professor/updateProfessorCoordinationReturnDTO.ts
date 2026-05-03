@@ -1,4 +1,4 @@
-export class UpdateProfessorCoordinationReturnDTO {
+export class ChangeProfessorCoordinationReturnDTO {
     constructor(
         readonly id: number,
         readonly name: string,

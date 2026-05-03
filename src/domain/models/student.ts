@@ -38,26 +38,36 @@ class Student extends BaseModel {
         return new Student(name, email, registration, birthdate, term, shift)
     }
 
-    update(id: number, name: string,registration: string, birthdate: Date, term: number, shift: ShiftsType): Student {
+    public updatePersonalData(name?: string, birthdate?: Date) {
         const errors = [
-            Guard.againstNullOrUndefined(id, "Id is required"),
-            Guard.againstNullOrUndefined(name, "Name is required"),
-            Guard.againstRangeLenght(name, 3, 100, "Name must be between 3 and 100 characters long"),
-            Guard.againstNullOrUndefined(registration, "Registration is required"),
+            Guard.against((name !== undefined && name !== null) && (name.length < 3 || name.length > 100), "Name must be between 3 and 100 characters long"),
             Guard.againstNullOrUndefined(birthdate, "Birthdate is required"),
             Guard.againstInvalidDateFormat(birthdate, "Birthdate is invalid. Must be in the format YYYY-MM-DD"),
             Guard.againstFutureDate(birthdate, "Birthdate cannot be in the future"),
-            Guard.againstNullOrUndefined(term, "Term is required"),
-            Guard.againstNullOrUndefined(shift, "Shift is required"),
-            Guard.againstValueSet(shift, Shifts, "Shift must be a valid shift"),
         ].filter((e): e is string => e !== null)
         this.throwDomainException(errors);
-        this.name = name
-        this.registration = registration
-        this.birthdate = birthdate
-        this.term = term
-        this.shift = shift
-        return this
+        this.name = name ?? this.name;
+        this.birthdate = birthdate ?? this.birthdate;
+        this.updateTimestamps();
+    }
+
+    public changeShift(newShift: ShiftsType) {
+        const errors = [
+            Guard.againstNullOrUndefined(newShift, "The new shift is required"),
+        ].filter(e => e !== null)
+        this.throwDomainException(errors)
+
+        this.shift = newShift;
+        this.updateTimestamps()
+    }
+    public changeTerms(newTerm: number) {
+        const errors = [
+            Guard.againstNullOrUndefined(newTerm, "The new term is required"),
+            Guard.against(newTerm <= 0, "The new term must be a valid term")
+        ].filter(e => e !== null)
+        this.throwDomainException(errors)
+        this.term = newTerm
+        this.updateTimestamps()
     }
 
     public static rehydrate(id: number, name: string, email: string, registration: string, birthdate: Date, term: number, shift: ShiftsType, createdAt: Date, updatedAt: Date, isVisible: boolean): Student {

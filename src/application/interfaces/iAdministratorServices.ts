@@ -1,4 +1,4 @@
-import { AdministratorDTO } from "@/application/dtos/administratorDTO";
+import { AdministratorDTO } from "@/application/dtos/administrator/administratorDTO";
 import { CreateAdministratorInputDTO } from "@/application/dtos/administrator/createAdministratorInputDTO";
 import { CreateAdministratorReturnDTO } from "@/application/dtos/administrator/createAdministratorReturnDTO";
 import { UpdateAdministratorInputDTO } from "@/application/dtos/administrator/updateAdministratorInputDTO";
@@ -7,7 +7,7 @@ import { DeleteAdministratorInputDTO } from "../dtos/administrator/deleteAdminis
 import { DeleteAdministratorReturnDTO } from "../dtos/administrator/deleteAdministratorReturnDTO";
 
 interface IAdministratorServices {
-    FindByEmailAsync: (email: string) => Promise<AdministratorDTO | null>
+    GetByEmailAsync: (email: string) => Promise<AdministratorDTO | null>
     GetAllAsync: () => Promise<AdministratorDTO[]>
     GetByIdAsync: (id: number) => Promise<AdministratorDTO | null>
     CreateAsync: (data: CreateAdministratorInputDTO) => Promise<CreateAdministratorReturnDTO>

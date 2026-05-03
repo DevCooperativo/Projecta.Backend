@@ -47,17 +47,25 @@ class Borrow extends BaseModel implements IBorrow {
         return borrow
     }
 
-    public userCanModify(userId: number) {
+    public userCanModify(professorId?: number, studentId?: number) {
+        if (professorId !== undefined && this.professorId === professorId) return true
+        if (studentId !== undefined && this.studentId === studentId) return true
+        return false
+    }
+
+    public changeEquipment(equipmentId: number) {
         const errors = [
-            Guard.against(this.professorId !== userId || this.studentId !== userId, "User cannot modify this borrow")
-        ].filter((e): e is string => e !== null)
+            Guard.against(equipmentId <= 0, "Invalid equipment id")
+        ].filter(e => e !== null)
         this.throwDomainException(errors)
+
+        this.equipmentId = equipmentId;
+        this.updateTimestamps()
     }
 
     public returnBorrowedItem() {
         const errors = [
             Guard.against(!this.isStillBorrowed, "Item is already returned."),
-            Guard.against(this.returnDate !== undefined, "Item is already returned")
         ].filter((e): e is string => e !== null)
         this.throwDomainException(errors)
 

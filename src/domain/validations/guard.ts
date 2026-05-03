@@ -9,9 +9,9 @@ export class Guard {
         return errors
     }
 
-    public static againstNullOrUndefined(argument: unknown, argumentName: string): string | null {
+    public static againstNullOrUndefined(argument: unknown, message: string): string | null {
         if (argument === null || argument === undefined) {
-            return `Argument ${argumentName} is null or undefined`
+            return message
         }
         return null
     }
@@ -41,10 +41,10 @@ export class Guard {
         return null
     }
 
-    public static againstFutureDate(argument: Date, message: string): string | null {
+    public static againstFutureDate(argument: unknown, message: string): string | null {
         if (argument === null || argument === undefined) return null
         const now = new Date()
-        if (argument > now) return message
+        if (Date.parse(String(argument)) > now.getUTCMilliseconds()) return message
         return null
     }
 

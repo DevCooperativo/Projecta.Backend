@@ -1,7 +1,10 @@
+import { AccountType } from "@/infrastructure/authentication/constants/accountType";
+
 export class UpdateAdministratorInputDTO {
     constructor(
         readonly adminId: number,
-        readonly userId: number,
+        readonly userEmail: string,
+        readonly accountType: AccountType,
         readonly name: string
     ) { }
 }

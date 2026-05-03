@@ -1,5 +1,5 @@
 import { ApplicationExceptionName } from "@/application/constants/applicationExceptionName";
-import { AdministratorDTO } from "@/application/dtos/administratorDTO";
+import { AdministratorDTO } from "@/application/dtos/administrator/administratorDTO";
 import { CreateAdministratorInputDTO } from "@/application/dtos/administrator/createAdministratorInputDTO";
 import { CreateAdministratorReturnDTO } from "@/application/dtos/administrator/createAdministratorReturnDTO";
 import { UpdateAdministratorInputDTO } from "@/application/dtos/administrator/updateAdministratorInputDTO";
@@ -14,6 +14,7 @@ import { inject, injectable } from "tsyringe";
 import { IUnitOfWork } from "../unitOfWork/iUnitOfWork";
 import { DeleteAdministratorInputDTO } from "../dtos/administrator/deleteAdministratorInputDTO";
 import { DeleteAdministratorReturnDTO } from "../dtos/administrator/deleteAdministratorReturnDTO";
+import { AccountType } from "@/infrastructure/authentication/constants/accountType";
 
 @injectable()
 class AdministratorServices implements IAdministratorServices {
@@ -23,8 +24,10 @@ class AdministratorServices implements IAdministratorServices {
         @inject("SequelizeUnitOfWork")
         private readonly unitOfWork: IUnitOfWork
     ) { }
-    async FindByEmailAsync(email: string) {
-        return (await this.administratorRepository.FindByEmail(email)) as AdministratorDTO | null
+    async GetByEmailAsync(email: string) {
+        const result = await this.administratorRepository.FindByEmail(email)
+        if (!result) return null
+        return new AdministratorDTO(result.id, result.name, result.email, result.isVisible, result.createdAt, result.updatedAt)
     }
     async GetAllAsync() {
         return (await this.administratorRepository.Find()) as AdministratorDTO[]
@@ -46,11 +49,15 @@ class AdministratorServices implements IAdministratorServices {
     }
     async UpdateAsync(data: UpdateAdministratorInputDTO) {
         return await this.unitOfWork.execute(async (trx) => {
-            const existingAdministrator = await this.administratorRepository.FindById(data.adminId)
-            if (!existingAdministrator)
-                throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No administrator was found with the provided id", 404)
-            existingAdministrator.update(data.name)
-            const updatedAdministrator = await this.administratorRepository.Update(existingAdministrator, trx)
+            if (data.accountType !== AccountType.administrator)
+                throw new ApplicationException(ApplicationExceptionName.NOT_BELONGS_TO, "User is not acting as an administrator", 403)
+            const adminByEmail = await this.administratorRepository.FindByEmail(data.userEmail)
+            if (!adminByEmail)
+                throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No administrator profile found for this user", 404)
+            if (adminByEmail.id !== data.adminId)
+                throw new ApplicationException(ApplicationExceptionName.NOT_BELONGS_TO, "Administrator profile does not belong to the current user", 403)
+            adminByEmail.update(data.name)
+            const updatedAdministrator = await this.administratorRepository.Update(adminByEmail, trx)
             if (!updatedAdministrator)
                 throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "Failed to update administrator", 500)
             return new UpdateAdministratorReturnDTO(updatedAdministrator.id, updatedAdministrator.email)

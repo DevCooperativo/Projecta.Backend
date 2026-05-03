@@ -1,37 +1,61 @@
 import ApiExceptionNameEnum from "@/api/enums/apiExceptionNameEnum";
+import { AccountType } from "@/infrastructure/authentication/constants/accountType";
 import { NextFunction, Request, Response } from "express";
-import jsonwebtoken, { base64url, jwtDecrypt, JWTPayload, JWTVerifyResult } from "jose"
+import jsonwebtoken, { base64url, jwtDecrypt, JWTPayload } from "jose"
 interface AppJwtPayload extends JWTPayload {
-    id: number
     email: string
-    accountType: "student" | "professor"
+    accountTypes: AccountType[]
 }
 const EnsureAuthenticatedUserMiddleware = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        // const cookie = req.cookies["auth_cookie"]
-        // if (!cookie) {
-        //     res.status(401).json({ name: ApiExceptionNameEnum.UNAUTHENTICATED_USER, message: "You are note authenticated on the api" })
-        //     return
-        // }
-        // const secretKey = process.env.JWT_SECRET_KEY
-        // const secret = base64url.decode(secretKey ?? "")
-        // if (!secretKey) {
-        //     res.status(500).json({ message: "Internal server error" })
-        //     process.exit(1)
-        // }
-        // const decoded: JWTVerifyResult<AppJwtPayload> = await jwtDecrypt<AppJwtPayload>(cookie, secret, {
-        //     issuer: "urn:projecta:issuer",
-        //     audience: "urn:projecta:audience",
-        // })
-        // if (decoded.payload.exp && (decoded?.payload.exp < Math.floor(Date.now() / 1000))) {
-        //     res.status(401).json({ name: ApiExceptionNameEnum.EXPIRED_TOKEN, message: "Expired token" })
-        //     return
-        // }
-        // req.user = {
-        //     accontType: decoded.payload.accountType,
-        //     id: decoded.payload.id,
-        //     email: decoded.payload.email
-        // }
+        const cookie = req.cookies["auth_cookie"]
+        console.log(cookie)
+        if (!cookie) {
+            res.status(401).json({ name: ApiExceptionNameEnum.UNAUTHENTICATED_USER, message: "You are note authenticated on the api" })
+            return
+        }
+        const secretKey = process.env.JWT_SECRET_KEY;
+        if (!secretKey) {
+            res.status(500).json({ message: "Internal server error" });
+            return;
+        }
+
+        const secret = base64url.decode(secretKey);
+
+        const { payload } = await jwtDecrypt<AppJwtPayload>(cookie, secret, {
+            issuer: "urn:projecta:issuer",
+            audience: "urn:projecta:audience",
+        });
+
+
+        const userTypeCookie = req.cookies["user_scope"]
+        let userType: AccountType;
+        switch (userTypeCookie) {
+            case 0:
+                if (!payload.accountTypes.includes(AccountType.administrator))
+                    return res.status(403).json({ message: "You cannot assume this profile" })
+                userType = AccountType.administrator;
+                break;
+            case 1:
+                if (!payload.accountTypes.includes(AccountType.professor))
+                    return res.status(403).json({ message: "You cannot assume this profile" })
+                userType = AccountType.professor;
+                break;
+            case 2:
+                if (!payload.accountTypes.includes(AccountType.student))
+                    return res.status(403).json({ message: "You cannot assume this profile" })
+                userType = AccountType.student;
+                break;
+            default:
+                userType = payload.accountTypes[0]
+                break;
+        }
+        console.log(payload)
+        req.user = {
+            accontTypes: payload.accountTypes,
+            email: payload.email,
+            userType: userType,
+        }
         next()
     } catch (ex) {
         if (ex instanceof jsonwebtoken.errors.JOSEError) {
@@ -42,4 +66,5 @@ const EnsureAuthenticatedUserMiddleware = async (req: Request, res: Response, ne
         res.status(400).json({ message: "Invalid or expired token" })
     }
 }
+
 export default EnsureAuthenticatedUserMiddleware

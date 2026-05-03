@@ -20,7 +20,7 @@ class UpdateAdministratorController implements BaseController {
             const user = req.user
             if (!user)
                 throw new ApiException(ApiExceptionNames.UNAUTHORIZED, "User is not logged in")
-            const dto = new UpdateAdministratorInputDTO(id, user.id, name)
+            const dto = new UpdateAdministratorInputDTO(id, user.email, user.userType, name)
             const result = await this.administratorServices.UpdateAsync(dto)
             return res.status(200).json(result)
         } catch (ex) {

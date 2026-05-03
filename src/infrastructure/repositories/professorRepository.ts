@@ -35,12 +35,10 @@ class ProfessorRepository implements IProfessorRepository {
     async Update(id: number, data: Professor, trx?: Transaction) {
         const transaction = (trx as SequelizeTransactionAdapter)?.trx
         const result = await ProfessorEntity.findByPk(id)
-        
-        //@ts-expect-error: known problem to delete required field
-        delete data.id
-        await result?.update({ ...data }, { validate: true, transaction })
         if (!result)
             return null
+        const { id: _, ...treatedData } = data
+        await result.update({ ...treatedData }, { validate: true, transaction })
         return Professor.rehydrate(result.id, result.name, result.email, result.registration, result.telephone!, result.coordinationId, result.createdAt, result.updatedAt, result.isVisible)
     }
     async Delete(id: number, trx?: Transaction) {

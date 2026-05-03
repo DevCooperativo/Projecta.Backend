@@ -4,4 +4,4 @@ export const AccountType = {
     administrator: "administrator"
 } as const
 
-export type AccountTypeType = keyof typeof AccountType
+export type AccountType = typeof AccountType[keyof typeof AccountType]

@@ -2,11 +2,9 @@
     "name": "projecta",
     "version": "1.0.0",
     "description": "",
-    "main": "index.js",
     "scripts": {
         "test": "vitest",
         "dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only src/server.ts",
-        "seed": "ts-node src/infrastructure/data/seed/runSeed.ts",
         "build": "tsc && tsc-alias",
         "migration:generate": "sequelize-cli migration:generate --name",
         "migration:run": "sequelize-cli db:migrate",

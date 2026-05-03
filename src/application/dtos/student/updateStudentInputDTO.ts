@@ -1,12 +1,10 @@
-import { ShiftsType } from "@/domain/constants/shifts";
+import { AccountType } from "@/infrastructure/authentication/constants/accountType";
 
 export class UpdateStudentInputDTO {
     constructor(
-        readonly creatorId: number,
-        readonly name: string,
-        readonly registration: string,
-        readonly birthdate: Date,
-        readonly term: number,
-        readonly shift: ShiftsType
+        readonly userEmail: string,
+        readonly accountType: AccountType,
+        readonly name?: string,
+        readonly birthdate?: Date,
     ) {}
 }

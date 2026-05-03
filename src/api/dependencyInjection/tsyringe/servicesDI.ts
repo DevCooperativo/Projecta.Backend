@@ -11,6 +11,7 @@ import IProjectCategoryServices from "@/application/interfaces/iProjectCategoryS
 import IProjectServices from "@/application/interfaces/iProjectServices"
 import IResearcherServices from "@/application/interfaces/iResearcherServices"
 import IStudentServices from "@/application/interfaces/iStudentServices"
+import { IUserContextServices } from "@/application/interfaces/iUserContextServices"
 import AdministratorServices from "@/application/services/administratorServices"
 import { AuthServices } from "@/application/services/authServices"
 import { BorrowServices } from "@/application/services/borrowServices"
@@ -24,6 +25,7 @@ import ProjectCategoryServices from "@/application/services/ProjectCategoryServi
 import ProjectServices from "@/application/services/projectServices"
 import ResearcherServices from "@/application/services/ResearcherServices"
 import StudentServices from "@/application/services/studentServices"
+import { UserContextServices } from "@/application/services/userContextServices"
 import { container } from "tsyringe"
 
 export const ServicesDI = () => {
@@ -34,6 +36,9 @@ export const ServicesDI = () => {
 
 
     container.registerSingleton<IProfessorServices>("ProfessorServices", ProfessorServices)
+
+    container.registerType<IUserContextServices>("UserContextServices", UserContextServices)
+
     container.registerSingleton<ICoordinationServices>("CoordinationServices", CoordinationServices)
     container.registerSingleton<ICoordinatorServices>("CoordinatorServices", CoordinatorServices)
     container.registerSingleton<ILaboratoryServices>("LaboratoryServices", LaboratoryServices)
