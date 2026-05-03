@@ -8,12 +8,14 @@ import { SequelizeTransactionAdapter } from "../data/transactionAdapter";
 @injectable()
 class BorrowRepository implements IBorrowRepository {
 
-    async Find() {
-        const result = await BorrowEntityMapping.findAll()
+    async Find(trx?: Transaction) {
+        const transaction = (trx as SequelizeTransactionAdapter)?.trx
+        const result = await BorrowEntityMapping.findAll({ transaction })
         return result.map(result => Borrow.rehydrate(result.id, result.equipmentId, result.borrowDate, result.studentId, result.professorId, result.isStillBorrowed, result.returnDate, result.createdAt, result.updatedAt, result.isVisible))
     }
-    async FindById(id: number) {
-        const result = await BorrowEntityMapping.findByPk(id)
+    async FindById(id: number, trx?: Transaction) {
+        const transaction = (trx as SequelizeTransactionAdapter)?.trx
+        const result = await BorrowEntityMapping.findByPk(id, { transaction })
         if (!result) return null
         return Borrow.rehydrate(result.id, result.equipmentId, result.borrowDate, result.studentId, result.professorId, result.isStillBorrowed, result.returnDate, result.createdAt, result.updatedAt, result.isVisible)
     }

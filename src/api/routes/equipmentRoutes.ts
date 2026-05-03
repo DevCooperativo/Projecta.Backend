@@ -6,6 +6,8 @@ import { EnsureCorrectFieldsValidationMiddleware } from "@/api/middlewares/ensur
 import { CreateEquipmentPayload } from "@/api/middlewares/validations/equipment/createEquipmentPayload";
 import { UpdateEquipmentPayload } from "@/api/middlewares/validations/equipment/updateEquipmentPayload";
 import { DeleteByIdPayload } from "@/api/middlewares/validations/shared/deleteByIdPayload";
+import { AccountType } from "@/infrastructure/authentication/constants/accountType";
+import { EnsureUserRoleMiddleware } from "../middlewares/ensureUserRoleMiddleware";
 
 const equipmentsRoutes = Router()
 const getAllEquipmentsController = container.resolve<BaseController>("GetAllEquipmentsController")
@@ -16,8 +18,8 @@ const deleteEquipmentController = container.resolve<BaseController>("DeleteEquip
 
 equipmentsRoutes.get("/", (req, res) => getAllEquipmentsController.Handle(req, res))
 equipmentsRoutes.get("/:id", (req, res) => getEquipmentByIdController.Handle(req, res))
-equipmentsRoutes.post("/", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(CreateEquipmentPayload), (req, res) => createEquipmentController.Handle(req, res))
-equipmentsRoutes.put("/:id", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(UpdateEquipmentPayload), (req, res) => updateEquipmentController.Handle(req, res))
-equipmentsRoutes.delete("/:id", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(DeleteByIdPayload), (req, res) => deleteEquipmentController.Handle(req, res))
+equipmentsRoutes.post("/", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(CreateEquipmentPayload), EnsureUserRoleMiddleware([AccountType.professor]), (req, res) => createEquipmentController.Handle(req, res))
+equipmentsRoutes.put("/:id", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(UpdateEquipmentPayload), EnsureUserRoleMiddleware([AccountType.professor]), (req, res) => updateEquipmentController.Handle(req, res))
+equipmentsRoutes.delete("/:id", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(DeleteByIdPayload), EnsureUserRoleMiddleware([AccountType.professor]), (req, res) => deleteEquipmentController.Handle(req, res))
 
 export default equipmentsRoutes
