@@ -44,7 +44,7 @@ export class Guard {
     public static againstFutureDate(argument: unknown, message: string): string | null {
         if (argument === null || argument === undefined) return null
         const now = new Date()
-        if (Date.parse(String(argument)) > now.getUTCMilliseconds()) return message
+        if (Date.parse(String(argument)) > now.getTime()) return message
         return null
     }
 

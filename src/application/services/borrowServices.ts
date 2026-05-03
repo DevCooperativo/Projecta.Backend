@@ -12,6 +12,7 @@ import { AccountType } from "@/infrastructure/authentication/constants/accountTy
 import IEquipmentServices from "../interfaces/iEquipmentServices";
 import { ReturnBorrowInputDTO } from "../dtos/borrow/returnBorrowInputDTO";
 import { IUserContextServices } from "../interfaces/iUserContextServices";
+import EquipmentDTO from "../dtos/equipmentDTO";
 
 @injectable()
 export class BorrowServices implements IBorrowServices {
@@ -64,20 +65,37 @@ export class BorrowServices implements IBorrowServices {
             const borrow = await this.borrowRepository.FindById(id)
             if (!borrow)
                 throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No borrow was found with the provided id", 404)
-            const equipment = await this.equipmentServices.GetByIdAsync(data.equipmentId)
-            if (!equipment)
-                throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "Equipment not found", 404)
-
-            const borrows = await this.borrowRepository.Find()
-            if (!this.CanBeBorrowed(borrows, equipment.id))
-                throw new ApplicationException(ApplicationExceptionName.INVALID_OPERATION, "The equipment is already borrowed.", 409)
-
             const professorId = userContext.currentProfileType === AccountType.professor ? userContext.currentProfile!.id : undefined
             const studentId = userContext.currentProfileType === AccountType.student ? userContext.currentProfile!.id : undefined
+            let equipment: EquipmentDTO | null;
             if (!borrow.userCanModify(professorId, studentId))
                 throw new ApplicationException(ApplicationExceptionName.NOT_BELONGS_TO, "User cannot modify this borrow", 403)
+            if (data.equipmentId) {
+                equipment = await this.equipmentServices.GetByIdAsync(data.equipmentId)
+                if (!equipment)
+                    throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "Equipment not found", 404)
+                const borrows = await this.borrowRepository.Find()
+                if (!this.CanBeBorrowed(borrows, equipment?.id))
+                    throw new ApplicationException(ApplicationExceptionName.INVALID_OPERATION, "The equipment is already borrowed.", 409)
+                borrow.changeEquipment(equipment.id)
+            }
+            if (data.isStillBorrowed) {
+                borrow.changeBorrowState(data.isStillBorrowed);
+            }
+            if (data.borrowDate) {
+                borrow.changeBorrowDate(data.borrowDate);
+            }
+            if (data.studentId && data.professorId) {
+                throw new ApplicationException(ApplicationExceptionName.INVALID_OPERATION, "You cannot update and set both student and professor id on the same borrow", 400);
+            }
+            if (data.studentId) {
+                borrow.changeBorrower(data.studentId, "student");
+            } else if (data.professorId) {
+                borrow.changeBorrower(data.professorId, "professor")
+            }
 
-            borrow.changeEquipment(equipment.id)
+
+
             const result = await this.borrowRepository.Update(id, borrow, trx)
             if (!result)
                 return null
@@ -107,7 +125,9 @@ export class BorrowServices implements IBorrowServices {
     }
 
 
-    private CanBeBorrowed(borrows: BorrowDTO[], equipmentId: number) {
+    private CanBeBorrowed(borrows: BorrowDTO[], equipmentId?: number) {
+        if (!equipmentId)
+            return null
         const activeBorrow = borrows.find(x => x.equipmentId === equipmentId && x.isStillBorrowed)
         if (activeBorrow)
             return false

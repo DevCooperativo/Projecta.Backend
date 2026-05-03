@@ -50,7 +50,6 @@ const EnsureAuthenticatedUserMiddleware = async (req: Request, res: Response, ne
                 userType = payload.accountTypes[0]
                 break;
         }
-        console.log(payload)
         req.user = {
             accontTypes: payload.accountTypes,
             email: payload.email,

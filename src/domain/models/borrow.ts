@@ -28,6 +28,8 @@ class Borrow extends BaseModel implements IBorrow {
         this.returnDate = returnDate
     }
 
+
+
     static create(equipmentId: number, borrowDate: Date, studentId?: number, professorId?: number, isStillBorrowed: boolean = true, returnDate?: Date) {
         const errors = [
             Guard.againstNullOrUndefined(equipmentId, "Equipment ID is required"),
@@ -53,6 +55,23 @@ class Borrow extends BaseModel implements IBorrow {
         return false
     }
 
+    public changeBorrower(borrowerId: number, borrowerType: "student" | "professor") {
+        const errors = [
+            Guard.against(borrowerType === "professor" && borrowerId === this.professorId, "You cannot change the borrower to the same user that  it's already borrowing"),
+            Guard.against(borrowerType === "student" && borrowerId === this.studentId, "You cannot change the borrower to the same user that  it's already borrowing")
+        ].filter(e => e !== null)
+        this.throwDomainException(errors);
+        if (borrowerType === "professor") {
+            this.studentId = undefined;
+            this.professorId = borrowerId;
+        }
+        else {
+            this.studentId = borrowerId;
+            this.professorId = undefined;
+        }
+        this.updateTimestamps();
+    }
+
     public changeEquipment(equipmentId: number) {
         const errors = [
             Guard.against(equipmentId <= 0, "Invalid equipment id")
@@ -62,6 +81,33 @@ class Borrow extends BaseModel implements IBorrow {
         this.equipmentId = equipmentId;
         this.updateTimestamps()
     }
+
+
+    public changeBorrowState(borrowState: boolean) {
+        const errors = [
+            Guard.against(borrowState === this.isStillBorrowed, "You can't change it to the same borrow state"),
+        ].filter(e => e !== null)
+        this.throwDomainException(errors)
+
+        if (!borrowState) {
+            this.returnDate = undefined;
+        }
+        else {
+            this.returnDate = new Date();
+        }
+        this.isStillBorrowed = borrowState;
+        this.updateTimestamps();
+    }
+
+    public changeBorrowDate(borrowDate: Date) {
+        const errors = [
+            Guard.againstFutureDate(borrowDate, "The new borrow date cannot be in the future"),
+        ].filter(e => e !== null)
+        this.throwDomainException(errors);
+        this.borrowDate = borrowDate;
+        this.updateTimestamps();
+    }
+
 
     public returnBorrowedItem() {
         const errors = [
