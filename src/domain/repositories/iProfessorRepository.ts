@@ -8,5 +8,6 @@ interface IProfessorRepository {
     Create: (data: Professor, trx?: Transaction) => Promise<Professor | null>
     Update: (id: number, data: Professor, trx?: Transaction) => Promise<Professor | null>
     Delete: (id: number, trx?: Transaction) => Promise<boolean>
+    CountByCoordinationId: (coordinationId: number) => Promise<number>
 }
 export default IProfessorRepository

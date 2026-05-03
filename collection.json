@@ -200,7 +200,7 @@
                     "request": {
                         "method": "DELETE",
                         "header": [
-                            {"key": "Cookie", "name": "Cookie", "type": "text", "value": "auth_cookie={{token}}"}
+
                         ],
                         "url": {
                             "raw": "http://localhost:3000/api/laboratories/1",
@@ -318,7 +318,7 @@
                     "request": {
                         "method": "DELETE",
                         "header": [
-                            {"key": "Cookie", "name": "Cookie", "type": "text", "value": "auth_cookie={{token}}"}
+
                         ],
                         "url": {
                             "raw": "http://localhost:3000/api/equipmentCategories/1",
@@ -436,7 +436,7 @@
                     "request": {
                         "method": "DELETE",
                         "header": [
-                            {"key": "Cookie", "name": "Cookie", "type": "text", "value": "auth_cookie={{token}}"}
+
                         ],
                         "url": {
                             "raw": "http://localhost:3000/api/projectCategories/1",
@@ -554,7 +554,7 @@
                     "request": {
                         "method": "DELETE",
                         "header": [
-                            {"key": "Cookie", "name": "Cookie", "type": "text", "value": "auth_cookie={{token}}"}
+
                         ],
                         "url": {
                             "raw": "http://localhost:3000/api/equipments/1",
@@ -885,7 +885,7 @@
                     "request": {
                         "method": "DELETE",
                         "header": [
-                            {"key": "Cookie", "name": "Cookie", "type": "text", "value": "auth_cookie={{token}}"}
+
                         ],
                         "url": {
                             "raw": "http://localhost:3000/api/coordinators/1",
@@ -1018,7 +1018,7 @@
                     "request": {
                         "method": "DELETE",
                         "header": [
-                            {"key": "Cookie", "name": "Cookie", "type": "text", "value": "auth_cookie={{token}}"}
+
                         ],
                         "url": {
                             "raw": "http://localhost:3000/api/researchers/1",
@@ -1151,7 +1151,7 @@
                     "request": {
                         "method": "DELETE",
                         "header": [
-                            {"key": "Cookie", "name": "Cookie", "type": "text", "value": "auth_cookie={{token}}"}
+
                         ],
                         "url": {
                             "raw": "http://localhost:3000/api/coordinations/1",
@@ -1350,7 +1350,7 @@
                     "request": {
                         "method": "DELETE",
                         "header": [
-                            {"key": "Cookie", "name": "Cookie", "type": "text", "value": "auth_cookie={{token}}"}
+
                         ],
                         "url": {
                             "raw": "http://localhost:3000/api/students/6",
@@ -1512,7 +1512,7 @@
                     "request": {
                         "method": "DELETE",
                         "header": [
-                            {"key": "Cookie", "name": "Cookie", "type": "text", "value": "auth_cookie={{token}}"}
+
                         ],
                         "url": {
                             "raw": "http://localhost:3000/api/professors/4",
@@ -1674,7 +1674,7 @@
                     "request": {
                         "method": "DELETE",
                         "header": [
-                            {"key": "Cookie", "name": "Cookie", "type": "text", "value": "auth_cookie={{token}}"}
+
                         ],
                         "url": {
                             "raw": "http://localhost:3000/api/borrow/8",
@@ -1814,7 +1814,7 @@
                     "request": {
                         "method": "DELETE",
                         "header": [
-                            {"key": "Cookie", "name": "Cookie", "type": "text", "value": "auth_cookie={{token}}"}
+
                         ],
                         "url": {
                             "raw": "http://localhost:3000/api/administrators/6",
