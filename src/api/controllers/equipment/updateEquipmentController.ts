@@ -15,12 +15,12 @@ class UpdateEquipmentController implements BaseController {
     async Handle(req: Request, res: Response): Promise<Response>{
         try {
             const { name, laboratoryId, projectId, equipmentCategoryId } = req.body
-            const { id } = req.params as unknown as { id: number }
+            const { id } = req.params
 
             const user = req.user
             // ApiException.When(!user, ApiExceptionNameEnum.UNAUTHENTICATED_USER, "You are not authenticated to the API. Authenticate yourself", 401)
             const equipmentDTO: EquipmentDTO = { name, laboratoryId, projectId, equipmentCategoryId } as EquipmentDTO
-            const result = await this.equipmentServices.UpdateAsync(id, equipmentDTO)
+            const result = await this.equipmentServices.UpdateAsync(Number(id), equipmentDTO)
             return res.status(200).json(result)
         } catch (ex) {
             return ControllerExceptionThrowHelper.Throw(res, ex)

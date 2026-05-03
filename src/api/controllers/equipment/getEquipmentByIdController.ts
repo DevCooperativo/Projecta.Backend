@@ -15,7 +15,7 @@ class GetEquipmentByIdController implements BaseController {
         try {
             const user = req.user
             // ApiException.When(!user, ApiExceptionNameEnum.UNAUTHENTICATED_USER, "You are not authenticated to the API. Authenticate yourself", 401)
-            const result = await this.equipmentServices.GetByIdAsync(id as unknown as number)
+            const result = await this.equipmentServices.GetByIdAsync(Number(id))
             return res.status(200).json(result)
         } catch (ex) {
             return ControllerExceptionThrowHelper.Throw(res, ex)

@@ -27,11 +27,11 @@ class ProjectRepository implements IProjectRepository {
                 { model: ResearcherEntityMapping, attributes: ['id'], as: 'Researchers' },
             ],
             order: [['name', 'ASC']]
-        }) as Project[]
+        }) as unknown as Project[]
     }
 
     async FindById(id: number) {
-        return await ProjectEntityMapping.findByPk(id) as Project
+        return await ProjectEntityMapping.findByPk(id) as unknown as Project
     }
 
     async CountByLaboratoryId(laboratoryId: number) {
@@ -40,7 +40,7 @@ class ProjectRepository implements IProjectRepository {
 
     async Create(data: Project, trx?: Transaction) {
         const transaction = (trx as SequelizeTransactionAdapter)?.trx
-        return await ProjectEntityMapping.create({ ...data }, { transaction }) as Project
+        return await ProjectEntityMapping.create({ ...data }, { transaction }) as unknown as Project
     }
 
     async Update(data: Project, trx?: Transaction) {
@@ -49,7 +49,7 @@ class ProjectRepository implements IProjectRepository {
             { name: data.name, description: data.description, startDate: data.startDate, endDate: data.endDate, status: data.status, laboratoryId: data.laboratoryId, projectCategoryId: data.projectCategoryId },
             { where: { id: data.id }, transaction }
         )
-        return (await ProjectEntityMapping.findByPk(data.id, { transaction })) as Project
+        return (await ProjectEntityMapping.findByPk(data.id, { transaction })) as unknown as Project
     }
 
     async Delete(id: number, trx?: Transaction) {

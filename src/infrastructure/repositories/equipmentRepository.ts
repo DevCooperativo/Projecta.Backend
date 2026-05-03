@@ -8,21 +8,23 @@ import { SequelizeTransactionAdapter } from "../data/transactionAdapter";
 
 @injectable()
 class EquipmentRepository implements IEquipmentRepository {
-    async Find() {
-        const result = await EquipmentEntity.findAll()
-        return result as Equipment[]
+    async Find(trx?: Transaction) {
+        const transaction = (trx as SequelizeTransactionAdapter)?.trx
+        const result = await EquipmentEntity.findAll({ transaction })
+        return result as unknown as Equipment[]
     }
-    async FindById(id: number) {
-        return await EquipmentEntity.findByPk(id) as Equipment
+    async FindById(id: number, trx?: Transaction) {
+        const transaction = (trx as SequelizeTransactionAdapter)?.trx
+        return await EquipmentEntity.findByPk(id, { transaction }) as unknown as Equipment
     }
     async Create(data: Equipment, trx?: Transaction) {
         const transaction = (trx as SequelizeTransactionAdapter)?.trx
-        return await EquipmentEntity.create({ ...data }, { validate: true, transaction }) as Equipment
+        return await EquipmentEntity.create({ ...data }, { validate: true, transaction }) as unknown as Equipment
     }
     async Update(id: number, data: Equipment, trx?: Transaction) {
         const transaction = (trx as SequelizeTransactionAdapter)?.trx
         await EquipmentEntity.update(data, { where: { id }, validate: true, transaction })
-        return (await EquipmentEntity.findByPk(id, { transaction })) as Equipment
+        return (await EquipmentEntity.findByPk(id, { transaction })) as unknown as Equipment
     }
     async Delete(id: number, trx?: Transaction) {
         const transaction = (trx as SequelizeTransactionAdapter)?.trx

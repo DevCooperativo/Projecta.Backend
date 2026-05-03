@@ -8,20 +8,22 @@ import { SequelizeTransactionAdapter } from "../data/transactionAdapter";
 @injectable()
 class LaboratoryRepository implements ILaboratoryRepository {
 
-    async Find() {
-        return await LaboratoryEntity.findAll() as Laboratory[]
+    async Find(trx?: Transaction) {
+        const transaction = (trx as SequelizeTransactionAdapter)?.trx
+        return await LaboratoryEntity.findAll({ transaction }) as unknown as Laboratory[]
     }
-    async FindById(id: number) {
-        return await LaboratoryEntity.findByPk(id) as Laboratory
+    async FindById(id: number, trx?: Transaction) {
+        const transaction = (trx as SequelizeTransactionAdapter)?.trx
+        return await LaboratoryEntity.findByPk(id, { transaction }) as unknown as Laboratory
     }
     async Create(data: Laboratory, trx?: Transaction) {
         const transaction = (trx as SequelizeTransactionAdapter)?.trx
-        return await LaboratoryEntity.create({ ...data }, { transaction }) as Laboratory
+        return await LaboratoryEntity.create({ ...data }, { transaction }) as unknown as Laboratory
     }
     async Update(id: number, data: Laboratory, trx?: Transaction) {
         const transaction = (trx as SequelizeTransactionAdapter)?.trx
         await LaboratoryEntity.update(data, { where: { id }, validate: true, transaction })
-        return (await LaboratoryEntity.findByPk(id, { transaction })) as Laboratory
+        return (await LaboratoryEntity.findByPk(id, { transaction })) as unknown as Laboratory
     }
     async Delete(id: number, trx?: Transaction) {
         const transaction = (trx as SequelizeTransactionAdapter)?.trx
