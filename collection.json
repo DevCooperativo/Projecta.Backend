@@ -372,9 +372,10 @@
         },
         {
             "name": "equipments",
+            "description": "Processo de negocio: Gerenciamento de equipamentos. Para POST, PUT e DELETE, autentique como professor em /api/auth/signin e salve o token retornado na variavel {{token}}. O backend espera o cookie auth_cookie.",
             "item": [
                 {
-                    "name": "List",
+                    "name": "GET ALL - Listar equipamentos",
                     "request": {
                         "method": "GET",
                         "header": [],
@@ -389,7 +390,7 @@
                     "response": []
                 },
                 {
-                    "name": "Get",
+                    "name": "GET ONE - Buscar equipamento por ID",
                     "request": {
                         "method": "GET",
                         "header": [],
@@ -404,16 +405,16 @@
                     "response": []
                 },
                 {
-                    "name": "Create",
+                    "name": "POST - Criar equipamento",
                     "request": {
                         "method": "POST",
                         "header": [
                             {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Cookie", "name": "Cookie", "type": "text", "value": "auth_cookie={{token}}"}
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n  \"name\": \"Raspberry Pi 4\",\n  \"laboratoryId\": 1,\n  \"projectId\": 1,\n  \"equipmentCategoryId\": 1\n}",
+                            "raw": "{\n  \"name\": \"Microscopio Optico\",\n  \"laboratoryId\": 1,\n  \"projectId\": 1,\n  \"equipmentCategoryId\": 1\n}",
                             "options": {"raw": {"language": "json"}}
                         },
                         "url": {
@@ -427,16 +428,16 @@
                     "response": []
                 },
                 {
-                    "name": "Create - Validation Errors",
+                    "name": "POST - Erros de Campos Basicos",
                     "request": {
                         "method": "POST",
                         "header": [
                             {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Cookie", "name": "Cookie", "type": "text", "value": "auth_cookie={{token}}"}
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n  \"name\": \"ab\",\n  \"laboratoryId\": 0,\n  \"projectId\": 0,\n  \"equipmentCategoryId\": 0\n}",
+                            "raw": "{\n  \"name\": \"\",\n  \"laboratoryId\": \"1\",\n  \"projectId\": 1\n}",
                             "options": {"raw": {"language": "json"}}
                         },
                         "url": {
@@ -445,21 +446,70 @@
                             "host": ["localhost"],
                             "port": "3000",
                             "path": ["api", "equipments"]
-                        }
+                        },
+                        "description": "Deve retornar 400 por campo obrigatorio ausente/vazio e tipo invalido."
                     },
                     "response": []
                 },
                 {
-                    "name": "Update",
+                    "name": "POST - Regra de Negocio 1 - Vinculos obrigatorios validos",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Cookie", "name": "Cookie", "type": "text", "value": "auth_cookie={{token}}"}
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"Equipamento com Vinculo Invalido\",\n  \"laboratoryId\": 999999,\n  \"projectId\": 1,\n  \"equipmentCategoryId\": 1\n}",
+                            "options": {"raw": {"language": "json"}}
+                        },
+                        "url": {
+                            "raw": "http://localhost:3000/api/equipments",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "3000",
+                            "path": ["api", "equipments"]
+                        },
+                        "description": "Deve retornar 404 porque todo equipamento precisa estar vinculado a um laboratorio existente. O mesmo padrao vale para projectId e equipmentCategoryId inexistentes."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "POST - Regra de Negocio 2 - Limite de 50 itens no laboratorio",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Cookie", "name": "Cookie", "type": "text", "value": "auth_cookie={{token}}"}
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"Equipamento Numero 51\",\n  \"laboratoryId\": 2,\n  \"projectId\": 1,\n  \"equipmentCategoryId\": 1\n}",
+                            "options": {"raw": {"language": "json"}}
+                        },
+                        "url": {
+                            "raw": "http://localhost:3000/api/equipments",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "3000",
+                            "path": ["api", "equipments"]
+                        },
+                        "description": "Deve retornar 400 quando o laboratorio informado ja tiver 50 equipamentos cadastrados. Se o seu banco foi recriado, preencha o laboratorio com 50 equipamentos antes de executar este caso."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "PUT - Atualizar equipamento",
                     "request": {
                         "method": "PUT",
                         "header": [
                             {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Cookie", "name": "Cookie", "type": "text", "value": "auth_cookie={{token}}"}
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n  \"name\": \"Raspberry Pi 4 Model B\",\n  \"laboratoryId\": 1,\n  \"projectId\": 1,\n  \"equipmentCategoryId\": 1\n}",
+                            "raw": "{\n  \"name\": \"Microscopio Optico Atualizado\",\n  \"laboratoryId\": 1,\n  \"projectId\": 1,\n  \"equipmentCategoryId\": 1\n}",
                             "options": {"raw": {"language": "json"}}
                         },
                         "url": {
@@ -473,11 +523,11 @@
                     "response": []
                 },
                 {
-                    "name": "Delete",
+                    "name": "DEL - Remover equipamento",
                     "request": {
                         "method": "DELETE",
                         "header": [
-                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                            {"key": "Cookie", "name": "Cookie", "type": "text", "value": "auth_cookie={{token}}"}
                         ],
                         "url": {
                             "raw": "http://localhost:3000/api/equipments/1",
@@ -485,7 +535,8 @@
                             "host": ["localhost"],
                             "port": "3000",
                             "path": ["api", "equipments", "1"]
-                        }
+                        },
+                        "description": "Remove o equipamento quando nao houver emprestimos ativos. Para testar a regra de bloqueio, crie um emprestimo ativo em /api/borrow para este equipamento e execute o DELETE; o esperado e 400."
                     },
                     "response": []
                 }
