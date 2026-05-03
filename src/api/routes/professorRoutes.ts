@@ -24,10 +24,10 @@ professorsRoutes.get("/:id", (req, res) => getProfessorByIdController.Handle(req
 
 professorsRoutes.post("/", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(CreateProfessorPayload), EnsureUserRoleMiddleware([AccountType.administrator]), (req, res) => createProfessorController.Handle(req, res))
 
-professorsRoutes.post("/change-coordination/", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(ChangeProfessorCoordinationPayload), EnsureUserRoleMiddleware([AccountType.professor, AccountType.administrator]), (req, res) => changeProfessorCoordinationController.Handle(req, res))
+professorsRoutes.post("/change-coordination/", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(ChangeProfessorCoordinationPayload), EnsureUserRoleMiddleware([AccountType.professor]), (req, res) => changeProfessorCoordinationController.Handle(req, res))
 
-professorsRoutes.put("/", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(UpdateProfessorPayload), EnsureUserRoleMiddleware([AccountType.administrator, AccountType.professor]), (req, res) => updateProfessorController.Handle(req, res))
+professorsRoutes.put("/", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(UpdateProfessorPayload), EnsureUserRoleMiddleware([AccountType.professor]), (req, res) => updateProfessorController.Handle(req, res))
 
-professorsRoutes.delete("/:id", EnsureCorrectFieldsValidationMiddleware(DeleteByIdPayload), EnsureUserRoleMiddleware([AccountType.administrator, AccountType.professor]), (req, res) => deleteProfessorController.Handle(req, res))
+professorsRoutes.delete("/:id", EnsureCorrectFieldsValidationMiddleware(DeleteByIdPayload), EnsureUserRoleMiddleware([AccountType.professor]), (req, res) => deleteProfessorController.Handle(req, res))
 
 export default professorsRoutes

@@ -13,7 +13,8 @@ import IEquipmentServices from "../interfaces/iEquipmentServices";
 import { ReturnBorrowInputDTO } from "../dtos/borrow/returnBorrowInputDTO";
 import { IUserContextServices } from "../interfaces/iUserContextServices";
 import EquipmentDTO from "../dtos/equipmentDTO";
-
+import IResearcherServices from "../interfaces/iResearcherServices";
+import IProjectServices from "../interfaces/iProjectServices";
 @injectable()
 export class BorrowServices implements IBorrowServices {
     constructor(
@@ -23,6 +24,10 @@ export class BorrowServices implements IBorrowServices {
         private readonly userContextServices: IUserContextServices,
         @inject("EquipmentServices")
         private readonly equipmentServices: IEquipmentServices,
+        @inject("ResearcherServices")
+        private readonly researcherServices: IResearcherServices,
+        @inject("ProjectServices")
+        private readonly projectServices: IProjectServices,
         @inject("SequelizeUnitOfWork")
         private readonly unitOfWork: IUnitOfWork
     ) { }
@@ -61,22 +66,31 @@ export class BorrowServices implements IBorrowServices {
     }
     async UpdateAsync(id: number, data: UpdateBorrowInputDTO) {
         return await this.unitOfWork.execute(async (trx) => {
+            console.log(data.accountType)
             const userContext = await this.userContextServices.GetUserContext(data.userEmail, data.accountType)
             const borrow = await this.borrowRepository.FindById(id)
             if (!borrow)
                 throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No borrow was found with the provided id", 404)
-            const professorId = userContext.currentProfileType === AccountType.professor ? userContext.currentProfile!.id : undefined
-            const studentId = userContext.currentProfileType === AccountType.student ? userContext.currentProfile!.id : undefined
             let equipment: EquipmentDTO | null;
-            if (!borrow.userCanModify(professorId, studentId))
+            if (!borrow.userCanModify(userContext.currentProfile.id, userContext.currentProfileType === AccountType.professor ? "professor" : "student"))
                 throw new ApplicationException(ApplicationExceptionName.NOT_BELONGS_TO, "User cannot modify this borrow", 403)
             if (data.equipmentId) {
                 equipment = await this.equipmentServices.GetByIdAsync(data.equipmentId)
+
+                // Check if equipment exists
                 if (!equipment)
                     throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "Equipment not found", 404)
+
+                // If student, check if researcher and if equipment is on the same project of the student
+                if (userContext.currentProfileType === AccountType.student && !(await this.IsStudentOfSameProject(equipment, userContext.currentProfile.id)))
+                    throw new ApplicationException(ApplicationExceptionName.INVALID_OPERATION, "The equipment doesn't belongs to the user's project", 403);
+
                 const borrows = await this.borrowRepository.Find()
+
+                //Check if equipment is available for borrowing 
                 if (!this.CanBeBorrowed(borrows, equipment?.id))
                     throw new ApplicationException(ApplicationExceptionName.INVALID_OPERATION, "The equipment is already borrowed.", 409)
+
                 borrow.changeEquipment(equipment.id)
             }
             if (data.isStillBorrowed) {
@@ -114,9 +128,7 @@ export class BorrowServices implements IBorrowServices {
             const userContext = await this.userContextServices.GetUserContext(data.userEmail, data.accountType)
             if (!borrow)
                 throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "Borrow not found", 404)
-            const professorId = userContext.currentProfileType === AccountType.professor ? userContext.currentProfile!.id : undefined
-            const studentId = userContext.currentProfileType === AccountType.student ? userContext.currentProfile!.id : undefined
-            if (!borrow.userCanModify(professorId, studentId))
+            if (!borrow.userCanModify(userContext.currentProfile.id, userContext.currentProfileType === AccountType.professor ? "professor" : "student"))
                 throw new ApplicationException(ApplicationExceptionName.NOT_BELONGS_TO, "User cannot interact with the borrow", 403)
             borrow.returnBorrowedItem()
             await this.borrowRepository.Update(borrow.id, borrow, trx)
@@ -148,5 +160,13 @@ export class BorrowServices implements IBorrowServices {
             return true
         }
         return false
+    }
+
+    private async IsStudentOfSameProject(equipemnt: EquipmentDTO, userId: number) {
+        const researcherList = await this.researcherServices.GetAllAsync();
+        const equivalentResearchers = researcherList.filter(x => x.studentId === userId)
+        if (!equivalentResearchers.map(x => x.projectId).includes(equipemnt.projectId))
+            return false;
+        return true;
     }
 }

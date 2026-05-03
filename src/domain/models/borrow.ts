@@ -49,9 +49,9 @@ class Borrow extends BaseModel implements IBorrow {
         return borrow
     }
 
-    public userCanModify(professorId?: number, studentId?: number) {
-        if (professorId !== undefined && this.professorId === professorId) return true
-        if (studentId !== undefined && this.studentId === studentId) return true
+    public userCanModify(userId: number, userType: "student" | "professor") {
+        if (userType === "professor" && this.professorId === userId) return true
+        if (userType === "student" && this.studentId === userId) return true
         return false
     }
 
