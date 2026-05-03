@@ -59,9 +59,12 @@ import CreateStudentController from "@/api/controllers/student/createStudentCont
 import DeleteStudentController from "@/api/controllers/student/deleteStudentController"
 import GetAllStudentsController from "@/api/controllers/student/getAllStudentsController"
 import GetStudentByIdController from "@/api/controllers/student/getStudentByIdController"
-import UpdateStudentController from "@/api/controllers/student/updateStudentController"
+import UpdateStudentPersonalDataController from "@/api/controllers/student/updateStudentPersonalDataController"
+import UpdateStudentTermController from "@/api/controllers/student/updateStudentTermController"
+import UpdateStudentShiftController from "@/api/controllers/student/updateStudentShiftController"
 import { container } from "tsyringe"
-import UpdateProfessorCoordinationController from "@/api/controllers/professor/updateProfessorCoordinationController copy"
+import ChangeProfessorCoordinationController from "@/api/controllers/professor/changeProfessorCoordinationController"
+import { ReturnBorrowController } from "@/api/controllers/borrow/returnBorrowController"
 
 export const ControllersDI = () => {
     container.registerSingleton<BaseController>("SignInController", SigninController)
@@ -77,6 +80,7 @@ export const ControllersDI = () => {
     container.registerSingleton<BaseController>("GetAllBorrowsController", GetAllBorrowsController)
     container.registerSingleton<BaseController>("GetBorrowByIdController", GetBorrowByIdController)
     container.registerSingleton<BaseController>("CreateBorrowController", CreateBorrowController)
+    container.registerSingleton<BaseController>("ReturnBorrowController", ReturnBorrowController)
     container.registerSingleton<BaseController>("UpdateBorrowController", UpdateBorrowController)
     container.registerSingleton<BaseController>("DeleteBorrowController", DeleteBorrowController)
 
@@ -84,7 +88,9 @@ export const ControllersDI = () => {
     container.registerSingleton<BaseController>("GetAllStudentsController", GetAllStudentsController)
     container.registerSingleton<BaseController>("GetStudentByIdController", GetStudentByIdController)
     container.registerSingleton<BaseController>("CreateStudentController", CreateStudentController)
-    container.registerSingleton<BaseController>("UpdateStudentController", UpdateStudentController)
+    container.registerSingleton<BaseController>("UpdateStudentPersonalDataController", UpdateStudentPersonalDataController)
+    container.registerSingleton<BaseController>("UpdateStudentTermController", UpdateStudentTermController)
+    container.registerSingleton<BaseController>("UpdateStudentShiftController", UpdateStudentShiftController)
     container.registerSingleton<BaseController>("DeleteStudentController", DeleteStudentController)
 
 
@@ -100,8 +106,8 @@ export const ControllersDI = () => {
     container.registerSingleton<BaseController>("GetProfessorByIdController", GetProfessorByIdController)
     container.registerSingleton<BaseController>("CreateProfessorController", CreateProfessorController)
     container.registerSingleton<BaseController>("UpdateProfessorController", UpdateProfessorController)
-    container.registerSingleton<BaseController>("UpdateProfessorCoordinationController", UpdateProfessorCoordinationController)
     container.registerSingleton<BaseController>("DeleteProfessorController", DeleteProfessorController)
+    container.registerSingleton<BaseController>("ChangeProfessorCoordinationController", ChangeProfessorCoordinationController)
 
     // Controllers - Coordinator
     container.registerSingleton<BaseController>("GetAllCoordinatorsController", GetAllCoordinatorsController)

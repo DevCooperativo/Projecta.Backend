@@ -36,7 +36,8 @@ class StudentRepository implements IStudentRepository {
     }
     async Update(id: number, data: Student, trx?: Transaction) {
         const transaction = (trx as SequelizeTransactionAdapter)?.trx
-        await StudentEntity.update(data, { where: { id }, validate: true, transaction })
+        const { id: _, ...treatedData } = data
+        await StudentEntity.update(treatedData, { where: { id }, validate: true, transaction })
         const result = await StudentEntity.findByPk(id, { transaction })
         if (!result)
             return null

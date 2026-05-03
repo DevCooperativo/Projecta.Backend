@@ -19,7 +19,7 @@ class DeleteAdministratorController implements BaseController {
             const user = req.user
             if (!user)
                 throw new ApiException(ApiExceptionNames.UNAUTHORIZED, "User is not logged in")
-            const dto = new DeleteAdministratorInputDTO(id, user.id)
+            const dto = new DeleteAdministratorInputDTO(id)
             const result = await this.administratorServices.DeleteAsync(dto)
             if (!result) {
                 return res.status(404).json({ message: "Administrator not found" })

@@ -12,8 +12,9 @@ import { InfrastructureExceptionName } from "@/infrastructure/exceptions/constan
 import InfrastructureException from "@/infrastructure/exceptions/infrastructureException";
 import { inject, injectable } from "tsyringe";
 import { IUnitOfWork } from "../unitOfWork/iUnitOfWork";
-import { UpdateProfessorCoordinationInputDTO } from "../dtos/professor/updateProfessorCoordinationInputDTO";
-import { UpdateProfessorCoordinationReturnDTO } from "../dtos/professor/updateProfessorCoordinationReturnDTO";
+import { ChangeProfessorCoordinationInputDTO } from "../dtos/professor/changeProfessorCoordinationInputDTO";
+import { ChangeProfessorCoordinationReturnDTO } from "../dtos/professor/updateProfessorCoordinationReturnDTO";
+import { AccountType } from "@/infrastructure/authentication/constants/accountType";
 
 @injectable()
 class ProfessorServices implements IProfessorServices {
@@ -23,6 +24,12 @@ class ProfessorServices implements IProfessorServices {
         @inject("SequelizeUnitOfWork")
         private readonly unitOfWork: IUnitOfWork
     ) { }
+    async GetByEmailAsync(email: string) {
+        const result = await this.professorRepository.FindByEmail(email)
+        if (!result) return null
+        return new ProfessorDTO(result.id, result.name, result.email, result.registration, result.telephone, result.coordinationId, result.createdAt, result.updatedAt, result.isVisible,
+        )
+    }
 
     async GetAllAsync() {
         return (await this.professorRepository.Find()) as ProfessorDTO[]
@@ -42,23 +49,24 @@ class ProfessorServices implements IProfessorServices {
     }
     async UpdateAsync(data: UpdateProfessorInputDTO) {
         return await this.unitOfWork.execute(async (trx) => {
-            const professorToUpdate = await this.professorRepository.FindById(data.creatorId)
-            if (!professorToUpdate)
-                throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No professor was found with the provided id", 404)
-            professorToUpdate.update(data.name, data.registration, data.telephone)
-            console.log(professorToUpdate)
-            await this.professorRepository.Update(data.creatorId, professorToUpdate, trx)
-            return new UpdateProfessorReturnDTO(professorToUpdate.id, professorToUpdate.name, professorToUpdate.email, professorToUpdate.registration, professorToUpdate.telephone, professorToUpdate.coordinationId)
+            if (data.accountType !== AccountType.professor)
+                throw new ApplicationException(ApplicationExceptionName.NOT_BELONGS_TO, "User is not acting as a professor", 403)
+            const professorByEmail = await this.professorRepository.FindByEmail(data.userEmail)
+            if (!professorByEmail)
+                throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No professor profile found for this user", 404)
+            professorByEmail.update(data.name, data.registration, data.telephone)
+            await this.professorRepository.Update(professorByEmail.id, professorByEmail, trx)
+            return new UpdateProfessorReturnDTO(professorByEmail.id, professorByEmail.name, professorByEmail.email, professorByEmail.registration, professorByEmail.telephone, professorByEmail.coordinationId)
         })
     }
-    async UpdateProfessorCoordinationAsync(data: UpdateProfessorCoordinationInputDTO) {
+    async ChangeProfessorCoordinationAsync(data: ChangeProfessorCoordinationInputDTO) {
         return await this.unitOfWork.execute(async (trx) => {
-            const professorToUpdate = await this.professorRepository.FindById(data.professorId)
+            const professorToUpdate = await this.professorRepository.FindByEmail(data.userEmail)
             if (!professorToUpdate)
-                throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No professor was found with the provided id", 404)
+                throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No professor was found with the provided email", 404)
             professorToUpdate.changeCoordination(data.coordinationId)
             await this.professorRepository.Update(professorToUpdate.id, professorToUpdate, trx)
-            return new UpdateProfessorCoordinationReturnDTO(professorToUpdate.id, professorToUpdate.name, professorToUpdate.email, professorToUpdate.registration, professorToUpdate.telephone, professorToUpdate.coordinationId)
+            return new ChangeProfessorCoordinationReturnDTO(professorToUpdate.id, professorToUpdate.name, professorToUpdate.email, professorToUpdate.registration, professorToUpdate.telephone, professorToUpdate.coordinationId)
         })
     }
     async DeleteAsync(id: number) {

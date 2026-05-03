@@ -28,6 +28,7 @@ class Professor extends BaseModel implements IProfessor {
     static create(name: string, email: string, registration: string, telephone: string, coordinationId: number): Professor {
         const errors = [
             Guard.againstNullOrUndefined(name, "Name is required"),
+            Guard.againstMinLength(name, 3, "Name must have at leas three characters"),
             Guard.againstNullOrUndefined(email, "Email is required"),
             Guard.againstRegularExpression(email, /^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Invalid email format"),
             Guard.againstNullOrUndefined(registration, "Registration is required"),
@@ -53,9 +54,10 @@ class Professor extends BaseModel implements IProfessor {
         const errors = [
             Guard.againstNullOrUndefined(this.id, "Id is required"),
             Guard.againstNullOrUndefined(name, "Name is required"),
+            Guard.againstMinLength(name, 3, "Name must have at leas three characters"),
             Guard.againstNullOrUndefined(registration, "Registration is required"),
             Guard.againstNullOrUndefined(telephone, "Telephone is required"),
-            Guard.againstRegularExpression(telephone, /^\(?\d{2}\)?[\s-]?\d{4,5}-?\d{4}$/, "Invalid telephone format. Must be in the format (XX) XXXXX-XXXX or (XX) XXXX-XXXX"),
+            Guard.againstRegularExpression(telephone, /^\(\d{2}\)[\s]\d{4,5}-\d{4}$/, "Invalid telephone format. Must be in the format (XX) XXXXX-XXXX or (XX) XXXX-XXXX"),
         ].filter((e): e is string => e !== null)
         this.throwDomainException(errors)
 

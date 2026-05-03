@@ -21,7 +21,7 @@ class EquipmentServices implements IEquipmentServices {
     async GetByIdAsync(id: number) {
         const result = await this.equipmentRepository.FindById(id)
         if (!result)
-            throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No equipment was found with the provided id", 404)
+            return null
         return result as EquipmentDTO
     }
     async CreateAsync(data: EquipmentDTO) {

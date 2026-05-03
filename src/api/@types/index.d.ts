@@ -1,10 +1,11 @@
+import { AccountType } from "@/infrastructure/authentication/constants/accountType"
 import "express"
 declare module "express" {
     export interface Request {
         user?: {
-            id: number,
             email: string
-            accontType: "student" | "professor",
+            accontTypes: AccountType[],
+            userType: AccountType
         }
     }
 }

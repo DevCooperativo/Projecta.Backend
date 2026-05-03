@@ -24,7 +24,8 @@ class BorrowRepository implements IBorrowRepository {
     }
     async Update(id: number, data: Borrow, trx?: Transaction) {
         const transaction = (trx as SequelizeTransactionAdapter)?.trx
-        await BorrowEntityMapping.update({ ...data }, { where: { id }, transaction })
+        const { id: _, ...treatedData } = data
+        await BorrowEntityMapping.update({ ...treatedData }, { where: { id }, transaction })
         const result = await BorrowEntityMapping.findByPk(id, { transaction })
         if (!result) return null
         return Borrow.rehydrate(result.id, result.equipmentId, result.borrowDate, result.studentId, result.professorId, result.isStillBorrowed, result.returnDate, result.createdAt, result.updatedAt, result.isVisible)

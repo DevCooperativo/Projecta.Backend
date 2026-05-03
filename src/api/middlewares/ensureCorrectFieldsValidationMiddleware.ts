@@ -6,9 +6,9 @@ export const EnsureCorrectFieldsValidationMiddleware = (payload: IPayloadValidat
     return (req: Request, res: Response, next: NextFunction) => {
         const errors: Record<string, { type: RequestDataErrorType, error: string }> = {}
 
-
         const allowedFields = Object.keys(payload)
         const allFields = { ...req.body, ...req.params, ...req.query }
+        console.log(allFields)
         for (const key in allFields) {
             if (!allowedFields.includes(key)) {
                 errors[key] = { type: RequestDataError.INVALID_FIELDS, error: `The field ${key} is not allowed` }

@@ -18,14 +18,9 @@
                         "url": {
                             "raw": "http://localhost:3000/api/laboratories",
                             "protocol": "http",
-                            "host": [
-                                "localhost"
-                            ],
+                            "host": ["localhost"],
                             "port": "3000",
-                            "path": [
-                                "api",
-                                "laboratories"
-                            ]
+                            "path": ["api", "laboratories"]
                         }
                     },
                     "response": []
@@ -38,15 +33,9 @@
                         "url": {
                             "raw": "http://localhost:3000/api/laboratories/1",
                             "protocol": "http",
-                            "host": [
-                                "localhost"
-                            ],
+                            "host": ["localhost"],
                             "port": "3000",
-                            "path": [
-                                "api",
-                                "laboratories",
-                                "1"
-                            ]
+                            "path": ["api", "laboratories", "1"]
                         }
                     },
                     "response": []
@@ -56,39 +45,20 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {
-                                "key": "Content-Type",
-                                "name": "Content-Type",
-                                "type": "text",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "body": {
                             "mode": "raw",
                             "raw": "{\n  \"name\": \"Laboratory A\",\n  \"storageSpace\": true,\n  \"maxOccupants\": 20,\n  \"description\": \"Software engineering laboratory\",\n  \"professorId\": 1\n}",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
-                                }
-                            }
+                            "options": {"raw": {"language": "json"}}
                         },
                         "url": {
                             "raw": "http://localhost:3000/api/laboratories",
                             "protocol": "http",
-                            "host": [
-                                "localhost"
-                            ],
+                            "host": ["localhost"],
                             "port": "3000",
-                            "path": [
-                                "api",
-                                "laboratories"
-                            ]
+                            "path": ["api", "laboratories"]
                         }
                     },
                     "response": []
@@ -98,39 +68,20 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {
-                                "key": "Content-Type",
-                                "name": "Content-Type",
-                                "type": "text",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "body": {
                             "mode": "raw",
                             "raw": "{\n  \"name\": \"ab\",\n  \"storageSpace\": true,\n  \"maxOccupants\": 0,\n  \"description\": \"short\",\n  \"professorId\": 0\n}",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
-                                }
-                            }
+                            "options": {"raw": {"language": "json"}}
                         },
                         "url": {
                             "raw": "http://localhost:3000/api/laboratories",
                             "protocol": "http",
-                            "host": [
-                                "localhost"
-                            ],
+                            "host": ["localhost"],
                             "port": "3000",
-                            "path": [
-                                "api",
-                                "laboratories"
-                            ]
+                            "path": ["api", "laboratories"]
                         }
                     },
                     "response": []
@@ -140,40 +91,20 @@
                     "request": {
                         "method": "PUT",
                         "header": [
-                            {
-                                "key": "Content-Type",
-                                "name": "Content-Type",
-                                "type": "text",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "body": {
                             "mode": "raw",
                             "raw": "{\n  \"name\": \"Laboratory A Updated\",\n  \"storageSpace\": false,\n  \"maxOccupants\": 25,\n  \"description\": \"Updated laboratory description\",\n  \"professorId\": 1\n}",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
-                                }
-                            }
+                            "options": {"raw": {"language": "json"}}
                         },
                         "url": {
                             "raw": "http://localhost:3000/api/laboratories/1",
                             "protocol": "http",
-                            "host": [
-                                "localhost"
-                            ],
+                            "host": ["localhost"],
                             "port": "3000",
-                            "path": [
-                                "api",
-                                "laboratories",
-                                "1"
-                            ]
+                            "path": ["api", "laboratories", "1"]
                         }
                     },
                     "response": []
@@ -183,25 +114,14 @@
                     "request": {
                         "method": "DELETE",
                         "header": [
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "url": {
                             "raw": "http://localhost:3000/api/laboratories/1",
                             "protocol": "http",
-                            "host": [
-                                "localhost"
-                            ],
+                            "host": ["localhost"],
                             "port": "3000",
-                            "path": [
-                                "api",
-                                "laboratories",
-                                "1"
-                            ]
+                            "path": ["api", "laboratories", "1"]
                         }
                     },
                     "response": []
@@ -219,14 +139,9 @@
                         "url": {
                             "raw": "http://localhost:3000/api/equipmentCategories",
                             "protocol": "http",
-                            "host": [
-                                "localhost"
-                            ],
+                            "host": ["localhost"],
                             "port": "3000",
-                            "path": [
-                                "api",
-                                "equipmentCategories"
-                            ]
+                            "path": ["api", "equipmentCategories"]
                         }
                     },
                     "response": []
@@ -239,15 +154,9 @@
                         "url": {
                             "raw": "http://localhost:3000/api/equipmentCategories/1",
                             "protocol": "http",
-                            "host": [
-                                "localhost"
-                            ],
+                            "host": ["localhost"],
                             "port": "3000",
-                            "path": [
-                                "api",
-                                "equipmentCategories",
-                                "1"
-                            ]
+                            "path": ["api", "equipmentCategories", "1"]
                         }
                     },
                     "response": []
@@ -257,39 +166,20 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {
-                                "key": "Content-Type",
-                                "name": "Content-Type",
-                                "type": "text",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "body": {
                             "mode": "raw",
                             "raw": "{\n  \"powerSource\": \"USB\",\n  \"fragile\": true,\n  \"description\": \"Category for USB-powered equipment\"\n}",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
-                                }
-                            }
+                            "options": {"raw": {"language": "json"}}
                         },
                         "url": {
                             "raw": "http://localhost:3000/api/equipmentCategories",
                             "protocol": "http",
-                            "host": [
-                                "localhost"
-                            ],
+                            "host": ["localhost"],
                             "port": "3000",
-                            "path": [
-                                "api",
-                                "equipmentCategories"
-                            ]
+                            "path": ["api", "equipmentCategories"]
                         }
                     },
                     "response": []
@@ -299,39 +189,20 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {
-                                "key": "Content-Type",
-                                "name": "Content-Type",
-                                "type": "text",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "body": {
                             "mode": "raw",
                             "raw": "{\n  \"powerSource\": \"INVALID\",\n  \"fragile\": true,\n  \"description\": \"short\"\n}",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
-                                }
-                            }
+                            "options": {"raw": {"language": "json"}}
                         },
                         "url": {
                             "raw": "http://localhost:3000/api/equipmentCategories",
                             "protocol": "http",
-                            "host": [
-                                "localhost"
-                            ],
+                            "host": ["localhost"],
                             "port": "3000",
-                            "path": [
-                                "api",
-                                "equipmentCategories"
-                            ]
+                            "path": ["api", "equipmentCategories"]
                         }
                     },
                     "response": []
@@ -341,40 +212,20 @@
                     "request": {
                         "method": "PUT",
                         "header": [
-                            {
-                                "key": "Content-Type",
-                                "name": "Content-Type",
-                                "type": "text",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "body": {
                             "mode": "raw",
                             "raw": "{\n  \"powerSource\": \"Bateria\",\n  \"fragile\": false,\n  \"description\": \"Category for battery-powered equipment\"\n}",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
-                                }
-                            }
+                            "options": {"raw": {"language": "json"}}
                         },
                         "url": {
                             "raw": "http://localhost:3000/api/equipmentCategories/1",
                             "protocol": "http",
-                            "host": [
-                                "localhost"
-                            ],
+                            "host": ["localhost"],
                             "port": "3000",
-                            "path": [
-                                "api",
-                                "equipmentCategories",
-                                "1"
-                            ]
+                            "path": ["api", "equipmentCategories", "1"]
                         }
                     },
                     "response": []
@@ -384,25 +235,14 @@
                     "request": {
                         "method": "DELETE",
                         "header": [
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "url": {
                             "raw": "http://localhost:3000/api/equipmentCategories/1",
                             "protocol": "http",
-                            "host": [
-                                "localhost"
-                            ],
+                            "host": ["localhost"],
                             "port": "3000",
-                            "path": [
-                                "api",
-                                "equipmentCategories",
-                                "1"
-                            ]
+                            "path": ["api", "equipmentCategories", "1"]
                         }
                     },
                     "response": []
@@ -420,14 +260,9 @@
                         "url": {
                             "raw": "http://localhost:3000/api/projectCategories",
                             "protocol": "http",
-                            "host": [
-                                "localhost"
-                            ],
+                            "host": ["localhost"],
                             "port": "3000",
-                            "path": [
-                                "api",
-                                "projectCategories"
-                            ]
+                            "path": ["api", "projectCategories"]
                         }
                     },
                     "response": []
@@ -440,15 +275,9 @@
                         "url": {
                             "raw": "http://localhost:3000/api/projectCategories/1",
                             "protocol": "http",
-                            "host": [
-                                "localhost"
-                            ],
+                            "host": ["localhost"],
                             "port": "3000",
-                            "path": [
-                                "api",
-                                "projectCategories",
-                                "1"
-                            ]
+                            "path": ["api", "projectCategories", "1"]
                         }
                     },
                     "response": []
@@ -458,39 +287,20 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {
-                                "key": "Content-Type",
-                                "name": "Content-Type",
-                                "type": "text",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "body": {
                             "mode": "raw",
                             "raw": "{\n  \"name\": \"Applied Research\",\n  \"commerciallyRelevant\": true,\n  \"area\": \"Engenharias\",\n  \"description\": \"Projects focused on practical and market-ready outcomes\"\n}",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
-                                }
-                            }
+                            "options": {"raw": {"language": "json"}}
                         },
                         "url": {
                             "raw": "http://localhost:3000/api/projectCategories",
                             "protocol": "http",
-                            "host": [
-                                "localhost"
-                            ],
+                            "host": ["localhost"],
                             "port": "3000",
-                            "path": [
-                                "api",
-                                "projectCategories"
-                            ]
+                            "path": ["api", "projectCategories"]
                         }
                     },
                     "response": []
@@ -500,39 +310,20 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {
-                                "key": "Content-Type",
-                                "name": "Content-Type",
-                                "type": "text",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "body": {
                             "mode": "raw",
                             "raw": "{\n  \"name\": \"ab\",\n  \"commerciallyRelevant\": true,\n  \"area\": \"INVALID AREA\",\n  \"description\": \"short\"\n}",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
-                                }
-                            }
+                            "options": {"raw": {"language": "json"}}
                         },
                         "url": {
                             "raw": "http://localhost:3000/api/projectCategories",
                             "protocol": "http",
-                            "host": [
-                                "localhost"
-                            ],
+                            "host": ["localhost"],
                             "port": "3000",
-                            "path": [
-                                "api",
-                                "projectCategories"
-                            ]
+                            "path": ["api", "projectCategories"]
                         }
                     },
                     "response": []
@@ -542,40 +333,20 @@
                     "request": {
                         "method": "PUT",
                         "header": [
-                            {
-                                "key": "Content-Type",
-                                "name": "Content-Type",
-                                "type": "text",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "body": {
                             "mode": "raw",
                             "raw": "{\n  \"name\": \"Social Development\",\n  \"commerciallyRelevant\": false,\n  \"area\": \"Engenharias\",\n  \"description\": \"Projects with social impact orientation\"\n}",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
-                                }
-                            }
+                            "options": {"raw": {"language": "json"}}
                         },
                         "url": {
                             "raw": "http://localhost:3000/api/projectCategories/1",
                             "protocol": "http",
-                            "host": [
-                                "localhost"
-                            ],
+                            "host": ["localhost"],
                             "port": "3000",
-                            "path": [
-                                "api",
-                                "projectCategories",
-                                "1"
-                            ]
+                            "path": ["api", "projectCategories", "1"]
                         }
                     },
                     "response": []
@@ -585,25 +356,14 @@
                     "request": {
                         "method": "DELETE",
                         "header": [
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "url": {
                             "raw": "http://localhost:3000/api/projectCategories/1",
                             "protocol": "http",
-                            "host": [
-                                "localhost"
-                            ],
+                            "host": ["localhost"],
                             "port": "3000",
-                            "path": [
-                                "api",
-                                "projectCategories",
-                                "1"
-                            ]
+                            "path": ["api", "projectCategories", "1"]
                         }
                     },
                     "response": []
@@ -621,14 +381,9 @@
                         "url": {
                             "raw": "http://localhost:3000/api/equipments",
                             "protocol": "http",
-                            "host": [
-                                "localhost"
-                            ],
+                            "host": ["localhost"],
                             "port": "3000",
-                            "path": [
-                                "api",
-                                "equipments"
-                            ]
+                            "path": ["api", "equipments"]
                         }
                     },
                     "response": []
@@ -641,15 +396,9 @@
                         "url": {
                             "raw": "http://localhost:3000/api/equipments/1",
                             "protocol": "http",
-                            "host": [
-                                "localhost"
-                            ],
+                            "host": ["localhost"],
                             "port": "3000",
-                            "path": [
-                                "api",
-                                "equipments",
-                                "1"
-                            ]
+                            "path": ["api", "equipments", "1"]
                         }
                     },
                     "response": []
@@ -659,39 +408,20 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {
-                                "key": "Content-Type",
-                                "name": "Content-Type",
-                                "type": "text",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "body": {
                             "mode": "raw",
                             "raw": "{\n  \"name\": \"Raspberry Pi 4\",\n  \"laboratoryId\": 1,\n  \"projectId\": 1,\n  \"equipmentCategoryId\": 1\n}",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
-                                }
-                            }
+                            "options": {"raw": {"language": "json"}}
                         },
                         "url": {
                             "raw": "http://localhost:3000/api/equipments",
                             "protocol": "http",
-                            "host": [
-                                "localhost"
-                            ],
+                            "host": ["localhost"],
                             "port": "3000",
-                            "path": [
-                                "api",
-                                "equipments"
-                            ]
+                            "path": ["api", "equipments"]
                         }
                     },
                     "response": []
@@ -701,39 +431,20 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {
-                                "key": "Content-Type",
-                                "name": "Content-Type",
-                                "type": "text",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "body": {
                             "mode": "raw",
                             "raw": "{\n  \"name\": \"ab\",\n  \"laboratoryId\": 0,\n  \"projectId\": 0,\n  \"equipmentCategoryId\": 0\n}",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
-                                }
-                            }
+                            "options": {"raw": {"language": "json"}}
                         },
                         "url": {
                             "raw": "http://localhost:3000/api/equipments",
                             "protocol": "http",
-                            "host": [
-                                "localhost"
-                            ],
+                            "host": ["localhost"],
                             "port": "3000",
-                            "path": [
-                                "api",
-                                "equipments"
-                            ]
+                            "path": ["api", "equipments"]
                         }
                     },
                     "response": []
@@ -743,40 +454,20 @@
                     "request": {
                         "method": "PUT",
                         "header": [
-                            {
-                                "key": "Content-Type",
-                                "name": "Content-Type",
-                                "type": "text",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "body": {
                             "mode": "raw",
                             "raw": "{\n  \"name\": \"Raspberry Pi 4 Model B\",\n  \"laboratoryId\": 1,\n  \"projectId\": 1,\n  \"equipmentCategoryId\": 1\n}",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
-                                }
-                            }
+                            "options": {"raw": {"language": "json"}}
                         },
                         "url": {
                             "raw": "http://localhost:3000/api/equipments/1",
                             "protocol": "http",
-                            "host": [
-                                "localhost"
-                            ],
+                            "host": ["localhost"],
                             "port": "3000",
-                            "path": [
-                                "api",
-                                "equipments",
-                                "1"
-                            ]
+                            "path": ["api", "equipments", "1"]
                         }
                     },
                     "response": []
@@ -786,32 +477,20 @@
                     "request": {
                         "method": "DELETE",
                         "header": [
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "url": {
                             "raw": "http://localhost:3000/api/equipments/1",
                             "protocol": "http",
-                            "host": [
-                                "localhost"
-                            ],
+                            "host": ["localhost"],
                             "port": "3000",
-                            "path": [
-                                "api",
-                                "equipments",
-                                "1"
-                            ]
+                            "path": ["api", "equipments", "1"]
                         }
                     },
                     "response": []
                 }
             ]
-        }
-        ,
+        },
         {
             "name": "projects",
             "item": [
@@ -850,23 +529,13 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {
-                                "key": "Content-Type",
-                                "name": "Content-Type",
-                                "type": "text",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "body": {
                             "mode": "raw",
                             "raw": "{\n  \"name\": \"Smart Campus\",\n  \"description\": \"IoT-based campus automation project\",\n  \"startDate\": \"2025-01-15\",\n  \"status\": \"active\",\n  \"laboratoryId\": 1,\n  \"projectCategoryId\": 1\n}",
-                            "options": { "raw": { "language": "json" } }
+                            "options": {"raw": {"language": "json"}}
                         },
                         "url": {
                             "raw": "http://localhost:3000/api/projects",
@@ -883,23 +552,13 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {
-                                "key": "Content-Type",
-                                "name": "Content-Type",
-                                "type": "text",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "body": {
                             "mode": "raw",
                             "raw": "{\n  \"name\": \"\",\n  \"description\": \"\",\n  \"startDate\": \"\",\n  \"status\": \"\",\n  \"laboratoryId\": null,\n  \"projectCategoryId\": null\n}",
-                            "options": { "raw": { "language": "json" } }
+                            "options": {"raw": {"language": "json"}}
                         },
                         "url": {
                             "raw": "http://localhost:3000/api/projects",
@@ -916,23 +575,13 @@
                     "request": {
                         "method": "PUT",
                         "header": [
-                            {
-                                "key": "Content-Type",
-                                "name": "Content-Type",
-                                "type": "text",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "body": {
                             "mode": "raw",
                             "raw": "{\n  \"name\": \"Smart Campus Updated\",\n  \"description\": \"Expanded IoT-based campus automation project\",\n  \"startDate\": \"2025-01-15\",\n  \"endDate\": \"2025-12-31\",\n  \"status\": \"active\",\n  \"laboratoryId\": 1,\n  \"projectCategoryId\": 1\n}",
-                            "options": { "raw": { "language": "json" } }
+                            "options": {"raw": {"language": "json"}}
                         },
                         "url": {
                             "raw": "http://localhost:3000/api/projects/1",
@@ -949,12 +598,7 @@
                     "request": {
                         "method": "DELETE",
                         "header": [
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "url": {
                             "raw": "http://localhost:3000/api/projects/1",
@@ -1021,23 +665,13 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {
-                                "key": "Content-Type",
-                                "name": "Content-Type",
-                                "type": "text",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "body": {
                             "mode": "raw",
                             "raw": "{\n  \"area\": \"Computer Science\",\n  \"startDate\": \"2025-03-01\",\n  \"professorId\": 1,\n  \"projectId\": 1\n}",
-                            "options": { "raw": { "language": "json" } }
+                            "options": {"raw": {"language": "json"}}
                         },
                         "url": {
                             "raw": "http://localhost:3000/api/coordinators",
@@ -1054,23 +688,13 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {
-                                "key": "Content-Type",
-                                "name": "Content-Type",
-                                "type": "text",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "body": {
                             "mode": "raw",
                             "raw": "{\n  \"area\": \"\",\n  \"startDate\": null,\n  \"professorId\": null,\n  \"projectId\": null\n}",
-                            "options": { "raw": { "language": "json" } }
+                            "options": {"raw": {"language": "json"}}
                         },
                         "url": {
                             "raw": "http://localhost:3000/api/coordinators",
@@ -1087,23 +711,13 @@
                     "request": {
                         "method": "PUT",
                         "header": [
-                            {
-                                "key": "Content-Type",
-                                "name": "Content-Type",
-                                "type": "text",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "body": {
                             "mode": "raw",
                             "raw": "{\n  \"area\": \"Software Engineering\",\n  \"startDate\": \"2025-03-01\",\n  \"endDate\": \"2025-12-31\",\n  \"professorId\": 1,\n  \"projectId\": 1\n}",
-                            "options": { "raw": { "language": "json" } }
+                            "options": {"raw": {"language": "json"}}
                         },
                         "url": {
                             "raw": "http://localhost:3000/api/coordinators/1",
@@ -1120,12 +734,7 @@
                     "request": {
                         "method": "DELETE",
                         "header": [
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "url": {
                             "raw": "http://localhost:3000/api/coordinators/1",
@@ -1192,23 +801,13 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {
-                                "key": "Content-Type",
-                                "name": "Content-Type",
-                                "type": "text",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "body": {
                             "mode": "raw",
                             "raw": "{\n  \"name\": \"Ana Lima\",\n  \"functionName\": \"Data Analyst\",\n  \"weeklyHours\": 20,\n  \"startDate\": \"2025-02-01\",\n  \"projectId\": 1,\n  \"studentId\": 1\n}",
-                            "options": { "raw": { "language": "json" } }
+                            "options": {"raw": {"language": "json"}}
                         },
                         "url": {
                             "raw": "http://localhost:3000/api/researchers",
@@ -1225,23 +824,13 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {
-                                "key": "Content-Type",
-                                "name": "Content-Type",
-                                "type": "text",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "body": {
                             "mode": "raw",
                             "raw": "{\n  \"name\": \"\",\n  \"functionName\": \"\",\n  \"weeklyHours\": null,\n  \"startDate\": null,\n  \"projectId\": null\n}",
-                            "options": { "raw": { "language": "json" } }
+                            "options": {"raw": {"language": "json"}}
                         },
                         "url": {
                             "raw": "http://localhost:3000/api/researchers",
@@ -1258,23 +847,13 @@
                     "request": {
                         "method": "PUT",
                         "header": [
-                            {
-                                "key": "Content-Type",
-                                "name": "Content-Type",
-                                "type": "text",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "body": {
                             "mode": "raw",
                             "raw": "{\n  \"name\": \"Ana Lima\",\n  \"functionName\": \"Senior Data Analyst\",\n  \"weeklyHours\": 30,\n  \"startDate\": \"2025-02-01\",\n  \"endDate\": \"2025-12-31\",\n  \"projectId\": 1,\n  \"studentId\": 1\n}",
-                            "options": { "raw": { "language": "json" } }
+                            "options": {"raw": {"language": "json"}}
                         },
                         "url": {
                             "raw": "http://localhost:3000/api/researchers/1",
@@ -1291,12 +870,7 @@
                     "request": {
                         "method": "DELETE",
                         "header": [
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "url": {
                             "raw": "http://localhost:3000/api/researchers/1",
@@ -1363,23 +937,13 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {
-                                "key": "Content-Type",
-                                "name": "Content-Type",
-                                "type": "text",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "body": {
                             "mode": "raw",
                             "raw": "{\n  \"area\": \"Technology\",\n  \"block\": \"B\",\n  \"description\": \"Coordination responsible for tech-related courses\"\n}",
-                            "options": { "raw": { "language": "json" } }
+                            "options": {"raw": {"language": "json"}}
                         },
                         "url": {
                             "raw": "http://localhost:3000/api/coordinations",
@@ -1396,23 +960,13 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {
-                                "key": "Content-Type",
-                                "name": "Content-Type",
-                                "type": "text",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "body": {
                             "mode": "raw",
                             "raw": "{\n  \"area\": \"\",\n  \"block\": null,\n  \"description\": \"\"\n}",
-                            "options": { "raw": { "language": "json" } }
+                            "options": {"raw": {"language": "json"}}
                         },
                         "url": {
                             "raw": "http://localhost:3000/api/coordinations",
@@ -1429,23 +983,13 @@
                     "request": {
                         "method": "PUT",
                         "header": [
-                            {
-                                "key": "Content-Type",
-                                "name": "Content-Type",
-                                "type": "text",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "body": {
                             "mode": "raw",
                             "raw": "{\n  \"area\": \"Technology Updated\",\n  \"block\": \"C\",\n  \"description\": \"Updated coordination for tech-related courses\"\n}",
-                            "options": { "raw": { "language": "json" } }
+                            "options": {"raw": {"language": "json"}}
                         },
                         "url": {
                             "raw": "http://localhost:3000/api/coordinations/1",
@@ -1462,12 +1006,7 @@
                     "request": {
                         "method": "DELETE",
                         "header": [
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "url": {
                             "raw": "http://localhost:3000/api/coordinations/1",
@@ -1504,23 +1043,13 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {
-                                "key": "Content-Type",
-                                "name": "Content-Type",
-                                "type": "text",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "body": {
                             "mode": "raw",
                             "raw": "{\n  \"name\": \"Lucas\",\n  \"email\": \"1@gmail.com\",\n  \"registration\": \"20231si005\",\n  \"password\": \"S&nha123\",\n  \"birthdate\": \"2003-04-14\",\n  \"term\": \"7\",\n  \"shift\": \"AFTERNOON\"\n}",
-                            "options": { "raw": { "language": "json" } }
+                            "options": {"raw": {"language": "json"}}
                         },
                         "url": {
                             "raw": "http://localhost:3000/api/students",
@@ -1548,34 +1077,62 @@
                     "response": []
                 },
                 {
-                    "name": "Update",
+                    "name": "Get",
                     "request": {
-                        "method": "PUT",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "name": "Content-Type",
-                                "type": "text",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n  \"email\": \"e@a.com.br\",\n  \"name\": \"O Nome é...\",\n  \"registration\": \"123\",\n  \"birthdate\": \"2025-12-12\",\n  \"term\": 1,\n  \"shift\": \"MORNING\"\n}",
-                            "options": { "raw": { "language": "json" } }
-                        },
+                        "method": "GET",
+                        "header": [],
                         "url": {
-                            "raw": "http://localhost:3000/api/students/1",
+                            "raw": "http://localhost:3000/api/students/21",
                             "protocol": "http",
                             "host": ["localhost"],
                             "port": "3000",
-                            "path": ["api", "students", "1"]
+                            "path": ["api", "students", "21"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update Personal Data",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"O Nome é...\"\n}",
+                            "options": {"raw": {"language": "json"}}
+                        },
+                        "url": {
+                            "raw": "http://localhost:3000/api/students/personal-data",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "3000",
+                            "path": ["api", "students", "personal-data"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update Term",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"O Nome é...\",\n  \"registration\": \"123\",\n  \"birthdate\": \"2025-12-12\",\n  \"term\": 1,\n  \"shift\": \"MORNING\"\n}",
+                            "options": {"raw": {"language": "json"}}
+                        },
+                        "url": {
+                            "raw": "http://localhost:3000/api/students/",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "3000",
+                            "path": ["api", "students", ""]
                         }
                     },
                     "response": []
@@ -1585,23 +1142,13 @@
                     "request": {
                         "method": "PUT",
                         "header": [
-                            {
-                                "key": "Content-Type",
-                                "name": "Content-Type",
-                                "type": "text",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "body": {
                             "mode": "raw",
                             "raw": "{\n  \"email\": \"e@a.com.br\",\n  \"name\": \"O Nome é...\",\n  \"registration\": \"123\",\n  \"birthdate\": \"2025-12-12\",\n  \"term\": 1\n}",
-                            "options": { "raw": { "language": "json" } }
+                            "options": {"raw": {"language": "json"}}
                         },
                         "url": {
                             "raw": "http://localhost:3000/api/students/1",
@@ -1618,23 +1165,13 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {
-                                "key": "Content-Type",
-                                "name": "Content-Type",
-                                "type": "text",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "body": {
                             "mode": "raw",
                             "raw": "{\n  \"name\": \"Lucas\",\n  \"email\": \"1@gmail.com\",\n  \"birthdate\": \"2003-04-14\",\n  \"password\": \"123\",\n  \"term\": \"7\",\n  \"shift\": \"AFTERNOON\"\n}",
-                            "options": { "raw": { "language": "json" } }
+                            "options": {"raw": {"language": "json"}}
                         },
                         "url": {
                             "raw": "http://localhost:3000/api/students",
@@ -1647,42 +1184,17 @@
                     "response": []
                 },
                 {
-                    "name": "Get",
-                    "request": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "http://localhost:3000/api/students/21",
-                            "protocol": "http",
-                            "host": ["localhost"],
-                            "port": "3000",
-                            "path": ["api", "students", "21"]
-                        }
-                    },
-                    "response": []
-                },
-                {
                     "name": "Create - Invalid Shift",
                     "request": {
                         "method": "POST",
                         "header": [
-                            {
-                                "key": "Content-Type",
-                                "name": "Content-Type",
-                                "type": "text",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "body": {
                             "mode": "raw",
                             "raw": "{\n  \"name\": \"Lucas\",\n  \"email\": \"1312@gmail.com\",\n  \"birthdate\": \"2003-04-14\",\n  \"registration\": \"12\",\n  \"password\": \"123\",\n  \"term\": \"7\",\n  \"shift\": \"AFTERNON\"\n}",
-                            "options": { "raw": { "language": "json" } }
+                            "options": {"raw": {"language": "json"}}
                         },
                         "url": {
                             "raw": "http://localhost:3000/api/students",
@@ -1699,12 +1211,7 @@
                     "request": {
                         "method": "DELETE",
                         "header": [
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "url": {
                             "raw": "http://localhost:3000/api/students/6",
@@ -1726,23 +1233,13 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {
-                                "key": "Content-Type",
-                                "name": "Content-Type",
-                                "type": "text",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "body": {
                             "mode": "raw",
                             "raw": "{\n  \"name\": \"Vargas\",\n  \"email\": \"vargas@email.com\",\n  \"registration\": \"siape\",\n  \"telephone\": \"28999999999\",\n  \"coordinationId\": 1\n}",
-                            "options": { "raw": { "language": "json" } }
+                            "options": {"raw": {"language": "json"}}
                         },
                         "url": {
                             "raw": "http://localhost:3000/api/professors",
@@ -1759,23 +1256,36 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {
-                                "key": "Content-Type",
-                                "name": "Content-Type",
-                                "type": "text",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "body": {
                             "mode": "raw",
                             "raw": "{\n  \"name\": \"Vargas\",\n  \"email\": \"vargas@email.com\",\n  \"telephone\": \"28999999999\",\n  \"coordinationId\": 1\n}",
-                            "options": { "raw": { "language": "json" } }
+                            "options": {"raw": {"language": "json"}}
+                        },
+                        "url": {
+                            "raw": "http://localhost:3000/api/professors",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "3000",
+                            "path": ["api", "professors"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create - Missing Email",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"Vargas\",\n  \"telephone\": \"28999999999\",\n  \"coordinationId\": 1,\n  \"registration\": \"123\"\n}",
+                            "options": {"raw": {"language": "json"}}
                         },
                         "url": {
                             "raw": "http://localhost:3000/api/professors",
@@ -1822,23 +1332,13 @@
                     "request": {
                         "method": "PUT",
                         "header": [
-                            {
-                                "key": "Content-Type",
-                                "name": "Content-Type",
-                                "type": "text",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n  \"name\": \"Vargas\",\n  \"email\": \"vargas@email.com\",\n  \"registration\": \"siape\",\n  \"telephone\": \"28999999999\",\n  \"coordinationId\": 1\n}",
-                            "options": { "raw": { "language": "json" } }
+                            "raw": "{\n  \"name\": \"a1a\",\n  \"registration\": \"siape\",\n  \"telephone\": \"(28) 9993-9999\"\n}",
+                            "options": {"raw": {"language": "json"}}
                         },
                         "url": {
                             "raw": "http://localhost:3000/api/professors/2",
@@ -1851,16 +1351,34 @@
                     "response": []
                 },
                 {
+                    "name": "Change Coordination",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"coordinationId\": 1\n}",
+                            "options": {"raw": {"language": "json"}}
+                        },
+                        "url": {
+                            "raw": "http://localhost:3000/api/professors/change-coordination",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "3000",
+                            "path": ["api", "professors", "change-coordination"]
+                        }
+                    },
+                    "response": []
+                },
+                {
                     "name": "Delete",
                     "request": {
                         "method": "DELETE",
                         "header": [
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "url": {
                             "raw": "http://localhost:3000/api/professors/4",
@@ -1868,39 +1386,6 @@
                             "host": ["localhost"],
                             "port": "3000",
                             "path": ["api", "professors", "4"]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "Create - Missing Email",
-                    "request": {
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "name": "Content-Type",
-                                "type": "text",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n  \"name\": \"Vargas\",\n  \"telephone\": \"28999999999\",\n  \"coordinationId\": 1,\n  \"registration\": \"123\"\n}",
-                            "options": { "raw": { "language": "json" } }
-                        },
-                        "url": {
-                            "raw": "http://localhost:3000/api/professors",
-                            "protocol": "http",
-                            "host": ["localhost"],
-                            "port": "3000",
-                            "path": ["api", "professors"]
                         }
                     },
                     "response": []
@@ -1915,23 +1400,13 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {
-                                "key": "Content-Type",
-                                "name": "Content-Type",
-                                "type": "text",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n  \"equipmentId\": 1,\n  \"borrowDate\": \"2025-04-04\",\n  \"studentId\": 1\n}",
-                            "options": { "raw": { "language": "json" } }
+                            "raw": "{\n  \"equipmentId\": 1,\n  \"borrowDate\": \"2025-04-04\"\n}",
+                            "options": {"raw": {"language": "json"}}
                         },
                         "url": {
                             "raw": "http://localhost:3000/api/borrow",
@@ -1948,23 +1423,36 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {
-                                "key": "Content-Type",
-                                "name": "Content-Type",
-                                "type": "text",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "body": {
                             "mode": "raw",
                             "raw": "{\n  \"equipmentId\": 1\n}",
-                            "options": { "raw": { "language": "json" } }
+                            "options": {"raw": {"language": "json"}}
+                        },
+                        "url": {
+                            "raw": "http://localhost:3000/api/borrow",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "3000",
+                            "path": ["api", "borrow"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create - Missing Student or Professor Id",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"equipmentId\": 1,\n  \"borrowDate\": \"2025-12-12\"\n}",
+                            "options": {"raw": {"language": "json"}}
                         },
                         "url": {
                             "raw": "http://localhost:3000/api/borrow",
@@ -2007,16 +1495,57 @@
                     "response": []
                 },
                 {
+                    "name": "Update",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"equipmentId\": 1\n}",
+                            "options": {"raw": {"language": "json"}}
+                        },
+                        "url": {
+                            "raw": "http://localhost:3000/api/borrow/1",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "3000",
+                            "path": ["api", "borrow", "1"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Return",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "",
+                            "options": {"raw": {"language": "json"}}
+                        },
+                        "url": {
+                            "raw": "http://localhost:3000/api/borrow/return/5",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "3000",
+                            "path": ["api", "borrow", "return", "5"]
+                        }
+                    },
+                    "response": []
+                },
+                {
                     "name": "Delete",
                     "request": {
                         "method": "DELETE",
                         "header": [
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "url": {
                             "raw": "http://localhost:3000/api/borrow/8",
@@ -2024,72 +1553,6 @@
                             "host": ["localhost"],
                             "port": "3000",
                             "path": ["api", "borrow", "8"]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "Update",
-                    "request": {
-                        "method": "PUT",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "name": "Content-Type",
-                                "type": "text",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n  \"equipmentId\": 2\n}",
-                            "options": { "raw": { "language": "json" } }
-                        },
-                        "url": {
-                            "raw": "http://localhost:3000/api/borrow/5",
-                            "protocol": "http",
-                            "host": ["localhost"],
-                            "port": "3000",
-                            "path": ["api", "borrow", "5"]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "Create - Missing Student or Professor Id",
-                    "request": {
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "name": "Content-Type",
-                                "type": "text",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n  \"equipmentId\": 1,\n  \"borrowDate\": \"2025-12-12\"\n}",
-                            "options": { "raw": { "language": "json" } }
-                        },
-                        "url": {
-                            "raw": "http://localhost:3000/api/borrow",
-                            "protocol": "http",
-                            "host": ["localhost"],
-                            "port": "3000",
-                            "path": ["api", "borrow"]
                         }
                     },
                     "response": []
@@ -2104,23 +1567,36 @@
                     "request": {
                         "method": "POST",
                         "header": [
-                            {
-                                "key": "Content-Type",
-                                "name": "Content-Type",
-                                "type": "text",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "body": {
                             "mode": "raw",
                             "raw": "{\n  \"email\": \"1@gmail.com\",\n  \"password\": \"S&nha123\"\n}",
-                            "options": { "raw": { "language": "json" } }
+                            "options": {"raw": {"language": "json"}}
+                        },
+                        "url": {
+                            "raw": "http://localhost:3000/api/administrators",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "3000",
+                            "path": ["api", "administrators"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create - Validation Errors",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"Lucas\",\n  \"email\": \"1@gmail.com\",\n  \"birthdate\": \"2003-04-14\",\n  \"term\": \"7\",\n  \"shift\": \"AFTERNOON\"\n}",
+                            "options": {"raw": {"language": "json"}}
                         },
                         "url": {
                             "raw": "http://localhost:3000/api/administrators",
@@ -2148,27 +1624,32 @@
                     "response": []
                 },
                 {
+                    "name": "Get",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:3000/api/administrators/2",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "3000",
+                            "path": ["api", "administrators", "2"]
+                        }
+                    },
+                    "response": []
+                },
+                {
                     "name": "Update",
                     "request": {
                         "method": "PUT",
                         "header": [
-                            {
-                                "key": "Content-Type",
-                                "name": "Content-Type",
-                                "type": "text",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "body": {
                             "mode": "raw",
                             "raw": "{\n  \"email\": \"1@gmail.com\"\n}",
-                            "options": { "raw": { "language": "json" } }
+                            "options": {"raw": {"language": "json"}}
                         },
                         "url": {
                             "raw": "http://localhost:3000/api/administrators/3",
@@ -2185,23 +1666,13 @@
                     "request": {
                         "method": "PUT",
                         "header": [
-                            {
-                                "key": "Content-Type",
-                                "name": "Content-Type",
-                                "type": "text",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"},
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "body": {
                             "mode": "raw",
                             "raw": "{\n  \"email\": \"e@a.com.br\",\n  \"name\": \"O Nome é...\",\n  \"registration\": \"123\",\n  \"birthdate\": \"2025-12-12\",\n  \"term\": 1\n}",
-                            "options": { "raw": { "language": "json" } }
+                            "options": {"raw": {"language": "json"}}
                         },
                         "url": {
                             "raw": "http://localhost:3000/api/administrators/1",
@@ -2214,64 +1685,11 @@
                     "response": []
                 },
                 {
-                    "name": "Get",
-                    "request": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "http://localhost:3000/api/administrators/2",
-                            "protocol": "http",
-                            "host": ["localhost"],
-                            "port": "3000",
-                            "path": ["api", "administrators", "2"]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "Create - Validation Errors",
-                    "request": {
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "name": "Content-Type",
-                                "type": "text",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n  \"name\": \"Lucas\",\n  \"email\": \"1@gmail.com\",\n  \"birthdate\": \"2003-04-14\",\n  \"term\": \"7\",\n  \"shift\": \"AFTERNOON\"\n}",
-                            "options": { "raw": { "language": "json" } }
-                        },
-                        "url": {
-                            "raw": "http://localhost:3000/api/administrators",
-                            "protocol": "http",
-                            "host": ["localhost"],
-                            "port": "3000",
-                            "path": ["api", "administrators"]
-                        }
-                    },
-                    "response": []
-                },
-                {
                     "name": "Delete",
                     "request": {
                         "method": "DELETE",
                         "header": [
-                            {
-                                "key": "Authorization",
-                                "name": "Authorization",
-                                "type": "text",
-                                "value": "Bearer {{token}}"
-                            }
+                            {"key": "Authorization", "name": "Authorization", "type": "text", "value": "Bearer {{token}}"}
                         ],
                         "url": {
                             "raw": "http://localhost:3000/api/administrators/6",
@@ -2279,6 +1697,55 @@
                             "host": ["localhost"],
                             "port": "3000",
                             "path": ["api", "administrators", "6"]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "auth",
+            "item": [
+                {
+                    "name": "Signin (Professor)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"email\": \"carlos.silva@projecta.com\",\n  \"password\": \"password123\",\n  \"profileType\": \"professor\"\n}",
+                            "options": {"raw": {"language": "json"}}
+                        },
+                        "url": {
+                            "raw": "http://localhost:3000/api/auth/signin",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "3000",
+                            "path": ["api", "auth", "signin"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Signin (Student)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {"key": "Content-Type", "name": "Content-Type", "type": "text", "value": "application/json"}
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"email\": \"lucas.pereira@aluno.com\",\n  \"password\": \"password123\",\n  \"profileType\": \"student\"\n}",
+                            "options": {"raw": {"language": "json"}}
+                        },
+                        "url": {
+                            "raw": "http://localhost:3000/api/auth/signin",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "3000",
+                            "path": ["api", "auth", "signin"]
                         }
                     },
                     "response": []

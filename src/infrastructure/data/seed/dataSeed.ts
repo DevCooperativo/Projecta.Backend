@@ -120,7 +120,7 @@ class DataSeed {
         const projectCategories = await ensureSeeded(ProjectCategoryEntityMapping, projectCategorySeeds, 'name');
 
         const studentSeeds = [
-            { name: "Lucas Pereira", email: "lucas.pereira@aluno.com", registration: "ALU001", birthdate: new Date("2002-03-15"), term: 4, shift: "MORNING" },
+        { name: "Lucas Pereira", email: "lucas.pereira@aluno.com", registration: "ALU001", birthdate: new Date("2002-03-15"), term: 4, shift: "MORNING" },
             { name: "Mariana Alves", email: "mariana.alves@aluno.com", registration: "ALU002", birthdate: new Date("2001-07-22"), term: 6, shift: "AFTERNOON" },
             { name: "Pedro Ferreira", email: "pedro.ferreira@aluno.com", registration: "ALU003", birthdate: new Date("2003-01-10"), term: 2, shift: "NIGHT" },
             { name: "Julia Lima", email: "julia.lima@aluno.com", registration: "ALU004", birthdate: new Date("2000-11-30"), term: 8, shift: "MORNING" },
@@ -165,7 +165,7 @@ class DataSeed {
 
         // 7. Borrow (depende de Item; Student, Professor e Researcher opcionais)
         const borrowSeeds = [
-            { equipmentId: (equipments[0] as Equipment)?.id, borrowDate: new Date("2026-01-10"), returnDate: new Date("2026-02-10"), studentId: (students[0] as Student)?.id },
+            { equipmentId: (equipments[0] as Equipment)?.id, borrowDate: new Date("2026-01-10"), studentId: (students[0] as Student)?.id },
             { equipmentId: (equipments[1] as Equipment)?.id, borrowDate: new Date("2026-01-15"), returnDate: new Date("2026-02-15"), professorId: (professors[1] as Professor)?.id },
             { equipmentId: (equipments[2] as Equipment)?.id, borrowDate: new Date("2026-02-01"), returnDate: new Date("2026-03-01"), studentId: (students[2] as Student)?.id },
             { equipmentId: (equipments[3] as Equipment)?.id, borrowDate: new Date("2026-02-10"), returnDate: new Date("2026-03-10"), studentId: (students[3] as Student)?.id },

@@ -1,13 +1,15 @@
 class ProfessorDTO {
-    id: number
-    name: string
-    email: string
-    registration: string
-    telephone: string
-    coordinationId: number
-    createdAt: Date
-    updatedAt: Date
-    isVisible: boolean
-    constructor() { }
+
+    constructor(
+        readonly id: number,
+        readonly name: string,
+        readonly email: string,
+        readonly registration: string,
+        readonly telephone: string,
+        readonly coordinationId: number,
+        readonly createdAt: Date,
+        readonly updatedAt: Date,
+        readonly isVisible: boolean,
+    ) { }
 }
 export default ProfessorDTO
