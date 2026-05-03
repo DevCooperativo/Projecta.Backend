@@ -65,13 +65,15 @@ class ProjectServices implements IProjectServices {
         // RN1: laboratório não pode ter mais de 10 projetos
         const projectCountInLab = await this.projectRepository.CountByLaboratoryId(data.laboratoryId)
         if (projectCountInLab >= 10)
-            throw new ApplicationException(ApplicationExceptionName.BUSINESS_RULE_VIOLATION, "The laboratory has already reached the maximum limit of 10 active projects", 422)
+            throw new ApplicationException(ApplicationExceptionName.BUSINESS_RULE_VIOLATION, 
+            "The laboratory has already reached the maximum limit of 10 active projects", 422)
 
         // RN2: professor não pode coordenar mais de 5 projetos
         for (const coord of data.coordinators ?? []) {
             const coordinationCount = await this.coordinatorRepository.CountByProfessorId(coord.professorId)
             if (coordinationCount >= 5)
-                throw new ApplicationException(ApplicationExceptionName.BUSINESS_RULE_VIOLATION, `Professor with id ${coord.professorId} has already reached the maximum limit of 5 coordinations`, 422)
+                throw new ApplicationException(ApplicationExceptionName.BUSINESS_RULE_VIOLATION, 
+                `Professor with id ${coord.professorId} has already reached the maximum limit of 5 coordinations`, 422)
         }
 
         return await this.unitOfWork.execute(async (trx) => {
@@ -120,11 +122,32 @@ class ProjectServices implements IProjectServices {
     }
 
     async UpdateAsync(data: UpdateProjectInputDTO) {
-        return await this.unitOfWork.execute(async (trx) => {
-            const existing = await this.projectRepository.FindById(data.id)
-            if (!existing)
-                throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No project was found with the provided id", 404)
+        const existing = await this.projectRepository.FindById(data.id)
+        if (!existing)
+            throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No project was found with the provided id", 404)
 
+        // RN1: se o laboratório está mudando, verificar se o novo não atingiu o limite
+        if (data.laboratoryId !== existing.laboratoryId) {
+            const projectCountInLab = await this.projectRepository.CountByLaboratoryId(data.laboratoryId)
+            if (projectCountInLab >= 10)
+                throw new ApplicationException(ApplicationExceptionName.BUSINESS_RULE_VIOLATION, "The laboratory has already reached the maximum limit of 10 active projects", 422)
+        }
+
+        // RN2: verificar somente coordenadores novos (que não estavam nesse projeto)
+        if (data.coordinators) {
+            const existingCoordinators = await this.coordinatorRepository.FindByProjectId(data.id)
+            const existingProfessorIds = new Set(existingCoordinators.map((c: Coordinator) => c.professorId))
+
+            for (const coord of data.coordinators) {
+                if (!existingProfessorIds.has(coord.professorId)) {
+                    const coordinationCount = await this.coordinatorRepository.CountByProfessorId(coord.professorId)
+                    if (coordinationCount >= 5)
+                        throw new ApplicationException(ApplicationExceptionName.BUSINESS_RULE_VIOLATION, `Professor with id ${coord.professorId} has already reached the maximum limit of 5 coordinations`, 422)
+                }
+            }
+        }
+
+        return await this.unitOfWork.execute(async (trx) => {
             if (!await this.laboratoryRepository.FindById(data.laboratoryId))
                 throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No laboratory was found with the provided id", 404)
 
