@@ -48,6 +48,9 @@ export class BorrowServices implements IBorrowServices {
             const equipment = await this.equipmentServices.GetByIdAsync(data.equipmentId);
             if (!equipment)
                 throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "The equipment doesn't exists", 404);
+            // If student, check if researcher and if equipment is on the same project of the student
+            if (userContext.currentProfileType === AccountType.student && !(await this.IsStudentOfSameProject(equipment, userContext.currentProfile.id)))
+                throw new ApplicationException(ApplicationExceptionName.INVALID_OPERATION, "The equipment doesn't belongs to the user's project", 403);
             const borrows = await this.GetAllAsync()
             if (!this.CanBeBorrowed(borrows, data.equipmentId))
                 throw new ApplicationException(ApplicationExceptionName.INVALID_OPERATION, "Equipment is already borrowed", 400)
