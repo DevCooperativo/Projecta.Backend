@@ -8,20 +8,22 @@ import { SequelizeTransactionAdapter } from "../data/transactionAdapter";
 @injectable()
 class EquipmentCategoryRepository implements IEquipmentCategoryRepository {
 
-    async Find() {
-        return await EquipmentCategoryEntityMapping.findAll() as EquipmentCategory[]
+    async Find(trx?: Transaction) {
+        const transaction = (trx as SequelizeTransactionAdapter)?.trx
+        return await EquipmentCategoryEntityMapping.findAll({ transaction }) as unknown as EquipmentCategory[]
     }
-    async FindById(id: number) {
-        return await EquipmentCategoryEntityMapping.findByPk(id) as EquipmentCategory
+    async FindById(id: number, trx?: Transaction) {
+        const transaction = (trx as SequelizeTransactionAdapter)?.trx
+        return await EquipmentCategoryEntityMapping.findByPk(id, { transaction }) as unknown as EquipmentCategory
     }
     async Create(data: EquipmentCategory, trx?: Transaction) {
         const transaction = (trx as SequelizeTransactionAdapter)?.trx
-        return await EquipmentCategoryEntityMapping.create({ ...data }, { transaction }) as EquipmentCategory
+        return await EquipmentCategoryEntityMapping.create({ ...data }, { transaction }) as unknown as EquipmentCategory
     }
     async Update(id: number, data: EquipmentCategory, trx?: Transaction) {
         const transaction = (trx as SequelizeTransactionAdapter)?.trx
         await EquipmentCategoryEntityMapping.update(data, { where: { id }, validate: true, transaction })
-        return (await EquipmentCategoryEntityMapping.findByPk(id, { transaction })) as EquipmentCategory
+        return (await EquipmentCategoryEntityMapping.findByPk(id, { transaction })) as unknown as EquipmentCategory
     }
     async Delete(id: number, trx?: Transaction) {
         const transaction = (trx as SequelizeTransactionAdapter)?.trx
