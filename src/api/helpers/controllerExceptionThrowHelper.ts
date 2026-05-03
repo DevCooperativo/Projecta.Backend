@@ -26,6 +26,8 @@ class ControllerExceptionThrowHelper {
             switch (ex.name) {
                 case "SequelizeUniqueConstraintError":
                     return res.status(409).json({ name: InfrastructureExceptionName.CONSTRAINT_ERROR, message: "An unique constraint violation made your request fail. Check the data and try again. If you think this might be a mistake, contact the support team" })
+                case "SequelizeForeignKeyConstraintError":
+                    return res.status(409).json({ name: InfrastructureExceptionName.CONSTRAINT_ERROR, message: "This record cannot be deleted or modified because it is referenced by other records." })
 
                 default:
                     return res.status(500).json({ name: ex.name ?? "INTERNAL_SERVER_ERROR", message: ex.message.replace("\n", "; ") ?? "An error occurred on our side. Please, contact the support team" })

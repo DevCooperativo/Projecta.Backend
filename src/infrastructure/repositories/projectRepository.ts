@@ -13,7 +13,8 @@ import ResearcherEntityMapping from "../data/entityMapping/researcherEntityMappp
 @injectable()
 class ProjectRepository implements IProjectRepository {
 
-    async Find(filters?: { categoryId?: number; laboratoryId?: number; name?: string }) {
+    async Find(filters?: { categoryId?: number; laboratoryId?: number; name?: string }, trx?: Transaction) {
+        const transaction = (trx as SequelizeTransactionAdapter)?.trx
         const where: Record<string, unknown> = {}
         if (filters?.categoryId) where.projectCategoryId = filters.categoryId
         if (filters?.laboratoryId) where.laboratoryId = filters.laboratoryId
@@ -26,16 +27,23 @@ class ProjectRepository implements IProjectRepository {
                 { model: CoordinatorEntityMapping, attributes: ['id'], as: 'Coordinators' },
                 { model: ResearcherEntityMapping, attributes: ['id'], as: 'Researchers' },
             ],
-            order: [['name', 'ASC']]
+            order: [['name', 'ASC']],
+            transaction
         }) as unknown as Project[]
     }
 
-    async FindById(id: number) {
-        return await ProjectEntityMapping.findByPk(id) as unknown as Project
+    async FindById(id: number, trx?: Transaction) {
+        const transaction = (trx as SequelizeTransactionAdapter)?.trx
+        return await ProjectEntityMapping.findByPk(id, { transaction }) as unknown as Project
     }
 
     async CountByLaboratoryId(laboratoryId: number) {
         return await ProjectEntityMapping.count({ where: { laboratoryId } })
+    }
+
+    async CountByProjectCategoryId(projectCategoryId: number, trx?: Transaction) {
+        const transaction = (trx as SequelizeTransactionAdapter)?.trx
+        return await ProjectEntityMapping.count({ where: { projectCategoryId }, transaction })
     }
 
     async Create(data: Project, trx?: Transaction) {

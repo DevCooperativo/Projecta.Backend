@@ -26,14 +26,14 @@ class LaboratoryServices implements ILaboratoryServices {
     }
     async CreateAsync(data: LaboratoryDTO) {
         return await this.unitOfWork.execute(async (trx) => {
-            return (await this.laboratoryRepository.Create(data, trx)) as LaboratoryDTO
+            return (await this.laboratoryRepository.Create(data as Laboratory, trx)) as LaboratoryDTO
         })
     }
     async UpdateAsync(id: number, data: LaboratoryDTO) {
         return await this.unitOfWork.execute(async (trx) => {
             if (!(await this.laboratoryRepository.FindById(id) as Laboratory))
                 throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No laboratory was found with the provided id", 404)
-            return (await this.laboratoryRepository.Update(id, data, trx)) as LaboratoryDTO
+            return (await this.laboratoryRepository.Update(id, data as Laboratory, trx)) as LaboratoryDTO
         })
     }
     async DeleteAsync(id: number) {

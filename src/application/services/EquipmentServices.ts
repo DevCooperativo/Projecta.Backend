@@ -59,7 +59,7 @@ class EquipmentServices implements IEquipmentServices {
         return await this.unitOfWork.execute(async (trx) => {
             if (!(await this.equipmentRepository.FindById(id, trx) as Equipment))
                 throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No equipment was found with the provided id", 404)
-            await this.EnsureEquipmentHasNoActiveBorrows(id, trx)
+            await this.EnsureEquipmentHasNoBorrows(id, trx)
             return (await this.equipmentRepository.Delete(id, trx))
         })
     }
@@ -88,12 +88,11 @@ class EquipmentServices implements IEquipmentServices {
             throw new ApplicationException(ApplicationExceptionName.INVALID_OPERATION, "Laboratory cannot have more than 50 equipments", 400)
     }
 
-    private async EnsureEquipmentHasNoActiveBorrows(equipmentId: number, trx?: Transaction) {
-        const borrows = await this.borrowRepository.Find(trx)
-        const hasActiveBorrow = borrows.some(borrow => borrow.equipmentId === equipmentId && borrow.isStillBorrowed)
+    private async EnsureEquipmentHasNoBorrows(equipmentId: number, trx?: Transaction) {
+        const borrowCount = await this.borrowRepository.CountByEquipmentId(equipmentId, trx)
 
-        if (hasActiveBorrow)
-            throw new ApplicationException(ApplicationExceptionName.INVALID_OPERATION, "Equipment has active borrows and cannot be deleted", 400)
+        if (borrowCount > 0)
+            throw new ApplicationException(ApplicationExceptionName.INVALID_OPERATION, "Equipment has borrows and cannot be deleted", 400)
     }
 }
 export default EquipmentServices

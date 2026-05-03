@@ -54,7 +54,8 @@ const createSut = (overrides?: {
     }
 
     const borrowRepository = {
-        Find: vi.fn(async () => getOverride("borrows", []))
+        Find: vi.fn(async () => getOverride("borrows", [])),
+        CountByEquipmentId: vi.fn(async () => getOverride("borrows", []).length)
     }
 
     const service = new EquipmentServices(
@@ -101,9 +102,9 @@ describe("EquipmentServices", () => {
         expect(equipmentRepository.Update).toHaveBeenCalledOnce()
     })
 
-    it("should not delete equipment with active borrows", async () => {
+    it("should not delete equipment with linked borrows", async () => {
         const { service } = createSut({
-            borrows: [{ id: 1, equipmentId: validEquipment.id, isStillBorrowed: true }]
+            borrows: [{ id: 1, equipmentId: validEquipment.id, isStillBorrowed: false }]
         })
 
         await expect(service.DeleteAsync(validEquipment.id)).rejects.toBeInstanceOf(ApplicationException)

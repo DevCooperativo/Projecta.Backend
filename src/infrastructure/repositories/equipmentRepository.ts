@@ -31,6 +31,10 @@ class EquipmentRepository implements IEquipmentRepository {
         const result = await EquipmentEntity.destroy({ where: { id: id }, transaction })
         return result !== 0
     }
+    async CountByEquipmentCategoryId(equipmentCategoryId: number, trx?: Transaction) {
+        const transaction = (trx as SequelizeTransactionAdapter)?.trx
+        return await EquipmentEntity.count({ where: { equipmentCategoryId }, transaction })
+    }
     async DeleteByProjectId(projectId: number, trx?: Transaction) {
         const transaction = (trx as SequelizeTransactionAdapter)?.trx
         await EquipmentEntity.destroy({ where: { projectId }, transaction })
