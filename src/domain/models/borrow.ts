@@ -30,14 +30,14 @@ class Borrow extends BaseModel implements IBorrow {
 
 
 
-    static create(equipmentId: number, borrowDate: Date, studentId?: number, professorId?: number, isStillBorrowed: boolean = true, returnDate?: Date) {
+    static create(equipmentId: number, borrowDate: Date, studentId?: number, professorId?: number,returnDate?: Date) {
         const errors = [
             Guard.againstNullOrUndefined(equipmentId, "Equipment ID is required"),
             Guard.againstNullOrUndefined(borrowDate, "Borrow date is required"),
             (studentId === undefined && professorId === undefined) ? "Either student ID or professor ID must be provided" : null,
         ].filter((e): e is string => e !== null)
         this.throwDomainException(errors)
-        return new Borrow(equipmentId, borrowDate, isStillBorrowed, studentId, professorId, returnDate)
+        return new Borrow(equipmentId, borrowDate, true, studentId, professorId, returnDate)
     }
 
     static rehydrate(id: number, equipmentId: number, borrowDate: Date, studentId: number | undefined, professorId: number | undefined, isStillBorrowed: boolean, returnDate: Date | undefined, createdAt: Date, updatedAt: Date, isVisible: boolean) {
