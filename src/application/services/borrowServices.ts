@@ -12,7 +12,10 @@ import { AccountType } from "@/infrastructure/authentication/constants/accountTy
 import IEquipmentServices from "../interfaces/iEquipmentServices";
 import { ReturnBorrowInputDTO } from "../dtos/borrow/returnBorrowInputDTO";
 import { IUserContextServices } from "../interfaces/iUserContextServices";
-
+import EquipmentDTO from "../dtos/equipmentDTO";
+import IResearcherServices from "../interfaces/iResearcherServices";
+import IProjectServices from "../interfaces/iProjectServices";
+import { UserContextDTO } from "../dtos/userContext/userContextDTO";
 @injectable()
 export class BorrowServices implements IBorrowServices {
     constructor(
@@ -22,6 +25,10 @@ export class BorrowServices implements IBorrowServices {
         private readonly userContextServices: IUserContextServices,
         @inject("EquipmentServices")
         private readonly equipmentServices: IEquipmentServices,
+        @inject("ResearcherServices")
+        private readonly researcherServices: IResearcherServices,
+        @inject("ProjectServices")
+        private readonly projectServices: IProjectServices,
         @inject("SequelizeUnitOfWork")
         private readonly unitOfWork: IUnitOfWork
     ) { }
@@ -42,19 +49,16 @@ export class BorrowServices implements IBorrowServices {
             const equipment = await this.equipmentServices.GetByIdAsync(data.equipmentId);
             if (!equipment)
                 throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "The equipment doesn't exists", 404);
+            await this.CheckIfStudentIsOfSameProject(equipment, userContext)
             const borrows = await this.GetAllAsync()
-            if (!this.CanBeBorrowed(borrows, data.equipmentId))
-                throw new ApplicationException(ApplicationExceptionName.INVALID_OPERATION, "Equipment is already borrowed", 400)
-
-            if (this.IsExceedingBorrows(borrows, userContext.currentProfile!.id, userContext.currentProfileType))
-                throw new ApplicationException(ApplicationExceptionName.INVALID_OPERATION, "You will exceed your borrow limits. Return an equipment before proceeding", 400)
+            this.CheckIfIsAlreadyBorrowed(borrows, data.equipmentId)
+            this.CheckIfIsExceedingBorrows(borrows, userContext.currentProfile!.id, userContext.currentProfileType)
             const professorId = userContext.currentProfileType === AccountType.professor ? userContext.currentProfile!.id : undefined
             const studentId = userContext.currentProfileType === AccountType.student ? userContext.currentProfile!.id : undefined
-            const borrow = Borrow.create(data.equipmentId, data.borrowDate, studentId, professorId, undefined, data.returnDate)
+            const borrow = Borrow.create(data.equipmentId, data.borrowDate, studentId, professorId, data.returnDate)
             const result = await this.borrowRepository.Create(borrow, trx)
             if (!result)
                 return null
-
             return new BorrowDTO(result.id, result.equipmentId, result.isStillBorrowed, result.borrowDate, result.isVisible, result.createdAt, result.updatedAt, result.studentId, result.professorId)
         })
     }
@@ -64,20 +68,11 @@ export class BorrowServices implements IBorrowServices {
             const borrow = await this.borrowRepository.FindById(id)
             if (!borrow)
                 throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No borrow was found with the provided id", 404)
-            const equipment = await this.equipmentServices.GetByIdAsync(data.equipmentId)
-            if (!equipment)
-                throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "Equipment not found", 404)
-
-            const borrows = await this.borrowRepository.Find()
-            if (!this.CanBeBorrowed(borrows, equipment.id))
-                throw new ApplicationException(ApplicationExceptionName.INVALID_OPERATION, "The equipment is already borrowed.", 409)
-
-            const professorId = userContext.currentProfileType === AccountType.professor ? userContext.currentProfile!.id : undefined
-            const studentId = userContext.currentProfileType === AccountType.student ? userContext.currentProfile!.id : undefined
-            if (!borrow.userCanModify(professorId, studentId))
-                throw new ApplicationException(ApplicationExceptionName.NOT_BELONGS_TO, "User cannot modify this borrow", 403)
-
-            borrow.changeEquipment(equipment.id)
+            this.CheckIfUserCanModify(borrow, userContext);
+            this.handleEquipmentUpdate(borrow, userContext, data.equipmentId)
+            this.HandleBorrowStateUpdate(borrow, data.isStillBorrowed);
+            this.HandleBorrowDateUpdate(borrow, data.borrowDate);
+            this.HandleBorrowerUpdate(borrow, data.studentId, data.professorId);
             const result = await this.borrowRepository.Update(id, borrow, trx)
             if (!result)
                 return null
@@ -96,9 +91,7 @@ export class BorrowServices implements IBorrowServices {
             const userContext = await this.userContextServices.GetUserContext(data.userEmail, data.accountType)
             if (!borrow)
                 throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "Borrow not found", 404)
-            const professorId = userContext.currentProfileType === AccountType.professor ? userContext.currentProfile!.id : undefined
-            const studentId = userContext.currentProfileType === AccountType.student ? userContext.currentProfile!.id : undefined
-            if (!borrow.userCanModify(professorId, studentId))
+            if (!borrow.userCanModify(userContext.currentProfile.id, userContext.currentProfileType === AccountType.professor ? "professor" : "student"))
                 throw new ApplicationException(ApplicationExceptionName.NOT_BELONGS_TO, "User cannot interact with the borrow", 403)
             borrow.returnBorrowedItem()
             await this.borrowRepository.Update(borrow.id, borrow, trx)
@@ -107,13 +100,20 @@ export class BorrowServices implements IBorrowServices {
     }
 
 
-    private CanBeBorrowed(borrows: BorrowDTO[], equipmentId: number) {
+
+    private CheckIfUserCanModify(borrow: Borrow, userContext: UserContextDTO) {
+        if (!borrow.userCanModify(userContext.currentProfile.id, userContext.currentProfileType === AccountType.professor ? "professor" : "student"))
+            throw new ApplicationException(ApplicationExceptionName.NOT_BELONGS_TO, "User cannot modify this borrow", 403)
+    }
+
+    private CheckIfIsAlreadyBorrowed(borrows: BorrowDTO[], equipmentId?: number) {
+        if (!equipmentId) return;
         const activeBorrow = borrows.find(x => x.equipmentId === equipmentId && x.isStillBorrowed)
         if (activeBorrow)
-            return false
-        return true
+            throw new ApplicationException(ApplicationExceptionName.INVALID_OPERATION, "Equipment is already borrowed", 409)
     }
-    private IsExceedingBorrows(borrows: BorrowDTO[], borrowerId: number, userType: AccountType) {
+    private CheckIfIsExceedingBorrows(borrows: BorrowDTO[], borrowerId: number, userType: AccountType) {
+        //RN2 e RN3. Alunos só podem ter 5 empréstimos simultâneos, enquanto professores podem ter 10
         const borrowsPerUser = borrows.filter(x => {
             const condition: boolean[] = []
             if (userType === AccountType.professor) {
@@ -125,8 +125,51 @@ export class BorrowServices implements IBorrowServices {
             return condition.every(Boolean)
         })
         if ((userType === AccountType.student && borrowsPerUser.length === 5) || (userType === AccountType.professor && borrowsPerUser.length === 10)) {
-            return true
+            throw new ApplicationException(ApplicationExceptionName.INVALID_OPERATION, "You will exceed your borrow limits. Return an equipment before proceeding", 409)
         }
-        return false
+        return;
+    }
+
+    private async CheckIfStudentIsOfSameProject(equipemnt: EquipmentDTO, userContext: UserContextDTO) {
+        if (userContext.currentProfileType !== "student")
+            return true
+        const researcherList = await this.researcherServices.GetAllAsync();
+        const equivalentResearchers = researcherList.filter(x => x.studentId === userContext.currentProfile.id)
+        if (!equivalentResearchers.map(x => x.projectId).includes(equipemnt.projectId))
+            throw new ApplicationException(ApplicationExceptionName.INVALID_OPERATION, "The equipment doesn't belongs to the user's project", 403);
+        return true;
+    }
+
+
+    private async handleEquipmentUpdate(borrow: Borrow, userContext: UserContextDTO, equipmentId?: number) {
+        if (!equipmentId) return
+
+
+        const equipment = await this.equipmentServices.GetByIdAsync(equipmentId)
+        if (!equipment)
+            throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "Equipment not found", 404)
+        await this.CheckIfStudentIsOfSameProject(equipment, userContext)
+        const borrows = await this.borrowRepository.Find()
+        this.CheckIfIsAlreadyBorrowed(borrows, equipment?.id)
+        borrow.changeEquipment(equipment.id)
+    }
+    private HandleBorrowStateUpdate(borrow: Borrow, isStillBorrowed?: boolean) {
+        if (!isStillBorrowed) return null;
+        borrow.changeBorrowState(isStillBorrowed);
+    }
+    private HandleBorrowDateUpdate(borrow: Borrow, borrowDate?: Date) {
+        if (!borrowDate) return null;
+        borrow.changeBorrowDate(borrowDate);
+    }
+    private HandleBorrowerUpdate(borrow: Borrow, studentId?: number, professorId?: number) {
+        if (!studentId && !professorId) return null;
+        if (studentId && professorId) {
+            throw new ApplicationException(ApplicationExceptionName.INVALID_OPERATION, "You cannot update and set both student and professor id on the same borrow", 400);
+        }
+        if (studentId) {
+            borrow.changeBorrower(studentId, "student");
+        } else if (professorId) {
+            borrow.changeBorrower(professorId, "professor")
+        }
     }
 }

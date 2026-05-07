@@ -19,6 +19,7 @@ export class UserContextServices implements IUserContextServices {
 
     }
     async GetUserContext(userEmail: string, accountType: AccountType) {
+        console.log(userEmail, accountType)
         const student = await this.studentServices.GetByEmailAsync(userEmail);
         const administrator = await this.administratorServices.GetByEmailAsync(userEmail);
         const professor = await this.professorServices.GetByEmailAsync(userEmail)

@@ -32,7 +32,7 @@ class Student extends BaseModel {
             Guard.againstFutureDate(birthdate, "Birthdate cannot be in the future"),
             Guard.againstNullOrUndefined(term, "Term is required"),
             Guard.againstNullOrUndefined(shift, "Shift is required"),
-            Guard.againstValueSet(shift, Shifts, "Shift must be a valid shift"),
+            Guard.against(!Object.values(Shifts).includes(shift), `The student's shift is not a valid shift (${Object.values(Shifts).join(", ")})`)
         ].filter((e): e is string => e !== null)
         this.throwDomainException(errors);
         return new Student(name, email, registration, birthdate, term, shift)
@@ -41,7 +41,6 @@ class Student extends BaseModel {
     public updatePersonalData(name?: string, birthdate?: Date) {
         const errors = [
             Guard.against((name !== undefined && name !== null) && (name.length < 3 || name.length > 100), "Name must be between 3 and 100 characters long"),
-            Guard.againstNullOrUndefined(birthdate, "Birthdate is required"),
             Guard.againstInvalidDateFormat(birthdate, "Birthdate is invalid. Must be in the format YYYY-MM-DD"),
             Guard.againstFutureDate(birthdate, "Birthdate cannot be in the future"),
         ].filter((e): e is string => e !== null)
@@ -54,6 +53,7 @@ class Student extends BaseModel {
     public changeShift(newShift: ShiftsType) {
         const errors = [
             Guard.againstNullOrUndefined(newShift, "The new shift is required"),
+            Guard.against(!Object.values(Shifts).includes(newShift), `The new shift is not a valid shift (${Object.values(Shifts).join(", ")})`)
         ].filter(e => e !== null)
         this.throwDomainException(errors)
 
