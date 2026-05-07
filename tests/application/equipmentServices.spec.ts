@@ -55,7 +55,11 @@ const createSut = (overrides?: {
 
     const borrowRepository = {
         Find: vi.fn(async () => getOverride("borrows", [])),
-        CountByEquipmentId: vi.fn(async () => getOverride("borrows", []).length)
+        CountActiveByEquipmentId: vi.fn(async () =>
+            (getOverride("borrows", []) as { isStillBorrowed: boolean }[])
+                .filter(borrow => borrow.isStillBorrowed)
+                .length
+        )
     }
 
     const service = new EquipmentServices(
@@ -102,12 +106,22 @@ describe("EquipmentServices", () => {
         expect(equipmentRepository.Update).toHaveBeenCalledOnce()
     })
 
-    it("should not delete equipment with linked borrows", async () => {
+    it("should not delete equipment with active borrows", async () => {
         const { service } = createSut({
-            borrows: [{ id: 1, equipmentId: validEquipment.id, isStillBorrowed: false }]
+            borrows: [{ id: 1, equipmentId: validEquipment.id, isStillBorrowed: true }]
         })
 
         await expect(service.DeleteAsync(validEquipment.id)).rejects.toBeInstanceOf(ApplicationException)
+    })
+
+    it("should delete equipment when its borrows are not active", async () => {
+        const { service, equipmentRepository } = createSut({
+            borrows: [{ id: 1, equipmentId: validEquipment.id, isStillBorrowed: false }]
+        })
+
+        await service.DeleteAsync(validEquipment.id)
+
+        expect(equipmentRepository.Delete).toHaveBeenCalledOnce()
     })
 
     it("should not create equipment with an invalid category", async () => {
