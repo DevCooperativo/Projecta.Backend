@@ -110,7 +110,7 @@ export class BorrowServices implements IBorrowServices {
         if (!equipmentId) return;
         const activeBorrow = borrows.find(x => x.equipmentId === equipmentId && x.isStillBorrowed)
         if (activeBorrow)
-            throw new ApplicationException(ApplicationExceptionName.INVALID_OPERATION, "Equipment is already borrowed", 400)
+            throw new ApplicationException(ApplicationExceptionName.INVALID_OPERATION, "Equipment is already borrowed", 409)
     }
     private CheckIfIsExceedingBorrows(borrows: BorrowDTO[], borrowerId: number, userType: AccountType) {
         //RN2 e RN3. Alunos só podem ter 5 empréstimos simultâneos, enquanto professores podem ter 10
@@ -125,7 +125,7 @@ export class BorrowServices implements IBorrowServices {
             return condition.every(Boolean)
         })
         if ((userType === AccountType.student && borrowsPerUser.length === 5) || (userType === AccountType.professor && borrowsPerUser.length === 10)) {
-            throw new ApplicationException(ApplicationExceptionName.INVALID_OPERATION, "You will exceed your borrow limits. Return an equipment before proceeding", 400)
+            throw new ApplicationException(ApplicationExceptionName.INVALID_OPERATION, "You will exceed your borrow limits. Return an equipment before proceeding", 409)
         }
         return;
     }
