@@ -1,5 +1,6 @@
 import ApiExceptionNameEnum from "@/api/enums/apiExceptionNameEnum";
 import { AccountType } from "@/infrastructure/authentication/constants/accountType";
+import { requestContext } from "@/application/services/userContext/requestContext";
 import { NextFunction, Request, Response } from "express";
 import jsonwebtoken, { base64url, jwtDecrypt, JWTPayload } from "jose"
 interface AppJwtPayload extends JWTPayload {
@@ -55,7 +56,7 @@ const EnsureAuthenticatedUserMiddleware = async (req: Request, res: Response, ne
             email: payload.email,
             userType: userType,
         }
-        next()
+        requestContext.run({ email: payload.email, accountTypes: payload.accountTypes, userType }, () => next())
     } catch (ex) {
         if (ex instanceof jsonwebtoken.errors.JOSEError) {
             res.status(400).json({ name: ex.name ?? "Invalid token used", message: ex.message ?? "The signature used doesn't match the one used on the application. " })

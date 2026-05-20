@@ -1,17 +1,43 @@
-import { Op } from "sequelize";
+import { Op, WhereOptions } from "sequelize";
 import { Transaction } from "@/application/unitOfWork/transaction";
 import Borrow from "@/domain/models/borrow";
 import IBorrowRepository from "@/domain/repositories/iBorrowRepository";
+import { BorrowFilterSpec } from "@/domain/repositories/borrowFilterSpec";
 import BorrowEntityMapping from "@/infrastructure/data/entityMapping/borrowEntityMapping";
+import EquipmentEntity from "@/infrastructure/data/entityMapping/equipmentEntity";
 import { injectable } from "tsyringe";
 import { SequelizeTransactionAdapter } from "../data/transactionAdapter";
 
 @injectable()
 class BorrowRepository implements IBorrowRepository {
 
-    async Find(trx?: Transaction) {
-        const transaction = (trx as SequelizeTransactionAdapter)?.trx
-        const result = await BorrowEntityMapping.findAll({ transaction })
+    async Find(spec?: BorrowFilterSpec) {
+        const where: WhereOptions = {}
+        const include = []
+
+        if (spec?.q) {
+            include.push({
+                model: EquipmentEntity,
+                as: 'Equipments',
+                where: { name: { [Op.iLike]: `%${spec.q}%` } },
+                required: true,
+                attributes: []
+            })
+        }
+
+        if (spec?.borrowerId && spec?.borrowerType) {
+            if (spec.borrowerType === 'professor') (where as Record<string, unknown>).professorId = spec.borrowerId
+            else (where as Record<string, unknown>).studentId = spec.borrowerId
+        }
+
+        if (spec?.startPeriod || spec?.endPeriod) {
+            const dateFilter: Record<symbol, Date> = {}
+            if (spec.startPeriod) dateFilter[Op.gte] = spec.startPeriod
+            if (spec.endPeriod) dateFilter[Op.lte] = spec.endPeriod
+            ;(where as Record<string, unknown>).borrowDate = dateFilter
+        }
+
+        const result = await BorrowEntityMapping.findAll({ where, include })
         return result.map(result => Borrow.rehydrate(result.id, result.equipmentId, result.borrowDate, result.studentId, result.professorId, result.isStillBorrowed, result.returnDate, result.createdAt, result.updatedAt, result.isVisible))
     }
     async FindById(id: number, trx?: Transaction) {
