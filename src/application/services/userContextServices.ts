@@ -1,28 +1,16 @@
-import { inject, injectable } from "tsyringe";
-import IStudentServices from "../interfaces/iStudentServices";
-import IProfessorServices from "../interfaces/iProfessorServices";
-import IAdministratorServices from "../interfaces/iAdministratorServices";
-import { IUserContextServices } from "../interfaces/iUserContextServices";
-import { UserContextDTO } from "../dtos/userContext/userContextDTO";
-import { AccountType } from "@/infrastructure/authentication/constants/accountType";
+import { injectable } from "tsyringe"
+import { IUserContextServices } from "../interfaces/iUserContextServices"
+import { UserContextDTO } from "../dtos/userContext/userContextDTO"
+import { requestContext } from "./userContext/requestContext"
+import ApplicationException from "../exceptions/applicationException"
+import { ApplicationExceptionName } from "../constants/applicationExceptionName"
 
 @injectable()
 export class UserContextServices implements IUserContextServices {
-    constructor(
-        @inject("StudentServices")
-        private readonly studentServices: IStudentServices,
-        @inject("ProfessorServices")
-        private readonly professorServices: IProfessorServices,
-        @inject("AdministratorServices")
-        private readonly administratorServices: IAdministratorServices
-    ) {
-
-    }
-    async GetUserContext(userEmail: string, accountType: AccountType) {
-        console.log(userEmail, accountType)
-        const student = await this.studentServices.GetByEmailAsync(userEmail);
-        const administrator = await this.administratorServices.GetByEmailAsync(userEmail);
-        const professor = await this.professorServices.GetByEmailAsync(userEmail)
-        return new UserContextDTO(professor, student, administrator, accountType)
+    GetCurrentContext(): UserContextDTO {
+        const ctx = requestContext.getStore()
+        if (!ctx)
+            throw new ApplicationException(ApplicationExceptionName.INVALID_OPERATION, "No request context available", 401)
+        return new UserContextDTO(ctx.email, ctx.accountTypes, ctx.userType)
     }
 }
