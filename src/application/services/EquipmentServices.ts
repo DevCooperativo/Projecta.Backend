@@ -39,6 +39,26 @@ class EquipmentServices implements IEquipmentServices {
             return null
         return result as EquipmentDTO
     }
+    async GetAvailabilityByCategoryAsync(equipmentCategoryId?: number) {
+        if (equipmentCategoryId !== undefined) {
+            if (!Number.isInteger(equipmentCategoryId) || equipmentCategoryId <= 0)
+                throw new ApplicationException(ApplicationExceptionName.TYPE_MISMATCH, "Equipment category id must be a positive integer", 400)
+            if (!(await this.equipmentCategoryRepository.FindById(equipmentCategoryId)))
+                throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No equipment category was found with the provided id", 404)
+        }
+
+        return await this.equipmentRepository.FindAvailabilityByCategory(equipmentCategoryId)
+    }
+    async GetAvailabilityByLaboratoryAsync(laboratoryId?: number) {
+        if (laboratoryId !== undefined) {
+            if (!Number.isInteger(laboratoryId) || laboratoryId <= 0)
+                throw new ApplicationException(ApplicationExceptionName.TYPE_MISMATCH, "Laboratory id must be a positive integer", 400)
+            if (!(await this.laboratoryRepository.FindById(laboratoryId)))
+                throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No laboratory was found with the provided id", 404)
+        }
+
+        return await this.equipmentRepository.FindAvailabilityByLaboratory(laboratoryId)
+    }
     async CreateAsync(data: EquipmentDTO) {
         return await this.unitOfWork.execute(async (trx) => {
             // RN1: equipamento deve estar vinculado a laboratorio, projeto e categoria existentes.

@@ -23,6 +23,8 @@ import UpdateCoordinatorController from "@/api/controllers/coordinator/updateCoo
 import CreateEquipmentController from "@/api/controllers/equipment/createEquipmentController"
 import DeleteEquipmentController from "@/api/controllers/equipment/deleteEquipmentController"
 import GetAllEquipmentsController from "@/api/controllers/equipment/getAllEquipmentsController"
+import GetEquipmentAvailabilityByCategoryController from "@/api/controllers/equipment/getEquipmentAvailabilityByCategoryController"
+import GetEquipmentAvailabilityByLaboratoryController from "@/api/controllers/equipment/getEquipmentAvailabilityByLaboratoryController"
 import GetEquipmentByIdController from "@/api/controllers/equipment/getEquipmentByIdController"
 import UpdateEquipmentController from "@/api/controllers/equipment/updateEquipmentController"
 import CreateEquipmentCategoryController from "@/api/controllers/equipmentCategory/createEquipmentCategoryController"
@@ -154,6 +156,8 @@ export const ControllersDI = () => {
     // Controllers - Equipment
     container.registerSingleton<BaseController>("GetAllEquipmentsController", GetAllEquipmentsController)
     container.registerSingleton<BaseController>("GetEquipmentByIdController", GetEquipmentByIdController)
+    container.registerSingleton<BaseController>("GetEquipmentAvailabilityByCategoryController", GetEquipmentAvailabilityByCategoryController)
+    container.registerSingleton<BaseController>("GetEquipmentAvailabilityByLaboratoryController", GetEquipmentAvailabilityByLaboratoryController)
     container.registerSingleton<BaseController>("CreateEquipmentController", CreateEquipmentController)
     container.registerSingleton<BaseController>("UpdateEquipmentController", UpdateEquipmentController)
     container.registerSingleton<BaseController>("DeleteEquipmentController", DeleteEquipmentController)

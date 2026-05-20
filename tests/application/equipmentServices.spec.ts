@@ -36,6 +36,8 @@ const createSut = (overrides?: {
     const equipmentRepository = {
         Find: vi.fn(async () => getOverride("equipments", [])),
         FindById: vi.fn(async () => getOverride("equipment", validEquipment)),
+        FindAvailabilityByCategory: vi.fn(async () => []),
+        FindAvailabilityByLaboratory: vi.fn(async () => []),
         Create: vi.fn(async data => ({ ...validEquipment, ...data })),
         Update: vi.fn(async (_id, data) => ({ ...validEquipment, ...data })),
         Delete: vi.fn(async () => true)
@@ -71,7 +73,7 @@ const createSut = (overrides?: {
         unitOfWork
     )
 
-    return { service, equipmentRepository }
+    return { service, equipmentRepository, equipmentCategoryRepository }
 }
 
 describe("EquipmentServices", () => {
@@ -128,5 +130,45 @@ describe("EquipmentServices", () => {
         const { service } = createSut({ equipmentCategory: null })
 
         await expect(service.CreateAsync(validEquipment)).rejects.toBeInstanceOf(ApplicationException)
+    })
+
+    it("should get equipment availability by category", async () => {
+        const { service, equipmentRepository } = createSut()
+
+        await service.GetAvailabilityByCategoryAsync(validEquipment.equipmentCategoryId)
+
+        expect(equipmentRepository.FindAvailabilityByCategory).toHaveBeenCalledWith(validEquipment.equipmentCategoryId)
+    })
+
+    it("should not get equipment availability for an invalid category", async () => {
+        const { service } = createSut({ equipmentCategory: null })
+
+        await expect(service.GetAvailabilityByCategoryAsync(validEquipment.equipmentCategoryId)).rejects.toBeInstanceOf(ApplicationException)
+    })
+
+    it("should not get equipment availability for an invalid category id", async () => {
+        const { service } = createSut()
+
+        await expect(service.GetAvailabilityByCategoryAsync(0)).rejects.toBeInstanceOf(ApplicationException)
+    })
+
+    it("should get equipment availability by laboratory", async () => {
+        const { service, equipmentRepository } = createSut()
+
+        await service.GetAvailabilityByLaboratoryAsync(validEquipment.laboratoryId)
+
+        expect(equipmentRepository.FindAvailabilityByLaboratory).toHaveBeenCalledWith(validEquipment.laboratoryId)
+    })
+
+    it("should not get equipment availability for an invalid laboratory", async () => {
+        const { service } = createSut({ laboratory: null })
+
+        await expect(service.GetAvailabilityByLaboratoryAsync(validEquipment.laboratoryId)).rejects.toBeInstanceOf(ApplicationException)
+    })
+
+    it("should not get equipment availability for an invalid laboratory id", async () => {
+        const { service } = createSut()
+
+        await expect(service.GetAvailabilityByLaboratoryAsync(0)).rejects.toBeInstanceOf(ApplicationException)
     })
 })
