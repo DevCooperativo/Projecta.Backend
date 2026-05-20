@@ -696,6 +696,76 @@
 					"response": []
 				},
 				{
+					"name": "GET - Relatorio: Disponibilidade por categoria",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "auth_cookie={{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/equipments/reports/availability-by-category?equipmentCategoryId=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"equipments",
+								"reports",
+								"availability-by-category"
+							],
+							"query": [
+								{
+									"key": "equipmentCategoryId",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Lista equipamentos visiveis filtrados por categoria, com laboratorio associado, quantidade total e quantidade disponivel para emprestimo. Os equipamentos sao retornados em ordem alfabetica."
+					},
+					"response": []
+				},
+				{
+					"name": "GET - Relatorio: Equipamentos por laboratorio",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "auth_cookie={{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/equipments/reports/availability-by-laboratory?laboratoryId=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"equipments",
+								"reports",
+								"availability-by-laboratory"
+							],
+							"query": [
+								{
+									"key": "laboratoryId",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Lista equipamentos visiveis filtrados por laboratorio, com nome do laboratorio selecionado, categoria, quantidade total e quantidade disponivel para emprestimo. Os equipamentos sao retornados em ordem alfabetica."
+					},
+					"response": []
+				},
+				{
 					"name": "POST - Criar equipamento",
 					"request": {
 						"method": "POST",
