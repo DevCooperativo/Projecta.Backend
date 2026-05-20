@@ -37,7 +37,7 @@ export const ServicesDI = () => {
 
     container.registerSingleton<IProfessorServices>("ProfessorServices", ProfessorServices)
 
-    container.registerType<IUserContextServices>("UserContextServices", UserContextServices)
+    container.registerSingleton<IUserContextServices>("UserContextServices", UserContextServices)
 
     container.registerSingleton<ICoordinationServices>("CoordinationServices", CoordinationServices)
     container.registerSingleton<ICoordinatorServices>("CoordinatorServices", CoordinatorServices)

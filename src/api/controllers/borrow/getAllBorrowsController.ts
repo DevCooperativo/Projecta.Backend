@@ -3,6 +3,7 @@ import BaseController from "../baseController";
 import { Request, Response } from "express";
 import { IBorrowServices } from "@/application/interfaces/iBorrowServices";
 import ControllerExceptionThrowHelper from "@/api/helpers/controllerExceptionThrowHelper";
+import { GetAllBorrowInputDTO } from "@/application/dtos/borrow/getAllBorrowInputDTO";
 
 @injectable()
 export class GetAllBorrowsController implements BaseController {
@@ -10,9 +11,24 @@ export class GetAllBorrowsController implements BaseController {
         @inject("BorrowServices")
         private readonly borrowServices: IBorrowServices
     ) { }
-    async Handle(req: Request, res: Response): Promise<Response>{
+    async Handle(req: Request, res: Response): Promise<Response> {
         try {
-            const result = await this.borrowServices.GetAllAsync()
+            const { q, borrowerId, borrowerType, startPeriod, endPeriod } = req.query as {
+                q?: string
+                borrowerId?: string
+                borrowerType?: 'professor' | 'student'
+                startPeriod?: string
+                endPeriod?: string
+            }
+            const user = borrowerId && borrowerType
+                ? { id: parseInt(borrowerId), type: borrowerType }
+                : undefined
+            const result = await this.borrowServices.GetAllAsync(new GetAllBorrowInputDTO(
+                q,
+                user,
+                startPeriod ? new Date(startPeriod) : undefined,
+                endPeriod ? new Date(endPeriod) : undefined
+            ))
             return res.status(200).json(result)
         } catch (ex) {
             return ControllerExceptionThrowHelper.Throw(res, ex)
