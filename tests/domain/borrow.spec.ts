@@ -22,7 +22,7 @@ describe("Borrow Domain", () => {
     }
 
     it("should create entity with correct borrow date", () => {
-        const entity = Borrow.create(createData.equipmentId, createData.borrowDate, createData.studentId, undefined, createData.isStillBorrowed)
+        const entity = Borrow.create(createData.equipmentId, createData.borrowDate, createData.studentId)
         expect(entity.borrowDate).toEqual(createData.borrowDate)
         expect(entity.equipmentId).toEqual(createData.equipmentId)
         expect(entity.isStillBorrowed).toEqual(createData.isStillBorrowed)
