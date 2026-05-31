@@ -18,7 +18,7 @@ services:
       POSTGRES_DB_PORT: 5432
       POSTGRES_DB_DB: projecta
 
-      JWT_SECRET: iw0bpTcPm3eqPCYamqYMrbNDJI3Qjolyr5ThSYq2YG6
+      JWT_SECRET_KEY: iw0bpTcPm3eqPCYamqYMrbNDJI3Qjolyr5ThSYq2YG6
     depends_on:
       - postgres
     restart: unless-stopped
