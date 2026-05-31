@@ -14,6 +14,7 @@ import swaggerDocument from "@/api/docs/swagger.json"
 const app = express();
 DataSeed.run()
 
+app.set("trust proxy", 1);
 app.use(cookieParser());
 app.use(cors());
 app.use(helmet());
