@@ -14,7 +14,7 @@ export const SequelizeErrorHandler = () => {
                     console.error("❌ Unique constraint error occurred. ❌")
                     break;
                 default:
-                    console.error(`❌ An unexpected Sequelize error occurred: ${error.name} ❌`)
+                    console.error(`❌ An unexpected Sequelize error occurred: ${error.name} — ${error.message} ❌`)
             }
             return error;
         }
