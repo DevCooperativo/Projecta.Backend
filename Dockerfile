@@ -16,6 +16,9 @@ COPY . .
 # Compila TypeScript
 RUN npm run build
 
+# Copia as migrations (.js não são copiados pelo tsc)
+RUN cp -r src/infrastructure/data/migrations dist/src/infrastructure/data/migrations
+
 
 # =========================
 # Stage 2 — Runtime
@@ -33,4 +36,4 @@ COPY --from=builder /app/dist ./dist
 
 EXPOSE 3000
 
-CMD ["node", "dist/src/server.js"]
+CMD ["sh", "-c", "npx sequelize-cli db:migrate --config dist/src/infrastructure/data/sequelize-cli-config.js --migrations-path dist/src/infrastructure/data/migrations && node dist/src/server.js"]
