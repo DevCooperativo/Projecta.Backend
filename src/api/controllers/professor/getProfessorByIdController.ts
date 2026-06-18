@@ -3,6 +3,7 @@ import BaseController from "../baseController";
 import { inject, injectable } from "tsyringe";
 import IProfessorServices from "@/application/interfaces/iProfessorServices";
 import ControllerExceptionThrowHelper from "@/api/helpers/controllerExceptionThrowHelper";
+import { ResponseBuilder } from "@/api/helpers/responseBuilder";
 
 @injectable()
 class GetProfessorByIdController implements BaseController {
@@ -16,7 +17,7 @@ class GetProfessorByIdController implements BaseController {
             const user = req.user
             // ApiException.When(!user, ApiExceptionNameEnum.UNAUTHENTICATED_USER, "You are not authenticated to the API. Authenticate yourself", 401)
             const result = await this.professorServices.GetByIdAsync(id as unknown as number)
-            return res.status(200).json(result)
+            return res.status(200).json(ResponseBuilder.success("Professor retrieved successfully", "PROFESSOR_FOUND", 200, result))
         } catch (ex) {
             return ControllerExceptionThrowHelper.Throw(res, ex)
         }

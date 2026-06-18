@@ -4,6 +4,7 @@ import { inject, injectable } from "tsyringe";
 import IProfessorServices from "@/application/interfaces/iProfessorServices";
 import { CreateProfessorInputDTO } from "@/application/dtos/professor/createProfessorInputDTO";
 import ControllerExceptionThrowHelper from "@/api/helpers/controllerExceptionThrowHelper";
+import { ResponseBuilder } from "@/api/helpers/responseBuilder";
 
 @injectable()
 class CreateProfessorController implements BaseController {
@@ -16,7 +17,7 @@ class CreateProfessorController implements BaseController {
             const { name, email, registration, telephone, coordinationId } = req.body || {}
             const dto = new CreateProfessorInputDTO(name, email, registration, telephone, coordinationId)
             const result = await this.professorServices.CreateAsync(dto)
-            return res.status(200).json(result)
+            return res.status(201).json(ResponseBuilder.success("Professor created successfully", "PROFESSOR_CREATED", 201, result))
         } catch (ex) {
             return ControllerExceptionThrowHelper.Throw(res, ex)
         }

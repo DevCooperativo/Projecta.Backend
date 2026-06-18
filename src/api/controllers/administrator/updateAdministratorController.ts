@@ -6,6 +6,7 @@ import { UpdateAdministratorInputDTO } from "@/application/dtos/administrator/up
 import ControllerExceptionThrowHelper from "@/api/helpers/controllerExceptionThrowHelper";
 import ApiException from "@/api/exceptions/apiException";
 import { ApiExceptionNames } from "@/api/constants/apiExceptionNames";
+import { ResponseBuilder } from "@/api/helpers/responseBuilder";
 
 @injectable()
 class UpdateAdministratorController implements BaseController {
@@ -22,7 +23,7 @@ class UpdateAdministratorController implements BaseController {
                 throw new ApiException(ApiExceptionNames.UNAUTHORIZED, "User is not logged in")
             const dto = new UpdateAdministratorInputDTO(id, user.email, user.userType, name)
             const result = await this.administratorServices.UpdateAsync(dto)
-            return res.status(200).json(result)
+            return res.status(200).json(ResponseBuilder.success("Administrator updated successfully", "ADMINISTRATOR_UPDATED", 200, result))
         } catch (ex) {
             return ControllerExceptionThrowHelper.Throw(res, ex)
         }

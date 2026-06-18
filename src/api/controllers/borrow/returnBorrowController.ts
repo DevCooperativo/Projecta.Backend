@@ -4,6 +4,7 @@ import { Request, Response } from "express";
 import ControllerExceptionThrowHelper from "@/api/helpers/controllerExceptionThrowHelper";
 import { IBorrowServices } from "@/application/interfaces/iBorrowServices";
 import { ReturnBorrowInputDTO } from "@/application/dtos/borrow/returnBorrowInputDTO";
+import { ResponseBuilder } from "@/api/helpers/responseBuilder";
 
 @injectable()
 export class ReturnBorrowController implements BaseController {
@@ -17,8 +18,8 @@ export class ReturnBorrowController implements BaseController {
             const inputDto = new ReturnBorrowInputDTO(parseInt(borrowId))
             const result = await this.borrowServices.ReturnBorrowAsync(inputDto)
             if (!result)
-                return res.status(400).json({ message: "An error occured while trying to return the borrow. Check the informations and try again" });
-            return res.status(200).json({ message: "Borrow was successfully returned" });
+                return res.status(400).json(ResponseBuilder.fail("An error occurred while trying to return the borrow. Check the information and try again", "warn", "RETURN_FAILED", 400));
+            return res.status(200).json(ResponseBuilder.success("Borrow returned successfully", "BORROW_RETURNED", 200, undefined));
         } catch (ex) {
             return ControllerExceptionThrowHelper.Throw(res, ex);
         }

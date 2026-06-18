@@ -3,6 +3,7 @@ import BaseController from "../baseController";
 import { inject, injectable } from "tsyringe";
 import IProfessorServices from "@/application/interfaces/iProfessorServices";
 import ControllerExceptionThrowHelper from "@/api/helpers/controllerExceptionThrowHelper";
+import { ResponseBuilder } from "@/api/helpers/responseBuilder";
 
 @injectable()
 class DeleteProfessorController implements BaseController {
@@ -17,8 +18,8 @@ class DeleteProfessorController implements BaseController {
             // ApiException.When(!user, ApiExceptionNameEnum.UNAUTHENTICATED_USER, "You are not authenticated to the API. Authenticate yourself", 401)
             const result = await this.professorServices.DeleteAsync(id)
             if(!result)
-                return res.status(404).json({ message: "Professor not found" })
-            return res.status(200).json({ message: "Professor successfully deleted!" })
+                return res.status(404).json(ResponseBuilder.fail("Professor not found", "info", "NOT_FOUND", 404))
+            return res.status(200).json(ResponseBuilder.success("Professor deleted successfully", "PROFESSOR_DELETED", 200, undefined))
         } catch (ex) {
             return ControllerExceptionThrowHelper.Throw(res, ex)
         }

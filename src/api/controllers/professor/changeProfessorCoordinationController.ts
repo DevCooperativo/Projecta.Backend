@@ -6,6 +6,7 @@ import ControllerExceptionThrowHelper from "@/api/helpers/controllerExceptionThr
 import ApiException from "@/api/exceptions/apiException";
 import { ApiExceptionNames } from "@/api/constants/apiExceptionNames";
 import { ChangeProfessorCoordinationInputDTO } from "@/application/dtos/professor/changeProfessorCoordinationInputDTO";
+import { ResponseBuilder } from "@/api/helpers/responseBuilder";
 
 @injectable()
 class ChangeProfessorCoordinationController implements BaseController {
@@ -21,7 +22,7 @@ class ChangeProfessorCoordinationController implements BaseController {
                 throw new ApiException(ApiExceptionNames.UNAUTHORIZED, "User not logged in")
             const dto = new ChangeProfessorCoordinationInputDTO(user.email, user.userType, coordinationId)
             const result = await this.professorServices.ChangeProfessorCoordinationAsync(dto)
-            return res.status(200).json(result)
+            return res.status(200).json(ResponseBuilder.success("Professor coordination updated successfully", "PROFESSOR_COORDINATION_UPDATED", 200, result))
         } catch (ex) {
             return ControllerExceptionThrowHelper.Throw(res, ex)
         }

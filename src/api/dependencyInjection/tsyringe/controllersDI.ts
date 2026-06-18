@@ -67,9 +67,11 @@ import UpdateStudentShiftController from "@/api/controllers/student/updateStuden
 import { container } from "tsyringe"
 import ChangeProfessorCoordinationController from "@/api/controllers/professor/changeProfessorCoordinationController"
 import { ReturnBorrowController } from "@/api/controllers/borrow/returnBorrowController"
+import { MeController } from "@/api/controllers/auth/meController"
 
 export const ControllersDI = () => {
     container.registerSingleton<BaseController>("SignInController", SigninController)
+    container.register<BaseController>("MeController", MeController)
 
     // Controllers - Administrator
     container.registerSingleton<BaseController>("GetAllAdministratorsController", GetAllAdministratorsController)

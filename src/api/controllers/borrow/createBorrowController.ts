@@ -4,6 +4,7 @@ import { inject, injectable } from "tsyringe";
 import ControllerExceptionThrowHelper from "@/api/helpers/controllerExceptionThrowHelper";
 import { IBorrowServices } from "@/application/interfaces/iBorrowServices";
 import { CreateBorrowInputDTO } from "@/application/dtos/borrow/createBorrowInputDTO";
+import { ResponseBuilder } from "@/api/helpers/responseBuilder";
 
 @injectable()
 export class CreateBorrowController extends BaseController {
@@ -18,7 +19,7 @@ export class CreateBorrowController extends BaseController {
             const { equipmentId, borrowDate, returnDate } = req.body || {}
             const dto = new CreateBorrowInputDTO(equipmentId, borrowDate, returnDate)
             const result = await this.borrowServices.CreateAsync(dto)
-            return res.status(201).json({ message: "Empréstimo criado com sucesso", data: result })
+            return res.status(201).json(ResponseBuilder.success("Borrow created successfully", "BORROW_CREATED", 201, result))
         } catch (ex) {
             return ControllerExceptionThrowHelper.Throw(res, ex)
         }

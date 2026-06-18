@@ -4,6 +4,7 @@ import { Request, Response } from "express";
 import IAdministratorServices from "@/application/interfaces/iAdministratorServices";
 import { CreateAdministratorInputDTO } from "@/application/dtos/administrator/createAdministratorInputDTO";
 import ControllerExceptionThrowHelper from "@/api/helpers/controllerExceptionThrowHelper";
+import { ResponseBuilder } from "@/api/helpers/responseBuilder";
 
 @injectable()
 class CreateAdministratorController implements BaseController {
@@ -16,7 +17,7 @@ class CreateAdministratorController implements BaseController {
             const { name, email } = req.body
             const dto = new CreateAdministratorInputDTO(name, email)
             const result = await this.administratorServices.CreateAsync(dto)
-            return res.status(200).json(result)
+            return res.status(201).json(ResponseBuilder.success("Administrator created successfully", "ADMINISTRATOR_CREATED", 201, result))
         } catch (ex) {
             return ControllerExceptionThrowHelper.Throw(res, ex)
         }
