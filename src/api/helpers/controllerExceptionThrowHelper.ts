@@ -7,6 +7,7 @@ import { InfrastructureExceptionName } from "@/infrastructure/exceptions/constan
 
 class ControllerExceptionThrowHelper {
     static Throw(res: Response, ex: unknown) {
+        console.log(ex)
         if (ex instanceof DomainException) {
             return res.status(400).json({ name: ex.name, message: ex.message })
         }

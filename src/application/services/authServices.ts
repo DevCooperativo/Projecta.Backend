@@ -30,7 +30,7 @@ export class AuthServices implements IAuthServices {
     async SignInAsync(signinDTO: SigninDTO): Promise<SigninReturnDTO> {
         return await this.unitOfWork.execute(async (trx) => {
             const account = await this.authRepository.FindByEmail(signinDTO.email, trx);
-            if (!account) throw new Error("Invalid email or password");
+            if (!account) throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "Invalid email or password", 404);
 
             const profiles: AccountType[] = []
 
