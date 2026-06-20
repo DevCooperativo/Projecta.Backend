@@ -15,6 +15,7 @@ export const SequelizeErrorHandler = () => {
                     break;
                 default:
                     console.error(`❌ An unexpected Sequelize error occurred: ${error.name} — ${error.message} ❌`)
+                    console.log(`=`.repeat(10))
             }
             return error;
         }

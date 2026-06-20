@@ -6,6 +6,7 @@ import ControllerExceptionThrowHelper from "@/api/helpers/controllerExceptionThr
 import { DeleteAdministratorInputDTO } from "@/application/dtos/administrator/deleteAdministratorInputDTO";
 import ApiException from "@/api/exceptions/apiException";
 import { ApiExceptionNames } from "@/api/constants/apiExceptionNames";
+import { ResponseBuilder } from "@/api/helpers/responseBuilder";
 
 @injectable()
 class DeleteAdministratorController implements BaseController {
@@ -22,9 +23,9 @@ class DeleteAdministratorController implements BaseController {
             const dto = new DeleteAdministratorInputDTO(id)
             const result = await this.administratorServices.DeleteAsync(dto)
             if (!result) {
-                return res.status(404).json({ message: "Administrator not found" })
+                return res.status(404).json(ResponseBuilder.fail("Administrator not found", "info", "NOT_FOUND", 404))
             }
-            return res.status(200).json({ message: "Administrator deleted successfully" })
+            return res.status(200).json(ResponseBuilder.success("Administrator deleted successfully", "ADMINISTRATOR_DELETED", 200, undefined))
         } catch (ex) {
             return ControllerExceptionThrowHelper.Throw(res, ex)
         }

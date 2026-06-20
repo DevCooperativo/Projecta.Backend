@@ -4,6 +4,7 @@ import { Request, Response } from "express";
 import { IBorrowServices } from "@/application/interfaces/iBorrowServices";
 import ControllerExceptionThrowHelper from "@/api/helpers/controllerExceptionThrowHelper";
 import { GetAllBorrowInputDTO } from "@/application/dtos/borrow/getAllBorrowInputDTO";
+import { ResponseBuilder } from "@/api/helpers/responseBuilder";
 
 @injectable()
 export class GetAllBorrowsController implements BaseController {
@@ -29,7 +30,7 @@ export class GetAllBorrowsController implements BaseController {
                 startPeriod ? new Date(startPeriod) : undefined,
                 endPeriod ? new Date(endPeriod) : undefined
             ))
-            return res.status(200).json(result)
+            return res.status(200).json(ResponseBuilder.success("Borrows retrieved successfully", "BORROWS_LIST", 200, result))
         } catch (ex) {
             return ControllerExceptionThrowHelper.Throw(res, ex)
         }

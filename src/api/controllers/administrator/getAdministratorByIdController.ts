@@ -3,6 +3,7 @@ import BaseController from "../baseController";
 import { Request, Response } from "express";
 import IAdministratorServices from "@/application/interfaces/iAdministratorServices";
 import ControllerExceptionThrowHelper from "@/api/helpers/controllerExceptionThrowHelper";
+import { ResponseBuilder } from "@/api/helpers/responseBuilder";
 
 @injectable()
 class GetAdministratorByIdController implements BaseController {
@@ -14,7 +15,7 @@ class GetAdministratorByIdController implements BaseController {
         try {
             const { id } = req.params as unknown as { id: number }
             const result = await this.administratorServices.GetByIdAsync(id)
-            return res.status(200).json(result)
+            return res.status(200).json(ResponseBuilder.success("Administrator retrieved successfully", "ADMINISTRATOR_FOUND", 200, result))
         } catch (ex) {
             return ControllerExceptionThrowHelper.Throw(res, ex)
         }

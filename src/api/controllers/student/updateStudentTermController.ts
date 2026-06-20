@@ -6,6 +6,7 @@ import { ChangeStudentTermInputDTO } from "@/application/dtos/student/changeStud
 import ControllerExceptionThrowHelper from "@/api/helpers/controllerExceptionThrowHelper";
 import ApiException from "@/api/exceptions/apiException";
 import { ApiExceptionNames } from "@/api/constants/apiExceptionNames";
+import { ResponseBuilder } from "@/api/helpers/responseBuilder";
 
 @injectable()
 class UpdateStudentTermController implements BaseController {
@@ -21,7 +22,7 @@ class UpdateStudentTermController implements BaseController {
             const { term } = req.body
             const dto = new ChangeStudentTermInputDTO(user.email, user.userType, term)
             const result = await this.studentServices.ChangeTermAsync(dto)
-            return res.status(200).json(result)
+            return res.status(200).json(ResponseBuilder.success("Student term updated successfully", "STUDENT_TERM_UPDATED", 200, result))
         } catch (ex) {
             return ControllerExceptionThrowHelper.Throw(res, ex)
         }

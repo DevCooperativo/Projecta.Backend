@@ -16,7 +16,11 @@ DataSeed.run()
 
 app.set("trust proxy", 1);
 app.use(cookieParser());
-app.use(cors());
+app.use(cors({
+    origin: process.env.ORIGINS?.split(",") ?? "*",
+    credentials:true,
+    allowedHeaders: ["Content-Type"]
+}));
 app.use(helmet());
 app.use(express.json());
 

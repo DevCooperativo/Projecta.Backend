@@ -1,37 +1,1403 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "Sample API",
-    "description": "A brief description of what the API does.",
+    "title": "Projecta API",
+    "description": "API documentation for the Projecta backend.",
     "version": "1.0.1"
   },
   "paths": {
-    "/users": {
-      "get": {
-        "summary": "Returns a list of users.",
+    "/auth/signin": {
+      "post": {
+        "summary": "Sign in",
+        "description": "Authenticates a user and sets an `auth_cookie` (HttpOnly) containing the JWT.",
+        "tags": ["Auth"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/SigninRequest" }
+            }
+          }
+        },
         "responses": {
           "200": {
-            "description": "A JSON array of user names.",
+            "description": "Sign in successful.",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": { "$ref": "#/components/schemas/User" }
+                  "allOf": [
+                    { "$ref": "#/components/schemas/ApiResponseSuccess" },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "name": { "type": "string", "example": "SIGN_IN_SUCCESS" },
+                        "data": { "$ref": "#/components/schemas/SigninData" }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or invalid fields.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    { "$ref": "#/components/schemas/ApiResponseWarn" },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "name": { "type": "string", "example": "VALIDATION_ERROR" }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Invalid email, password, or profile type.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    { "$ref": "#/components/schemas/ApiResponseInfo" },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "name": { "type": "string", "example": "NOT_FOUND" }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    { "$ref": "#/components/schemas/ApiResponseError" },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "name": { "type": "string", "example": "INTERNAL_SERVER_ERROR" }
+                      }
+                    }
+                  ]
                 }
               }
             }
           }
         }
       }
+    },
+
+    "/students": {
+      "get": {
+        "summary": "List all students",
+        "tags": ["Students"],
+        "responses": {
+          "200": {
+            "description": "Students retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    { "$ref": "#/components/schemas/ApiResponseSuccess" },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "name": { "type": "string", "example": "STUDENTS_LIST" },
+                        "data": {
+                          "type": "array",
+                          "items": { "$ref": "#/components/schemas/StudentFull" }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      },
+      "post": {
+        "summary": "Create a student",
+        "tags": ["Students"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateStudentRequest" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Student created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    { "$ref": "#/components/schemas/ApiResponseSuccess" },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "name": { "type": "string", "example": "STUDENT_CREATED" },
+                        "data": { "$ref": "#/components/schemas/StudentReturn" }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/ValidationError" },
+          "409": { "$ref": "#/components/responses/ConstraintError" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+
+    "/students/{id}": {
+      "get": {
+        "summary": "Get a student by ID",
+        "tags": ["Students"],
+        "parameters": [
+          { "$ref": "#/components/parameters/IdParam" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Student retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    { "$ref": "#/components/schemas/ApiResponseSuccess" },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "name": { "type": "string", "example": "STUDENT_FOUND" },
+                        "data": { "$ref": "#/components/schemas/StudentFull" }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      },
+      "delete": {
+        "summary": "Delete a student",
+        "tags": ["Students"],
+        "security": [{ "cookieAuth": [] }],
+        "parameters": [
+          { "$ref": "#/components/parameters/IdParam" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Student deleted successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    { "$ref": "#/components/schemas/ApiResponseSuccess" },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "name": { "type": "string", "example": "STUDENT_DELETED" }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+
+    "/students/personal-data": {
+      "put": {
+        "summary": "Update student personal data",
+        "description": "Updates the authenticated student's name and birthdate.",
+        "tags": ["Students"],
+        "security": [{ "cookieAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UpdateStudentPersonalDataRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Personal data updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    { "$ref": "#/components/schemas/ApiResponseSuccess" },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "name": { "type": "string", "example": "STUDENT_UPDATED" },
+                        "data": { "$ref": "#/components/schemas/StudentReturn" }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/ValidationError" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+
+    "/students/term": {
+      "put": {
+        "summary": "Update student term",
+        "description": "Updates the authenticated student's academic term.",
+        "tags": ["Students"],
+        "security": [{ "cookieAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UpdateStudentTermRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Term updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    { "$ref": "#/components/schemas/ApiResponseSuccess" },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "name": { "type": "string", "example": "STUDENT_TERM_UPDATED" },
+                        "data": { "$ref": "#/components/schemas/StudentReturn" }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/ValidationError" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+
+    "/students/shift": {
+      "put": {
+        "summary": "Update student shift",
+        "description": "Updates the authenticated student's class shift.",
+        "tags": ["Students"],
+        "security": [{ "cookieAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UpdateStudentShiftRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Shift updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    { "$ref": "#/components/schemas/ApiResponseSuccess" },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "name": { "type": "string", "example": "STUDENT_SHIFT_UPDATED" },
+                        "data": { "$ref": "#/components/schemas/StudentReturn" }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/ValidationError" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+
+    "/administrators": {
+      "get": {
+        "summary": "List all administrators",
+        "tags": ["Administrators"],
+        "responses": {
+          "200": {
+            "description": "Administrators retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    { "$ref": "#/components/schemas/ApiResponseSuccess" },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "name": { "type": "string", "example": "ADMINISTRATORS_LIST" },
+                        "data": {
+                          "type": "array",
+                          "items": { "$ref": "#/components/schemas/AdministratorFull" }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      },
+      "post": {
+        "summary": "Create an administrator",
+        "tags": ["Administrators"],
+        "security": [{ "cookieAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateAdministratorRequest" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Administrator created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    { "$ref": "#/components/schemas/ApiResponseSuccess" },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "name": { "type": "string", "example": "ADMINISTRATOR_CREATED" },
+                        "data": { "$ref": "#/components/schemas/AdministratorReturn" }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/ValidationError" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "409": { "$ref": "#/components/responses/ConstraintError" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+
+    "/administrators/{id}": {
+      "get": {
+        "summary": "Get an administrator by ID",
+        "tags": ["Administrators"],
+        "parameters": [
+          { "$ref": "#/components/parameters/IdParam" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Administrator retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    { "$ref": "#/components/schemas/ApiResponseSuccess" },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "name": { "type": "string", "example": "ADMINISTRATOR_FOUND" },
+                        "data": { "$ref": "#/components/schemas/AdministratorFull" }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      },
+      "put": {
+        "summary": "Update an administrator",
+        "tags": ["Administrators"],
+        "security": [{ "cookieAuth": [] }],
+        "parameters": [
+          { "$ref": "#/components/parameters/IdParam" }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UpdateAdministratorRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Administrator updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    { "$ref": "#/components/schemas/ApiResponseSuccess" },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "name": { "type": "string", "example": "ADMINISTRATOR_UPDATED" },
+                        "data": { "$ref": "#/components/schemas/AdministratorReturn" }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/ValidationError" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      },
+      "delete": {
+        "summary": "Delete an administrator",
+        "tags": ["Administrators"],
+        "security": [{ "cookieAuth": [] }],
+        "parameters": [
+          { "$ref": "#/components/parameters/IdParam" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Administrator deleted successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    { "$ref": "#/components/schemas/ApiResponseSuccess" },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "name": { "type": "string", "example": "ADMINISTRATOR_DELETED" }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+
+    "/professors": {
+      "get": {
+        "summary": "List all professors",
+        "tags": ["Professors"],
+        "security": [{ "cookieAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Professors retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    { "$ref": "#/components/schemas/ApiResponseSuccess" },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "name": { "type": "string", "example": "PROFESSORS_LIST" },
+                        "data": {
+                          "type": "array",
+                          "items": { "$ref": "#/components/schemas/ProfessorFull" }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      },
+      "post": {
+        "summary": "Create a professor",
+        "tags": ["Professors"],
+        "security": [{ "cookieAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateProfessorRequest" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Professor created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    { "$ref": "#/components/schemas/ApiResponseSuccess" },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "name": { "type": "string", "example": "PROFESSOR_CREATED" },
+                        "data": { "$ref": "#/components/schemas/ProfessorReturn" }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/ValidationError" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "409": { "$ref": "#/components/responses/ConstraintError" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      },
+      "put": {
+        "summary": "Update authenticated professor",
+        "description": "Updates the authenticated professor's own data.",
+        "tags": ["Professors"],
+        "security": [{ "cookieAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UpdateProfessorRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Professor updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    { "$ref": "#/components/schemas/ApiResponseSuccess" },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "name": { "type": "string", "example": "PROFESSOR_UPDATED" },
+                        "data": { "$ref": "#/components/schemas/ProfessorReturn" }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/ValidationError" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+
+    "/professors/{id}": {
+      "get": {
+        "summary": "Get a professor by ID",
+        "tags": ["Professors"],
+        "parameters": [
+          { "$ref": "#/components/parameters/IdParam" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Professor retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    { "$ref": "#/components/schemas/ApiResponseSuccess" },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "name": { "type": "string", "example": "PROFESSOR_FOUND" },
+                        "data": { "$ref": "#/components/schemas/ProfessorFull" }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      },
+      "delete": {
+        "summary": "Delete a professor",
+        "tags": ["Professors"],
+        "security": [{ "cookieAuth": [] }],
+        "parameters": [
+          { "$ref": "#/components/parameters/IdParam" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Professor deleted successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    { "$ref": "#/components/schemas/ApiResponseSuccess" },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "name": { "type": "string", "example": "PROFESSOR_DELETED" }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+
+    "/professors/change-coordination": {
+      "post": {
+        "summary": "Change professor coordination",
+        "description": "Updates the authenticated professor's coordination assignment.",
+        "tags": ["Professors"],
+        "security": [{ "cookieAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ChangeProfessorCoordinationRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Professor coordination updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    { "$ref": "#/components/schemas/ApiResponseSuccess" },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "name": { "type": "string", "example": "PROFESSOR_COORDINATION_UPDATED" },
+                        "data": { "$ref": "#/components/schemas/ProfessorReturn" }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/ValidationError" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+
+    "/borrow": {
+      "get": {
+        "summary": "List all borrows",
+        "tags": ["Borrows"],
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "Search term to filter borrows.",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "borrowerId",
+            "in": "query",
+            "description": "ID of the borrower (student or professor).",
+            "schema": { "type": "integer" }
+          },
+          {
+            "name": "borrowerType",
+            "in": "query",
+            "description": "Type of borrower.",
+            "schema": { "type": "string", "enum": ["student", "professor"] }
+          },
+          {
+            "name": "startPeriod",
+            "in": "query",
+            "description": "Filter borrows starting from this date (ISO 8601).",
+            "schema": { "type": "string", "format": "date-time" }
+          },
+          {
+            "name": "endPeriod",
+            "in": "query",
+            "description": "Filter borrows up to this date (ISO 8601).",
+            "schema": { "type": "string", "format": "date-time" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Borrows retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    { "$ref": "#/components/schemas/ApiResponseSuccess" },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "name": { "type": "string", "example": "BORROWS_LIST" },
+                        "data": {
+                          "type": "array",
+                          "items": { "$ref": "#/components/schemas/BorrowFull" }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      },
+      "post": {
+        "summary": "Create a borrow",
+        "tags": ["Borrows"],
+        "security": [{ "cookieAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateBorrowRequest" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Borrow created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    { "$ref": "#/components/schemas/ApiResponseSuccess" },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "name": { "type": "string", "example": "BORROW_CREATED" },
+                        "data": { "$ref": "#/components/schemas/BorrowReturn" }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/ValidationError" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+
+    "/borrow/{id}": {
+      "get": {
+        "summary": "Get a borrow by ID",
+        "tags": ["Borrows"],
+        "parameters": [
+          { "$ref": "#/components/parameters/IdParam" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Borrow retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    { "$ref": "#/components/schemas/ApiResponseSuccess" },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "name": { "type": "string", "example": "BORROW_FOUND" },
+                        "data": { "$ref": "#/components/schemas/BorrowFull" }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      },
+      "put": {
+        "summary": "Update a borrow",
+        "tags": ["Borrows"],
+        "security": [{ "cookieAuth": [] }],
+        "parameters": [
+          { "$ref": "#/components/parameters/IdParam" }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UpdateBorrowRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Borrow updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    { "$ref": "#/components/schemas/ApiResponseSuccess" },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "name": { "type": "string", "example": "BORROW_UPDATED" },
+                        "data": { "$ref": "#/components/schemas/BorrowUpdateReturn" }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/ValidationError" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      },
+      "delete": {
+        "summary": "Delete a borrow",
+        "tags": ["Borrows"],
+        "security": [{ "cookieAuth": [] }],
+        "parameters": [
+          { "$ref": "#/components/parameters/IdParam" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Borrow deleted successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    { "$ref": "#/components/schemas/ApiResponseSuccess" },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "name": { "type": "string", "example": "BORROW_DELETED" }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+
+    "/borrow/return/{borrowId}": {
+      "post": {
+        "summary": "Return a borrowed equipment",
+        "tags": ["Borrows"],
+        "security": [{ "cookieAuth": [] }],
+        "parameters": [
+          {
+            "name": "borrowId",
+            "in": "path",
+            "required": true,
+            "description": "ID of the borrow record to return.",
+            "schema": { "type": "integer", "example": 1 }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Borrow returned successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    { "$ref": "#/components/schemas/ApiResponseSuccess" },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "name": { "type": "string", "example": "BORROW_RETURNED" }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Could not process the return.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    { "$ref": "#/components/schemas/ApiResponseWarn" },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "name": { "type": "string", "example": "RETURN_FAILED" }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
     }
   },
+
   "components": {
+    "securitySchemes": {
+      "cookieAuth": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "auth_cookie"
+      }
+    },
+    "parameters": {
+      "IdParam": {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "description": "Numeric ID of the resource.",
+        "schema": { "type": "integer", "example": 1 }
+      }
+    },
+    "responses": {
+      "NotFound": {
+        "description": "Resource not found.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "allOf": [
+                { "$ref": "#/components/schemas/ApiResponseInfo" },
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": { "type": "string", "example": "NOT_FOUND" }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "User is not authenticated.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "allOf": [
+                { "$ref": "#/components/schemas/ApiResponseInfo" },
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": { "type": "string", "example": "UNAUTHORIZED" }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "ValidationError": {
+        "description": "One or more fields are invalid.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "allOf": [
+                { "$ref": "#/components/schemas/ApiResponseWarn" },
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": { "type": "string", "example": "VALIDATION_ERROR" }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "ConstraintError": {
+        "description": "A unique or foreign key constraint was violated.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "allOf": [
+                { "$ref": "#/components/schemas/ApiResponseError" },
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": { "type": "string", "example": "CONSTRAINT_ERROR" }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "InternalServerError": {
+        "description": "Unexpected server error.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "allOf": [
+                { "$ref": "#/components/schemas/ApiResponseError" },
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": { "type": "string", "example": "INTERNAL_SERVER_ERROR" }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
     "schemas": {
-      "User": {
+      "SigninRequest": {
+        "type": "object",
+        "required": ["email", "password", "profileType"],
+        "properties": {
+          "email": { "type": "string", "format": "email", "example": "lucas@example.com" },
+          "password": { "type": "string", "format": "password", "example": "mySecret123" },
+          "profileType": {
+            "type": "string",
+            "enum": ["student", "professor", "administrator"],
+            "example": "student"
+          }
+        }
+      },
+      "SigninData": {
         "type": "object",
         "properties": {
-          "id": { "type": "integer", "format": "int64" },
+          "name": { "type": "string", "example": "Lucas Ferri" },
+          "email": { "type": "string", "format": "email", "example": "lucas@example.com" },
+          "accountType": {
+            "type": "string",
+            "enum": ["student", "professor", "administrator"],
+            "example": "student"
+          }
+        }
+      },
+
+      "CreateStudentRequest": {
+        "type": "object",
+        "required": ["name", "email", "registration", "birthdate", "term", "shift"],
+        "properties": {
+          "name": { "type": "string", "example": "Lucas Ferri" },
+          "email": { "type": "string", "format": "email", "example": "lucas@example.com" },
+          "registration": { "type": "string", "example": "2023001" },
+          "birthdate": { "type": "string", "format": "date", "example": "2000-05-15" },
+          "term": { "type": "integer", "minimum": 1, "maximum": 10, "example": 3 },
+          "shift": { "type": "string", "enum": ["morning", "afternoon", "night"], "example": "morning" }
+        }
+      },
+      "UpdateStudentPersonalDataRequest": {
+        "type": "object",
+        "required": ["name", "birthdate"],
+        "properties": {
+          "name": { "type": "string", "example": "Lucas Ferri" },
+          "birthdate": { "type": "string", "format": "date", "example": "2000-05-15" }
+        }
+      },
+      "UpdateStudentTermRequest": {
+        "type": "object",
+        "required": ["term"],
+        "properties": {
+          "term": { "type": "integer", "minimum": 1, "maximum": 10, "example": 4 }
+        }
+      },
+      "UpdateStudentShiftRequest": {
+        "type": "object",
+        "required": ["shift"],
+        "properties": {
+          "shift": { "type": "string", "enum": ["morning", "afternoon", "night"], "example": "afternoon" }
+        }
+      },
+      "StudentReturn": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "example": 1 },
+          "name": { "type": "string", "example": "Lucas Ferri" },
+          "email": { "type": "string", "format": "email", "example": "lucas@example.com" },
+          "registration": { "type": "string", "example": "2023001" },
+          "birthdate": { "type": "string", "format": "date-time", "example": "2000-05-15T00:00:00.000Z" },
+          "term": { "type": "integer", "example": 3 },
+          "shift": { "type": "string", "enum": ["morning", "afternoon", "night"], "example": "morning" }
+        }
+      },
+      "StudentFull": {
+        "allOf": [
+          { "$ref": "#/components/schemas/StudentReturn" },
+          {
+            "type": "object",
+            "properties": {
+              "createdAt": { "type": "string", "format": "date-time" },
+              "updatedAt": { "type": "string", "format": "date-time" },
+              "isVisible": { "type": "boolean", "example": true }
+            }
+          }
+        ]
+      },
+
+      "CreateAdministratorRequest": {
+        "type": "object",
+        "required": ["name", "email"],
+        "properties": {
+          "name": { "type": "string", "example": "Admin User" },
+          "email": { "type": "string", "format": "email", "example": "admin@example.com" }
+        }
+      },
+      "UpdateAdministratorRequest": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": { "type": "string", "example": "Updated Admin" }
+        }
+      },
+      "AdministratorReturn": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "example": 1 },
+          "email": { "type": "string", "format": "email", "example": "admin@example.com" }
+        }
+      },
+      "AdministratorFull": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "example": 1 },
+          "name": { "type": "string", "example": "Admin User" },
+          "email": { "type": "string", "format": "email", "example": "admin@example.com" },
+          "isVisible": { "type": "boolean", "example": true },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "updatedAt": { "type": "string", "format": "date-time" }
+        }
+      },
+
+      "CreateProfessorRequest": {
+        "type": "object",
+        "required": ["name", "email", "registration", "telephone", "coordinationId"],
+        "properties": {
+          "name": { "type": "string", "example": "Dr. Maria Silva" },
+          "email": { "type": "string", "format": "email", "example": "maria.silva@example.com" },
+          "registration": { "type": "string", "example": "PROF2023001" },
+          "telephone": { "type": "string", "example": "+55 11 99999-0000" },
+          "coordinationId": { "type": "integer", "example": 2 }
+        }
+      },
+      "UpdateProfessorRequest": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "example": "Dr. Maria Silva" },
+          "registration": { "type": "string", "example": "PROF2023001" },
+          "telephone": { "type": "string", "example": "+55 11 99999-0000" }
+        }
+      },
+      "ChangeProfessorCoordinationRequest": {
+        "type": "object",
+        "required": ["coordinationId"],
+        "properties": {
+          "coordinationId": { "type": "integer", "example": 3 }
+        }
+      },
+      "ProfessorReturn": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "example": 1 },
+          "name": { "type": "string", "example": "Dr. Maria Silva" },
+          "email": { "type": "string", "format": "email", "example": "maria.silva@example.com" },
+          "registration": { "type": "string", "example": "PROF2023001" },
+          "telephone": { "type": "string", "example": "+55 11 99999-0000" },
+          "coordinationId": { "type": "integer", "example": 2 }
+        }
+      },
+      "ProfessorFull": {
+        "allOf": [
+          { "$ref": "#/components/schemas/ProfessorReturn" },
+          {
+            "type": "object",
+            "properties": {
+              "createdAt": { "type": "string", "format": "date-time" },
+              "updatedAt": { "type": "string", "format": "date-time" },
+              "isVisible": { "type": "boolean", "example": true }
+            }
+          }
+        ]
+      },
+
+      "CreateBorrowRequest": {
+        "type": "object",
+        "required": ["equipmentId", "borrowDate"],
+        "properties": {
+          "equipmentId": { "type": "integer", "example": 5 },
+          "borrowDate": { "type": "string", "format": "date-time", "example": "2026-06-18T10:00:00.000Z" },
+          "returnDate": { "type": "string", "format": "date-time", "example": "2026-06-25T10:00:00.000Z" }
+        }
+      },
+      "UpdateBorrowRequest": {
+        "type": "object",
+        "properties": {
+          "equipmentId": { "type": "integer", "example": 5 },
+          "borrowDate": { "type": "string", "format": "date-time" },
+          "isStillBorrowed": { "type": "boolean", "example": true },
+          "studentId": { "type": "integer", "example": 1 },
+          "professorId": { "type": "integer", "example": 2 },
+          "returnDate": { "type": "string", "format": "date-time" }
+        }
+      },
+      "BorrowReturn": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "example": 1 },
+          "equipmentId": { "type": "integer", "example": 5 },
+          "borrowDate": { "type": "string", "format": "date-time" },
+          "studentId": { "type": "integer", "example": 1 },
+          "professorId": { "type": "integer", "example": null }
+        }
+      },
+      "BorrowUpdateReturn": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "example": 1 },
+          "equipmentId": { "type": "integer", "example": 5 },
+          "borrowDate": { "type": "string", "format": "date-time" },
+          "isStillBorrowed": { "type": "boolean", "example": true },
+          "studentId": { "type": "integer", "example": 1 },
+          "professorId": { "type": "integer", "example": null },
+          "returnDate": { "type": "string", "format": "date-time", "example": null }
+        }
+      },
+      "BorrowFull": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "example": 1 },
+          "equipmentId": { "type": "integer", "example": 5 },
+          "isStillBorrowed": { "type": "boolean", "example": true },
+          "borrowDate": { "type": "string", "format": "date-time" },
+          "isVisible": { "type": "boolean", "example": true },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "updatedAt": { "type": "string", "format": "date-time" },
+          "studentId": { "type": "integer", "example": 1 },
+          "professorId": { "type": "integer", "example": null },
+          "returnDate": { "type": "string", "format": "date-time", "example": null }
+        }
+      },
+
+      "ApiResponseSuccess": {
+        "type": "object",
+        "required": ["message", "type", "code", "name"],
+        "properties": {
+          "message": { "type": "string", "example": "Operation completed successfully" },
+          "type": { "type": "string", "enum": ["success"], "example": "success" },
+          "code": { "type": "integer", "example": 200 },
           "name": { "type": "string" }
+        }
+      },
+      "ApiResponseInfo": {
+        "type": "object",
+        "required": ["message", "type", "code", "name"],
+        "properties": {
+          "message": { "type": "string", "example": "Resource not found" },
+          "type": { "type": "string", "enum": ["info"], "example": "info" },
+          "code": { "type": "integer", "example": 404 },
+          "name": { "type": "string" }
+        }
+      },
+      "ApiResponseWarn": {
+        "type": "object",
+        "required": ["message", "type", "code", "name"],
+        "properties": {
+          "message": { "type": "string", "example": "One or more fields are invalid" },
+          "type": { "type": "string", "enum": ["warn"], "example": "warn" },
+          "code": { "type": "integer", "example": 400 },
+          "name": { "type": "string" },
+          "details": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/ResponseDetail" }
+          }
+        }
+      },
+      "ApiResponseError": {
+        "type": "object",
+        "required": ["message", "type", "code", "name"],
+        "properties": {
+          "message": { "type": "string", "example": "An error occurred on our side. Please contact the support team" },
+          "type": { "type": "string", "enum": ["error"], "example": "error" },
+          "code": { "type": "integer", "example": 500 },
+          "name": { "type": "string" }
+        }
+      },
+      "ResponseDetail": {
+        "type": "object",
+        "required": ["reason"],
+        "properties": {
+          "field": { "type": "string", "example": "email" },
+          "reason": { "type": "string", "example": "Must be a valid email address" },
+          "acceptableValue": { "type": "string", "example": "ISO 8601 date" }
         }
       }
     }
