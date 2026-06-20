@@ -3,6 +3,7 @@ import BaseController from "../baseController";
 import { inject, injectable } from "tsyringe";
 import IProjectServices from "@/application/interfaces/iProjectServices";
 import ControllerExceptionThrowHelper from "@/api/helpers/controllerExceptionThrowHelper";
+import { ResponseBuilder } from "@/api/helpers/responseBuilder";
 
 @injectable()
 class GetProjectByIdController implements BaseController {
@@ -14,7 +15,7 @@ class GetProjectByIdController implements BaseController {
         const { id } = req.params
         try {
             const result = await this.projectServices.GetByIdAsync(id as unknown as number)
-            return res.status(200).json(result)
+            return res.status(200).json(ResponseBuilder.success("Success", "OK", 200, result))
         } catch (ex) {
             return ControllerExceptionThrowHelper.Throw(res, ex)
         }
