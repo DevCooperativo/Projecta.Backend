@@ -6,5 +6,8 @@ export const UpdateResearcherPayload: IPayloadValidation = {
     functionName: { type: "string", required: true },
     weeklyHours: { type: "number", required: true },
     startDate: { type: "string", required: true },
-    projectId: { type: "number", required: true }
+    endDate: { type: "string", required: false },
+    projectId: { type: "number", required: true },
+    professorId: { type: "number", required: false },
+    studentId: { type: "number", required: false },
 }

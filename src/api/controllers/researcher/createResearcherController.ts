@@ -4,6 +4,7 @@ import { inject, injectable } from "tsyringe";
 import IResearcherServices from "@/application/interfaces/iResearcherServices";
 import ResearcherDTO from "@/application/dtos/researcherDTO";
 import ControllerExceptionThrowHelper from "@/api/helpers/controllerExceptionThrowHelper";
+import { ResponseBuilder } from "@/api/helpers/responseBuilder";
 
 @injectable()
 class CreateResearcherController implements BaseController {
@@ -16,7 +17,7 @@ class CreateResearcherController implements BaseController {
             const { name, functionName, weeklyHours, startDate, projectId, studentId, professorId } = req.body
             const researcherDTO: ResearcherDTO = { name, functionName, weeklyHours, startDate, projectId, studentId, professorId } as ResearcherDTO
             const result = await this.researcherServices.CreateAsync(researcherDTO)
-            return res.status(200).json(result)
+            return res.status(200).json(ResponseBuilder.success("Success", "OK", 200, result))
         } catch (ex) {
             return ControllerExceptionThrowHelper.Throw(res, ex)
         }

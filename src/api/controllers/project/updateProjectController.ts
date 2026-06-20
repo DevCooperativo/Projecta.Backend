@@ -1,9 +1,10 @@
-import { Request, Response } from "express";
+﻿import { Request, Response } from "express";
 import BaseController from "../baseController";
 import { inject, injectable } from "tsyringe";
 import IProjectServices from "@/application/interfaces/iProjectServices";
 import UpdateProjectInputDTO from "@/application/dtos/project/updateProjectInputDTO";
 import ControllerExceptionThrowHelper from "@/api/helpers/controllerExceptionThrowHelper";
+import { ResponseBuilder } from "@/api/helpers/responseBuilder";
 
 @injectable()
 class UpdateProjectController implements BaseController {
@@ -27,7 +28,7 @@ class UpdateProjectController implements BaseController {
             dto.coordinators = coordinators
             dto.researchers = researchers
             const result = await this.projectServices.UpdateAsync(dto)
-            return res.status(200).json(result)
+            return res.status(200).json(ResponseBuilder.success("Success", "OK", 200, result))
         } catch (ex) {
             return ControllerExceptionThrowHelper.Throw(res, ex)
         }
