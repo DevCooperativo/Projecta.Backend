@@ -17,6 +17,8 @@ class Borrow extends BaseModel implements IBorrow {
     isStillBorrowed: boolean
     borrowDate: Date
     returnDate?: Date
+    studentName?: string
+    professorName?: string
 
     private constructor(equipmentId: number, borrowDate: Date, isStillBorrowed: boolean, studentId?: number, professorId?: number, returnDate?: Date) {
         super()

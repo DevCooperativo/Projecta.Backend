@@ -5,6 +5,7 @@ import IProjectRepository from "@/domain/repositories/iProjectRepository";
 import ProjectEntityMapping from "@/infrastructure/data/entityMapping/projectEntityMapping";
 import { injectable } from "tsyringe";
 import { SequelizeTransactionAdapter } from "../data/transactionAdapter";
+import { throwNormalizedSequelizeError } from "../helpers/sequelizeErrorHandler";
 import LaboratoryEntity from "../data/entityMapping/laboratoryEntity";
 import ProjectCategoryEntityMapping from "../data/entityMapping/projectCategoryEntityMapping";
 import CoordinatorEntityMapping from "../data/entityMapping/coordinatorEntityMapping";
@@ -47,23 +48,29 @@ class ProjectRepository implements IProjectRepository {
     }
 
     async Create(data: Project, trx?: Transaction) {
-        const transaction = (trx as SequelizeTransactionAdapter)?.trx
-        return await ProjectEntityMapping.create({ ...data }, { transaction }) as unknown as Project
+        try {
+            const transaction = (trx as SequelizeTransactionAdapter)?.trx
+            return await ProjectEntityMapping.create({ ...data }, { transaction }) as unknown as Project
+        } catch (error) { throwNormalizedSequelizeError(error); throw error }
     }
 
     async Update(data: Project, trx?: Transaction) {
-        const transaction = (trx as SequelizeTransactionAdapter)?.trx
-        await ProjectEntityMapping.update(
-            { name: data.name, description: data.description, startDate: data.startDate, endDate: data.endDate, status: data.status, laboratoryId: data.laboratoryId, projectCategoryId: data.projectCategoryId },
-            { where: { id: data.id }, transaction }
-        )
-        return (await ProjectEntityMapping.findByPk(data.id, { transaction })) as unknown as Project
+        try {
+            const transaction = (trx as SequelizeTransactionAdapter)?.trx
+            await ProjectEntityMapping.update(
+                { name: data.name, description: data.description, startDate: data.startDate, endDate: data.endDate, status: data.status, laboratoryId: data.laboratoryId, projectCategoryId: data.projectCategoryId },
+                { where: { id: data.id }, transaction }
+            )
+            return (await ProjectEntityMapping.findByPk(data.id, { transaction })) as unknown as Project
+        } catch (error) { throwNormalizedSequelizeError(error); throw error }
     }
 
     async Delete(id: number, trx?: Transaction) {
-        const transaction = (trx as SequelizeTransactionAdapter)?.trx
-        const result = await ProjectEntityMapping.destroy({ where: { id: id }, transaction })
-        return result !== 0
+        try {
+            const transaction = (trx as SequelizeTransactionAdapter)?.trx
+            const result = await ProjectEntityMapping.destroy({ where: { id: id }, transaction })
+            return result !== 0
+        } catch (error) { throwNormalizedSequelizeError(error); throw error }
     }
 }
 

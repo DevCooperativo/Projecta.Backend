@@ -1,6 +1,6 @@
 ﻿import { inject, injectable } from "tsyringe";
 import BaseController from "../baseController";
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import ICoordinationServices from "@/application/interfaces/iCoordinationServices";
 import { CoordinationDTO } from "@/application/dtos/coordinationDTO";
 import ControllerExceptionThrowHelper from "@/api/helpers/controllerExceptionThrowHelper";

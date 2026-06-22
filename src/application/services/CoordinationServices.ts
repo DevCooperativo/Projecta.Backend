@@ -29,7 +29,8 @@ class CoordinationServices implements ICoordinationServices {
     }
     async CreateAsync(data: CoordinationDTO) {
         return await this.unitOfWork.execute(async (trx) => {
-            return (await this.coordinationRepository.Create(data as Coordination, trx)) as CoordinationDTO
+            const coordination = new Coordination(data.area, data.block, data.description)
+            return (await this.coordinationRepository.Create(coordination, trx)) as CoordinationDTO
         })
     }
     async UpdateAsync(id: number, data: CoordinationDTO) {

@@ -14,8 +14,8 @@ const createCoordinatorController = container.resolve<BaseController>("CreateCoo
 const updateCoordinatorController = container.resolve<BaseController>("UpdateCoordinatorController")
 const deleteCoordinatorController = container.resolve<BaseController>("DeleteCoordinatorController")
 
-coordinatorRoutes.get("/", (req, res) => getAllCoordinatorsController.Handle(req, res))
-coordinatorRoutes.get("/:id", (req, res) => getCoordinatorByIdController.Handle(req, res))
+coordinatorRoutes.get("/", EnsureAuthenticatedUserMiddleware, (req, res) => getAllCoordinatorsController.Handle(req, res))
+coordinatorRoutes.get("/:id", EnsureAuthenticatedUserMiddleware, (req, res) => getCoordinatorByIdController.Handle(req, res))
 coordinatorRoutes.post("/", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(CreateCoordinatorPayload), (req, res) => createCoordinatorController.Handle(req, res))
 coordinatorRoutes.put("/:id", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(UpdateCoordinatorPayload), (req, res) => updateCoordinatorController.Handle(req, res))
 coordinatorRoutes.delete("/:id", EnsureCorrectFieldsValidationMiddleware(DeleteByIdPayload), (req, res) => deleteCoordinatorController.Handle(req, res))

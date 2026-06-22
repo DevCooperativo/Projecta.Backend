@@ -5,5 +5,6 @@ export const CreateProfessorPayload: IPayloadValidation = {
     email: { type: "string", required: true },
     registration: { type: "string", required: true },
     telephone: { type: "string", required: true },
-    coordinationId: { type: "number", required: true }
+    coordinationId: { type: "number", required: true },
+    password: { type: "string", required: true }
 }

@@ -6,6 +6,7 @@ import IAuthRepository from "@/domain/repositories/iAuthRepository";
 import IProfessorRepository from "@/domain/repositories/iProfessorRepository";
 import IStudentRepository from "@/domain/repositories/iStudentRepository";
 import { AccountType } from "@/infrastructure/authentication/constants/accountType";
+import { verifyPassword } from "@/infrastructure/helpers/passwordHasher";
 import { base64url, EncryptJWT } from "jose";
 import { inject, injectable } from "tsyringe";
 import { IUnitOfWork } from "../unitOfWork/iUnitOfWork";
@@ -37,19 +38,19 @@ export class AuthServices implements IAuthServices {
                 const result = await this.studentRepository.FindByEmail(userContext.email)
                 if (!result)
                     throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "User not found", 404)
-                return new MeReturnDTO(result.name, result.email, AccountType.student)
+                return new MeReturnDTO(result.id, result.name, result.email, AccountType.student)
             }
             case "professor": {
                 const result = await this.professorRepository.FindByEmail(userContext.email)
                 if (!result)
                     throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "User not found", 404)
-                return new MeReturnDTO(result.name, result.email, AccountType.professor)
+                return new MeReturnDTO(result.id, result.name, result.email, AccountType.professor)
             }
             case "administrator": {
                 const result = await this.administratorRepository.FindByEmail(userContext.email)
                 if (!result)
                     throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "User not found", 404)
-                return new MeReturnDTO(result.name, result.email, AccountType.administrator)
+                return new MeReturnDTO(result.id, result.name, result.email, AccountType.administrator)
             }
             default:
                 throw new ApplicationException(ApplicationExceptionName.INVALID_OPERATION, "Invalid user type detected in the server", 500)
@@ -61,35 +62,28 @@ export class AuthServices implements IAuthServices {
             const account = await this.authRepository.FindByEmail(signinDTO.email, trx);
             if (!account) throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "Invalid email or password", 404);
 
-            const profiles: AccountType[] = []
-
+            if (!verifyPassword(signinDTO.password, account.passwordHash))
+                throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "Invalid email or password", 404);
 
             const student = await this.studentRepository.FindByEmail(signinDTO.email, trx);
-            if (signinDTO.profileType === AccountType.student && !student)
-                throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "Profile not found for this credentials", 404)
             if (student) {
-                profiles.push(AccountType.student)
+                const token = await this.generateToken(signinDTO.email, [AccountType.student], AccountType.student);
+                return new SigninReturnDTO(student.id, student.name, account.email, token, AccountType.student);
             }
 
             const professor = await this.professorRepository.FindByEmail(signinDTO.email, trx);
-            if (signinDTO.profileType === AccountType.professor && !professor)
-                throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "Profile not found for this credentials", 404)
             if (professor) {
-                profiles.push(AccountType.professor)
+                const token = await this.generateToken(signinDTO.email, [AccountType.professor], AccountType.professor);
+                return new SigninReturnDTO(professor.id, professor.name, account.email, token, AccountType.professor);
             }
 
             const administrator = await this.administratorRepository.FindByEmail(signinDTO.email, trx);
-            if (signinDTO.profileType === AccountType.administrator && !administrator)
-                throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "Profile not found for this credentials", 404)
             if (administrator) {
-                profiles.push(AccountType.administrator)
+                const token = await this.generateToken(signinDTO.email, [AccountType.administrator], AccountType.administrator);
+                return new SigninReturnDTO(administrator.id, administrator.name, account.email, token, AccountType.administrator);
             }
-            const token = await this.generateToken(signinDTO.email, profiles, signinDTO.profileType);
-            const activeProfile = signinDTO.profileType === AccountType.student ? student
-                : signinDTO.profileType === AccountType.professor ? professor
-                    : administrator;
-            return new SigninReturnDTO(activeProfile!.name, account.email, token, signinDTO.profileType);
 
+            throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No profile found for this account", 404);
         });
     }
 

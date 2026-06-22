@@ -67,11 +67,14 @@ import UpdateStudentShiftController from "@/api/controllers/student/updateStuden
 import { container } from "tsyringe"
 import ChangeProfessorCoordinationController from "@/api/controllers/professor/changeProfessorCoordinationController"
 import { ReturnBorrowController } from "@/api/controllers/borrow/returnBorrowController"
+import { GetBorrowMetricsController } from "@/api/controllers/borrow/getBorrowMetricsController"
 import { MeController } from "@/api/controllers/auth/meController"
+import { LogoutController } from "@/api/controllers/auth/logoutController"
 
 export const ControllersDI = () => {
     container.registerSingleton<BaseController>("SignInController", SigninController)
     container.register<BaseController>("MeController", MeController)
+    container.register<BaseController>("LogoutController", LogoutController)
 
     // Controllers - Administrator
     container.registerSingleton<BaseController>("GetAllAdministratorsController", GetAllAdministratorsController)
@@ -81,6 +84,7 @@ export const ControllersDI = () => {
     container.registerSingleton<BaseController>("DeleteAdministratorController", DeleteAdministratorController)
 
     // Controllers - Borrow
+    container.registerSingleton<BaseController>("GetBorrowMetricsController", GetBorrowMetricsController)
     container.registerSingleton<BaseController>("GetAllBorrowsController", GetAllBorrowsController)
     container.registerSingleton<BaseController>("GetBorrowByIdController", GetBorrowByIdController)
     container.registerSingleton<BaseController>("CreateBorrowController", CreateBorrowController)

@@ -5,10 +5,15 @@ import { UpdateStudentInputDTO } from "@/application/dtos/student/updateStudentI
 import { UpdateStudentReturnDTO } from "@/application/dtos/student/updateStudentReturnDTO";
 import ApplicationException from "@/application/exceptions/applicationException";
 import IStudentServices from "@/application/interfaces/iStudentServices";
+import { Account } from "@/domain/models/account";
 import Student from "@/domain/models/student";
+import IAdministratorRepository from "@/domain/repositories/iAdministratorRepository";
+import IAuthRepository from "@/domain/repositories/iAuthRepository";
+import IProfessorRepository from "@/domain/repositories/iProfessorRepository";
 import IStudentRepository from "@/domain/repositories/iStudentRepository";
 import { InfrastructureExceptionName } from "@/infrastructure/exceptions/constants/infrastructureExceptionName";
 import InfrastructureException from "@/infrastructure/exceptions/infrastructureException";
+import { hashPassword } from "@/infrastructure/helpers/passwordHasher";
 import { inject, injectable } from "tsyringe";
 import { GetAllStudentsResultDTO } from "../dtos/student/getAllStudentsResultDTO";
 import { GetStudentByIdResultDTO } from "../dtos/student/getStudentByIdResultDTO";
@@ -23,6 +28,12 @@ class StudentServices implements IStudentServices {
     constructor(
         @inject("StudentRepository")
         private readonly studentRepository: IStudentRepository,
+        @inject("AuthRepository")
+        private readonly authRepository: IAuthRepository,
+        @inject("ProfessorRepository")
+        private readonly professorRepository: IProfessorRepository,
+        @inject("AdministratorRepository")
+        private readonly administratorRepository: IAdministratorRepository,
         @inject("SequelizeUnitOfWork")
         private readonly unitOfWork: IUnitOfWork
     ) { }
@@ -44,7 +55,11 @@ class StudentServices implements IStudentServices {
     }
     async CreateAsync(data: CreateStudentInputDTO) {
         return await this.unitOfWork.execute(async (trx) => {
-            InfrastructureException.When((await this.studentRepository.FindByEmail(data.email) as Student | null) !== null, InfrastructureExceptionName.CONSTRAINT_ERROR, "Email already in use", 409)
+            InfrastructureException.When((await this.authRepository.FindByEmail(data.email)) !== null, InfrastructureExceptionName.CONSTRAINT_ERROR, "Email already in use", 409)
+            InfrastructureException.When((await this.studentRepository.FindByEmail(data.email)) !== null, InfrastructureExceptionName.CONSTRAINT_ERROR, "Email already in use", 409)
+            InfrastructureException.When((await this.professorRepository.FindByEmail(data.email)) !== null, InfrastructureExceptionName.CONSTRAINT_ERROR, "Email already in use", 409)
+            InfrastructureException.When((await this.administratorRepository.FindByEmail(data.email)) !== null, InfrastructureExceptionName.CONSTRAINT_ERROR, "Email already in use", 409)
+            await this.authRepository.Create(Account.create(data.email, hashPassword(data.password)), trx)
             const newStudent = Student.create(data.name, data.email, data.registration, data.birthdate, data.term, data.shift)
             return (await this.studentRepository.Create(newStudent, trx)) as CreateStudentReturnDTO
         })

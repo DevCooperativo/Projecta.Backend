@@ -16,11 +16,12 @@ class UpdateProfessorController implements BaseController {
     ) { }
     async Handle(req: Request, res: Response): Promise<Response> {
         try {
+            const { id } = req.query as unknown as { id: number }
             const { name, registration, telephone } = req.body
             const user = req.user
             if (!user)
                 throw new ApiException(ApiExceptionNames.UNAUTHORIZED, "User not logged in")
-            const dto = new UpdateProfessorInputDTO(user.email, user.userType, name, registration, telephone)
+            const dto = new UpdateProfessorInputDTO(id, user.email, user.userType, name, registration, telephone)
             const result = await this.professorServices.UpdateAsync(dto)
             return res.status(200).json(ResponseBuilder.success("Professor updated successfully", "PROFESSOR_UPDATED", 200, result))
         } catch (ex) {

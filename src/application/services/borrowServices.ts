@@ -44,14 +44,24 @@ export class BorrowServices implements IBorrowServices {
     async GetAllAsync(query: GetAllBorrowInputDTO) {
         const spec = new BorrowFilterSpec(query.q, query.user?.id, query.user?.type, query.startPeriod, query.endPeriod)
         const result = await this.borrowRepository.Find(spec)
-        return result.map(x => new BorrowDTO(x.id, x.equipmentId, x.isStillBorrowed, x.borrowDate, x.isVisible, x.createdAt, x.updatedAt, x.studentId, x.professorId, x.returnDate))
+        return result.map(x => new BorrowDTO(
+            x.id, x.equipmentId, x.isStillBorrowed, x.borrowDate, x.isVisible, x.createdAt, x.updatedAt,
+            x.studentId ? { id: x.studentId, name: x.studentName! } : null,
+            x.professorId ? { id: x.professorId, name: x.professorName! } : null,
+            x.returnDate
+        ))
     }
 
     async GetByIdAsync(id: number) {
         const result = await this.borrowRepository.FindById(id)
         if (!result)
             throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No borrow was found with the provided id", 404)
-        return new BorrowDTO(result.id, result.equipmentId, result.isStillBorrowed, result.borrowDate, result.isVisible, result.createdAt, result.updatedAt, result.studentId, result.professorId, result.returnDate)
+        return new BorrowDTO(
+            result.id, result.equipmentId, result.isStillBorrowed, result.borrowDate, result.isVisible, result.createdAt, result.updatedAt,
+            result.studentId ? { id: result.studentId, name: result.studentName! } : null,
+            result.professorId ? { id: result.professorId, name: result.professorName! } : null,
+            result.returnDate
+        )
     }
 
     async CreateAsync(data: CreateBorrowInputDTO) {
@@ -78,7 +88,11 @@ export class BorrowServices implements IBorrowServices {
             const result = await this.borrowRepository.Create(borrow, trx)
             if (!result)
                 return null
-            return new BorrowDTO(result.id, result.equipmentId, result.isStillBorrowed, result.borrowDate, result.isVisible, result.createdAt, result.updatedAt, result.studentId, result.professorId)
+            return new BorrowDTO(
+                result.id, result.equipmentId, result.isStillBorrowed, result.borrowDate, result.isVisible, result.createdAt, result.updatedAt,
+                result.studentId ? { id: result.studentId, name: result.studentName! } : null,
+                result.professorId ? { id: result.professorId, name: result.professorName! } : null
+            )
         })
     }
 
@@ -104,7 +118,11 @@ export class BorrowServices implements IBorrowServices {
             const result = await this.borrowRepository.Update(id, borrow, trx)
             if (!result)
                 return null
-            return new BorrowDTO(result.id, result.equipmentId, result.isStillBorrowed, result.borrowDate, result.isVisible, result.createdAt, result.updatedAt, result.studentId, result.professorId)
+            return new BorrowDTO(
+                result.id, result.equipmentId, result.isStillBorrowed, result.borrowDate, result.isVisible, result.createdAt, result.updatedAt,
+                result.studentId ? { id: result.studentId, name: result.studentName! } : null,
+                result.professorId ? { id: result.professorId, name: result.professorName! } : null
+            )
         })
     }
 
@@ -138,7 +156,7 @@ export class BorrowServices implements IBorrowServices {
             throw new ApplicationException(ApplicationExceptionName.NOT_BELONGS_TO, "User cannot modify this borrow", 403)
     }
 
-    private CheckIfIsAlreadyBorrowed(borrows: BorrowDTO[], equipmentId?: number) {
+    private CheckIfIsAlreadyBorrowed(borrows: Array<{ equipmentId: number; isStillBorrowed: boolean }>, equipmentId?: number) {
         if (!equipmentId) return;
         const activeBorrow = borrows.find(x => x.equipmentId === equipmentId && x.isStillBorrowed)
         if (activeBorrow)
@@ -150,10 +168,10 @@ export class BorrowServices implements IBorrowServices {
         const borrowsPerUser = borrows.filter(x => {
             const condition: boolean[] = []
             if (userType === AccountType.professor) {
-                condition.push(x.professorId === borrowerId)
+                condition.push(x.professor?.id === borrowerId)
             }
             else {
-                condition.push(x.studentId === borrowerId)
+                condition.push(x.student?.id === borrowerId)
             }
             return condition.every(Boolean)
         })

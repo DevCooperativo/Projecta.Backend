@@ -1,5 +1,4 @@
 import BaseModel from "@/domain/abstractions/BaseModel";
-import DomainException from "@/domain/exceptions/domainException";
 import { Guard } from "@/domain/validations/guard";
 
 export class Account extends BaseModel {

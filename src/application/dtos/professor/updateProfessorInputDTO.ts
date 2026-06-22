@@ -2,6 +2,7 @@ import { AccountType } from "@/infrastructure/authentication/constants/accountTy
 
 export class UpdateProfessorInputDTO {
     constructor(
+        readonly id: number,
         readonly userEmail: string,
         readonly accountType: AccountType,
         readonly name: string,

@@ -14,8 +14,8 @@ class CreateStudentController implements BaseController {
     ) { }
     async Handle(req: Request, res: Response): Promise<Response>{
         try {
-            const { name, email, registration, birthdate, term, shift } = req.body
-            const dto = new CreateStudentInputDTO(name, email, registration, birthdate, term, shift)
+            const { name, email, registration, password, birthdate, term, shift } = req.body
+            const dto = new CreateStudentInputDTO(name, email, registration, password, birthdate, term, shift)
             const result = await this.studentServices.CreateAsync(dto)
             return res.status(201).json(ResponseBuilder.success("Student created successfully", "STUDENT_CREATED", 201, result))
         } catch (ex) {

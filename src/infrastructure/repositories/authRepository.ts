@@ -4,6 +4,7 @@ import IAuthRepository from "@/domain/repositories/iAuthRepository";
 import AccountEntityMapping from "@/infrastructure/data/entityMapping/accountEntityMapping";
 import { injectable } from "tsyringe";
 import { SequelizeTransactionAdapter } from "../data/transactionAdapter";
+import { throwNormalizedSequelizeError } from "../helpers/sequelizeErrorHandler";
 
 @injectable()
 class AuthRepository implements IAuthRepository {
@@ -15,9 +16,11 @@ class AuthRepository implements IAuthRepository {
     }
 
     async Create(data: Account, trx?: Transaction) {
-        const transaction = (trx as SequelizeTransactionAdapter)?.trx
-        const result = await AccountEntityMapping.create({ ...data }, { transaction })
-        return Account.rehydrate(result.id, result.email, result.passwordHash, result.createdAt, result.updatedAt, result.isVisible)
+        try {
+            const transaction = (trx as SequelizeTransactionAdapter)?.trx
+            const result = await AccountEntityMapping.create({ ...data }, { transaction })
+            return Account.rehydrate(result.id, result.email, result.passwordHash, result.createdAt, result.updatedAt, result.isVisible)
+        } catch (error) { throwNormalizedSequelizeError(error); throw error }
     }
 }
 export default AuthRepository

@@ -14,8 +14,8 @@ const createResearcherController = container.resolve<BaseController>("CreateRese
 const updateResearcherController = container.resolve<BaseController>("UpdateResearcherController")
 const deleteResearcherController = container.resolve<BaseController>("DeleteResearcherController")
 
-researcherRoutes.get("/", (req, res) => getAllResearchersController.Handle(req, res))
-researcherRoutes.get("/:id", (req, res) => getResearcherByIdController.Handle(req, res))
+researcherRoutes.get("/", EnsureAuthenticatedUserMiddleware, (req, res) => getAllResearchersController.Handle(req, res))
+researcherRoutes.get("/:id", EnsureAuthenticatedUserMiddleware, (req, res) => getResearcherByIdController.Handle(req, res))
 researcherRoutes.post("/", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(CreateResearcherPayload), (req, res) => createResearcherController.Handle(req, res))
 researcherRoutes.put("/:id", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(UpdateResearcherPayload), (req, res) => updateResearcherController.Handle(req, res))
 researcherRoutes.delete("/:id", EnsureCorrectFieldsValidationMiddleware(DeleteByIdPayload), (req, res) => deleteResearcherController.Handle(req, res))

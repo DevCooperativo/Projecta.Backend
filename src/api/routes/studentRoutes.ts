@@ -13,6 +13,7 @@ import EnsureAuthenticatedUserMiddleware from "../middlewares/ensureAuthenticate
 
 export const studentRoutes = Router()
 
+const getBorrowMetricsController = container.resolve<BaseController>("GetBorrowMetricsController")
 const getAllStudentsController = container.resolve<BaseController>("GetAllStudentsController")
 const getStudentByIdController = container.resolve<BaseController>("GetStudentByIdController")
 const createStudentController = container.resolve<BaseController>("CreateStudentController")
@@ -21,8 +22,10 @@ const updateStudentTermController = container.resolve<BaseController>("UpdateStu
 const updateStudentShiftController = container.resolve<BaseController>("UpdateStudentShiftController")
 const deleteStudentController = container.resolve<BaseController>("DeleteStudentController")
 
-studentRoutes.get("/", async (req, res) => getAllStudentsController.Handle(req, res))
-studentRoutes.get("/:id", async (req, res) => getStudentByIdController.Handle(req, res))
+studentRoutes.get("/metrics", EnsureAuthenticatedUserMiddleware, EnsureUserRoleMiddleware([AccountType.student]), (req, res) => getBorrowMetricsController.Handle(req, res))
+
+studentRoutes.get("/", EnsureAuthenticatedUserMiddleware, (req, res) => getAllStudentsController.Handle(req, res))
+studentRoutes.get("/:id", EnsureAuthenticatedUserMiddleware, (req, res) => getStudentByIdController.Handle(req, res))
 studentRoutes.post("/", EnsureCorrectFieldsValidationMiddleware(CreateStudentPayload), async (req, res) => createStudentController.Handle(req, res))
 studentRoutes.put("/personal-data", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(UpdateStudentPersonalDataPayload), EnsureUserRoleMiddleware([AccountType.student]), async (req, res) => updateStudentPersonalDataController.Handle(req, res))
 studentRoutes.put("/term", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(UpdateStudentTermPayload), EnsureUserRoleMiddleware([AccountType.student]), async (req, res) => updateStudentTermController.Handle(req, res))

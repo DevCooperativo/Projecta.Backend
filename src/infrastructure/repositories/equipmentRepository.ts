@@ -8,6 +8,7 @@ import { injectable } from "tsyringe";
 import EquipmentEntity from "../data/entityMapping/equipmentEntity";
 import sequelize from "../data/sequelize";
 import { SequelizeTransactionAdapter } from "../data/transactionAdapter";
+import { throwNormalizedSequelizeError } from "../helpers/sequelizeErrorHandler";
 
 @injectable()
 class EquipmentRepository implements IEquipmentRepository {
@@ -121,26 +122,34 @@ class EquipmentRepository implements IEquipmentRepository {
         ))
     }
     async Create(data: Equipment, trx?: Transaction) {
-        const transaction = (trx as SequelizeTransactionAdapter)?.trx
-        return await EquipmentEntity.create({ ...data }, { validate: true, transaction }) as unknown as Equipment
+        try {
+            const transaction = (trx as SequelizeTransactionAdapter)?.trx
+            return await EquipmentEntity.create({ ...data }, { validate: true, transaction }) as unknown as Equipment
+        } catch (error) { throwNormalizedSequelizeError(error); throw error }
     }
     async Update(id: number, data: Equipment, trx?: Transaction) {
-        const transaction = (trx as SequelizeTransactionAdapter)?.trx
-        await EquipmentEntity.update(data, { where: { id }, validate: true, transaction })
-        return (await EquipmentEntity.findByPk(id, { transaction })) as unknown as Equipment
+        try {
+            const transaction = (trx as SequelizeTransactionAdapter)?.trx
+            await EquipmentEntity.update(data, { where: { id }, validate: true, transaction })
+            return (await EquipmentEntity.findByPk(id, { transaction })) as unknown as Equipment
+        } catch (error) { throwNormalizedSequelizeError(error); throw error }
     }
     async Delete(id: number, trx?: Transaction) {
-        const transaction = (trx as SequelizeTransactionAdapter)?.trx
-        const result = await EquipmentEntity.destroy({ where: { id: id }, transaction })
-        return result !== 0
+        try {
+            const transaction = (trx as SequelizeTransactionAdapter)?.trx
+            const result = await EquipmentEntity.destroy({ where: { id: id }, transaction })
+            return result !== 0
+        } catch (error) { throwNormalizedSequelizeError(error); throw error }
     }
     async CountByEquipmentCategoryId(equipmentCategoryId: number, trx?: Transaction) {
         const transaction = (trx as SequelizeTransactionAdapter)?.trx
         return await EquipmentEntity.count({ where: { equipmentCategoryId }, transaction })
     }
     async DeleteByProjectId(projectId: number, trx?: Transaction) {
-        const transaction = (trx as SequelizeTransactionAdapter)?.trx
-        await EquipmentEntity.destroy({ where: { projectId }, transaction })
+        try {
+            const transaction = (trx as SequelizeTransactionAdapter)?.trx
+            await EquipmentEntity.destroy({ where: { projectId }, transaction })
+        } catch (error) { throwNormalizedSequelizeError(error); throw error }
     }
     async FindIdsByProjectId(projectId: number, trx?: Transaction) {
         const transaction = (trx as SequelizeTransactionAdapter)?.trx

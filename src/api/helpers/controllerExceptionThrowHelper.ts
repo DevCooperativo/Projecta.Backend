@@ -3,7 +3,6 @@ import DomainException from "@/domain/exceptions/domainException";
 import { Response } from "express";
 import ApiException from "../exceptions/apiException";
 import InfrastructureException from "@/infrastructure/exceptions/infrastructureException";
-import { InfrastructureExceptionName } from "@/infrastructure/exceptions/constants/infrastructureExceptionName";
 import { ResponseBuilder, ResponseDetail } from "./responseBuilder";
 
 class ControllerExceptionThrowHelper {
@@ -31,23 +30,10 @@ class ControllerExceptionThrowHelper {
             return res.status(ex.code).json(ResponseBuilder.fail(ex.message, type, ex.name, ex.code))
         }
         else if (ex instanceof Error) {
-            switch (ex.name) {
-                case "SequelizeUniqueConstraintError":
-                    return res.status(409).json(ResponseBuilder.fail(
-                        "An unique constraint violation made your request fail. Check the data and try again. If you think this might be a mistake, contact the support team",
-                        'error', InfrastructureExceptionName.CONSTRAINT_ERROR, 409
-                    ))
-                case "SequelizeForeignKeyConstraintError":
-                    return res.status(409).json(ResponseBuilder.fail(
-                        "This record cannot be deleted or modified because it is referenced by other records.",
-                        'error', InfrastructureExceptionName.CONSTRAINT_ERROR, 409
-                    ))
-                default:
-                    return res.status(500).json(ResponseBuilder.fail(
-                        ex.message.replace("\n", "; ") ?? "An error occurred on our side. Please, contact the support team",
-                        'error', ex.name ?? "INTERNAL_SERVER_ERROR", 500
-                    ))
-            }
+            return res.status(500).json(ResponseBuilder.fail(
+                ex.message.replace("\n", "; ") ?? "An error occurred on our side. Please, contact the support team",
+                'error', ex.name ?? "INTERNAL_SERVER_ERROR", 500
+            ))
         }
         return res.status(500).json(ResponseBuilder.fail(
             "An error occurred on our side. Please, contact the support team",

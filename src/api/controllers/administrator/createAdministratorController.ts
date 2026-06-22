@@ -14,8 +14,8 @@ class CreateAdministratorController implements BaseController {
     ) { }
     async Handle(req: Request, res: Response): Promise<Response>{
         try {
-            const { name, email } = req.body
-            const dto = new CreateAdministratorInputDTO(name, email)
+            const { name, email, password } = req.body
+            const dto = new CreateAdministratorInputDTO(name, email, password)
             const result = await this.administratorServices.CreateAsync(dto)
             return res.status(201).json(ResponseBuilder.success("Administrator created successfully", "ADMINISTRATOR_CREATED", 201, result))
         } catch (ex) {

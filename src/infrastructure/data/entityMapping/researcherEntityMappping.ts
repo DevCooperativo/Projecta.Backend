@@ -24,13 +24,9 @@ ResearcherEntityMapping.init(
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                min: {
-                    args: [3],
-                    msg: "Name should have at least 3 characters"
-                },
-                max: {
-                    args: [100],
-                    msg: "Name should have up to 100 characters"
+                len: {
+                    args: [3, 100],
+                    msg: "Name should have between 3 and 100 characters"
                 },
                 notEmpty: {
                     args: true,
@@ -42,13 +38,9 @@ ResearcherEntityMapping.init(
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                min: {
-                    args: [3],
-                    msg: "Function name should have at least 3 characters"
-                },
-                max: {
-                    args: [100],
-                    msg: "Function name should have up to 100 characters"
+                len: {
+                    args: [3, 100],
+                    msg: "Function name should have between 3 and 100 characters"
                 },
                 notEmpty: {
                     args: true,

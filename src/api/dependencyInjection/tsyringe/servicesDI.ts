@@ -1,6 +1,7 @@
 import IAdministratorServices from "@/application/interfaces/iAdministratorServices"
 import { IAuthServices } from "@/application/interfaces/iAuthServices"
 import { IBorrowServices } from "@/application/interfaces/iBorrowServices"
+import { IBorrowMetricsServices } from "@/application/interfaces/iBorrowMetricsServices"
 import ICoordinationServices from "@/application/interfaces/iCoordinationServices"
 import ICoordinatorServices from "@/application/interfaces/iCoordinatorServices"
 import IEquipmentCategoryServices from "@/application/interfaces/iEquipmentCategoryServices"
@@ -15,6 +16,7 @@ import { IUserContextServices } from "@/application/interfaces/iUserContextServi
 import AdministratorServices from "@/application/services/administratorServices"
 import { AuthServices } from "@/application/services/authServices"
 import { BorrowServices } from "@/application/services/borrowServices"
+import { BorrowMetricsServices } from "@/application/services/borrowMetricsServices"
 import CoordinationServices from "@/application/services/CoordinationServices"
 import CoordinatorServices from "@/application/services/CoordinatorServices"
 import EquipmentCategoryServices from "@/application/services/EquipmentCategoryServices"
@@ -48,6 +50,5 @@ export const ServicesDI = () => {
     container.registerSingleton<IProjectServices>("ProjectServices", ProjectServices)
     container.registerSingleton<IResearcherServices>("ResearcherServices", ResearcherServices)
     container.registerSingleton<IBorrowServices>("BorrowServices", BorrowServices)
-
-
+    container.registerSingleton<IBorrowMetricsServices>("BorrowMetricsServices", BorrowMetricsServices)
 }

@@ -17,9 +17,9 @@ AdministratorEntityMapping.init(
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                min: {
-                    args: [3],
-                    msg: "Name must be greater than 3 characters"
+                len: {
+                    args: [3, 100],
+                    msg: "Name must have between 3 and 100 characters"
                 }
             }
         },
