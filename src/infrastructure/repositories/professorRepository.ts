@@ -4,6 +4,7 @@ import IProfessorRepository from "@/domain/repositories/iProfessorRepository";
 import { injectable } from "tsyringe";
 import ProfessorEntity from "../data/entityMapping/professorEntityMapping";
 import { SequelizeTransactionAdapter } from "../data/transactionAdapter";
+import { throwNormalizedSequelizeError } from "../helpers/sequelizeErrorHandler";
 
 @injectable()
 class ProfessorRepository implements IProfessorRepository {
@@ -28,23 +29,29 @@ class ProfessorRepository implements IProfessorRepository {
         return Professor.rehydrate(result.id, result.name, result.email, result.registration, result.telephone!, result.coordinationId, result.createdAt, result.updatedAt, result.isVisible)
     }
     async Create(data: Professor, trx?: Transaction) {
-        const transaction = (trx as SequelizeTransactionAdapter)?.trx
-        const result = await ProfessorEntity.create({ ...data }, { validate: true, transaction })
-        return Professor.rehydrate(result.id, result.name, result.email, result.registration, result.telephone!, result.coordinationId, result.createdAt, result.updatedAt, result.isVisible)
+        try {
+            const transaction = (trx as SequelizeTransactionAdapter)?.trx
+            const result = await ProfessorEntity.create({ ...data }, { validate: true, transaction })
+            return Professor.rehydrate(result.id, result.name, result.email, result.registration, result.telephone!, result.coordinationId, result.createdAt, result.updatedAt, result.isVisible)
+        } catch (error) { throwNormalizedSequelizeError(error); throw error }
     }
     async Update(id: number, data: Professor, trx?: Transaction) {
-        const transaction = (trx as SequelizeTransactionAdapter)?.trx
-        const result = await ProfessorEntity.findByPk(id)
-        if (!result)
-            return null
-        const { id: _, ...treatedData } = data
-        await result.update({ ...treatedData }, { validate: true, transaction })
-        return Professor.rehydrate(result.id, result.name, result.email, result.registration, result.telephone!, result.coordinationId, result.createdAt, result.updatedAt, result.isVisible)
+        try {
+            const transaction = (trx as SequelizeTransactionAdapter)?.trx
+            const result = await ProfessorEntity.findByPk(id)
+            if (!result)
+                return null
+            const { id: _, ...treatedData } = data
+            await result.update({ ...treatedData }, { validate: true, transaction })
+            return Professor.rehydrate(result.id, result.name, result.email, result.registration, result.telephone!, result.coordinationId, result.createdAt, result.updatedAt, result.isVisible)
+        } catch (error) { throwNormalizedSequelizeError(error); throw error }
     }
     async Delete(id: number, trx?: Transaction) {
-        const transaction = (trx as SequelizeTransactionAdapter)?.trx
-        const result = await ProfessorEntity.destroy({ where: { id: id }, transaction })
-        return result !== 0
+        try {
+            const transaction = (trx as SequelizeTransactionAdapter)?.trx
+            const result = await ProfessorEntity.destroy({ where: { id: id }, transaction })
+            return result !== 0
+        } catch (error) { throwNormalizedSequelizeError(error); throw error }
     }
     async CountByCoordinationId(coordinationId: number) {
         return await ProfessorEntity.count({ where: { coordinationId } })

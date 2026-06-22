@@ -4,6 +4,7 @@ import IEquipmentCategoryRepository from "@/domain/repositories/iEquipmentCatego
 import EquipmentCategoryEntityMapping from "@/infrastructure/data/entityMapping/equipmentCategoryEntityMapping";
 import { injectable } from "tsyringe";
 import { SequelizeTransactionAdapter } from "../data/transactionAdapter";
+import { throwNormalizedSequelizeError } from "../helpers/sequelizeErrorHandler";
 
 @injectable()
 class EquipmentCategoryRepository implements IEquipmentCategoryRepository {
@@ -17,18 +18,24 @@ class EquipmentCategoryRepository implements IEquipmentCategoryRepository {
         return await EquipmentCategoryEntityMapping.findByPk(id, { transaction }) as unknown as EquipmentCategory
     }
     async Create(data: EquipmentCategory, trx?: Transaction) {
-        const transaction = (trx as SequelizeTransactionAdapter)?.trx
-        return await EquipmentCategoryEntityMapping.create({ ...data }, { validate: true, transaction }) as unknown as EquipmentCategory
+        try {
+            const transaction = (trx as SequelizeTransactionAdapter)?.trx
+            return await EquipmentCategoryEntityMapping.create({ ...data }, { validate: true, transaction }) as unknown as EquipmentCategory
+        } catch (error) { throwNormalizedSequelizeError(error); throw error }
     }
     async Update(id: number, data: EquipmentCategory, trx?: Transaction) {
-        const transaction = (trx as SequelizeTransactionAdapter)?.trx
-        await EquipmentCategoryEntityMapping.update(data, { where: { id }, validate: true, transaction })
-        return (await EquipmentCategoryEntityMapping.findByPk(id, { transaction })) as unknown as EquipmentCategory
+        try {
+            const transaction = (trx as SequelizeTransactionAdapter)?.trx
+            await EquipmentCategoryEntityMapping.update(data, { where: { id }, validate: true, transaction })
+            return (await EquipmentCategoryEntityMapping.findByPk(id, { transaction })) as unknown as EquipmentCategory
+        } catch (error) { throwNormalizedSequelizeError(error); throw error }
     }
     async Delete(id: number, trx?: Transaction) {
-        const transaction = (trx as SequelizeTransactionAdapter)?.trx
-        const result = await EquipmentCategoryEntityMapping.destroy({ where: { id: id }, transaction })
-        return result !== 0
+        try {
+            const transaction = (trx as SequelizeTransactionAdapter)?.trx
+            const result = await EquipmentCategoryEntityMapping.destroy({ where: { id: id }, transaction })
+            return result !== 0
+        } catch (error) { throwNormalizedSequelizeError(error); throw error }
     }
 
 }

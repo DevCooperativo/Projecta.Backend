@@ -14,8 +14,8 @@ const createProjectCategoryController = container.resolve<BaseController>("Creat
 const updateProjectCategoryController = container.resolve<BaseController>("UpdateProjectCategoryController")
 const deleteProjectCategoryController = container.resolve<BaseController>("DeleteProjectCategoryController")
 
-projectCategoriesRoutes.get("/", (req, res) => getAllProjectCategoriesController.Handle(req, res))
-projectCategoriesRoutes.get("/:id", (req, res) => getProjectCategoryByIdController.Handle(req, res))
+projectCategoriesRoutes.get("/", EnsureAuthenticatedUserMiddleware, (req, res) => getAllProjectCategoriesController.Handle(req, res))
+projectCategoriesRoutes.get("/:id", EnsureAuthenticatedUserMiddleware, (req, res) => getProjectCategoryByIdController.Handle(req, res))
 projectCategoriesRoutes.post("/", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(CreateProjectCategoryPayload), (req, res) => createProjectCategoryController.Handle(req, res))
 projectCategoriesRoutes.put("/:id", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(UpdateProjectCategoryPayload), (req, res) => updateProjectCategoryController.Handle(req, res))
 projectCategoriesRoutes.delete("/:id", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(DeleteByIdPayload), (req, res) => deleteProjectCategoryController.Handle(req, res))

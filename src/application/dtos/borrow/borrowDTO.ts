@@ -7,8 +7,8 @@ export class BorrowDTO {
         readonly isVisible: boolean,
         readonly createdAt: Date,
         readonly updatedAt: Date,
-        readonly studentId?: number,
-        readonly professorId?: number,
+        readonly student: { id: number; name: string } | null,
+        readonly professor: { id: number; name: string } | null,
         readonly returnDate?: Date,
     ) { }
 }

@@ -16,8 +16,8 @@ const createAdministratorController = container.resolve<BaseController>("CreateA
 const updateAdministratorController = container.resolve<BaseController>("UpdateAdministratorController")
 const deleteAdministratorController = container.resolve<BaseController>("DeleteAdministratorController")
 
-administratorRoutes.get("/", (req, res) => getAllAdministratorsController.Handle(req, res))
-administratorRoutes.get("/:id", (req, res) => getAdministratorByIdController.Handle(req, res))
+administratorRoutes.get("/", EnsureAuthenticatedUserMiddleware, (req, res) => getAllAdministratorsController.Handle(req, res))
+administratorRoutes.get("/:id", EnsureAuthenticatedUserMiddleware, (req, res) => getAdministratorByIdController.Handle(req, res))
 administratorRoutes.post("/", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(CreateAdministratorPayload), (req, res) => createAdministratorController.Handle(req, res))
 administratorRoutes.put("/:id", EnsureAuthenticatedUserMiddleware, EnsureCorrectFieldsValidationMiddleware(UpdateAdministratorPayload), EnsureUserRoleMiddleware([AccountType.administrator]), (req, res) => updateAdministratorController.Handle(req, res))
 administratorRoutes.delete("/:id", EnsureCorrectFieldsValidationMiddleware(DeleteByIdPayload), EnsureUserRoleMiddleware([AccountType.administrator]), (req, res) => deleteAdministratorController.Handle(req, res))

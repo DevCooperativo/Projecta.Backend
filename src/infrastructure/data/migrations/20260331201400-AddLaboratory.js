@@ -38,8 +38,9 @@ module.exports = {
                 allowNull: false,
             },
             description: {
-                type: Sequelize.STRING,
-                allowNull: true,
+                type: Sequelize.TEXT,
+                allowNull: false,
+                defaultValue: '',
             },
             professorId: {
                 type: Sequelize.INTEGER,

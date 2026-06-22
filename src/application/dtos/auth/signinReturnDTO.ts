@@ -2,9 +2,10 @@ import { AccountType } from "@/infrastructure/authentication/constants/accountTy
 
 export class SigninReturnDTO {
     constructor(
+        public readonly id: number,
         public readonly name: string,
         public readonly email: string,
         public readonly token: string,
-        public readonly accountType: AccountType
-    ) {}
+        public readonly profileType: AccountType
+    ) { }
 }

@@ -4,6 +4,7 @@ export class CreateProfessorInputDTO {
         readonly email: string,
         readonly registration: string,
         readonly telephone: string,
-        readonly coordinationId: number
+        readonly coordinationId: number,
+        readonly password: string
     ) {}
 }

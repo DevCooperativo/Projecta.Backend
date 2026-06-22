@@ -6,10 +6,15 @@ import { UpdateAdministratorInputDTO } from "@/application/dtos/administrator/up
 import { UpdateAdministratorReturnDTO } from "@/application/dtos/administrator/updateAdministratorReturnDTO";
 import ApplicationException from "@/application/exceptions/applicationException";
 import IAdministratorServices from "@/application/interfaces/iAdministratorServices";
+import { Account } from "@/domain/models/account";
 import Administrator from "@/domain/models/administrator";
 import IAdministratorRepository from "@/domain/repositories/iAdministratorRepository";
+import IAuthRepository from "@/domain/repositories/iAuthRepository";
+import IProfessorRepository from "@/domain/repositories/iProfessorRepository";
+import IStudentRepository from "@/domain/repositories/iStudentRepository";
 import { InfrastructureExceptionName } from "@/infrastructure/exceptions/constants/infrastructureExceptionName";
 import InfrastructureException from "@/infrastructure/exceptions/infrastructureException";
+import { hashPassword } from "@/infrastructure/helpers/passwordHasher";
 import { inject, injectable } from "tsyringe";
 import { IUnitOfWork } from "../unitOfWork/iUnitOfWork";
 import { DeleteAdministratorInputDTO } from "../dtos/administrator/deleteAdministratorInputDTO";
@@ -21,6 +26,12 @@ class AdministratorServices implements IAdministratorServices {
     constructor(
         @inject("AdministratorRepository")
         private readonly administratorRepository: IAdministratorRepository,
+        @inject("AuthRepository")
+        private readonly authRepository: IAuthRepository,
+        @inject("StudentRepository")
+        private readonly studentRepository: IStudentRepository,
+        @inject("ProfessorRepository")
+        private readonly professorRepository: IProfessorRepository,
         @inject("SequelizeUnitOfWork")
         private readonly unitOfWork: IUnitOfWork
     ) { }
@@ -40,7 +51,11 @@ class AdministratorServices implements IAdministratorServices {
     }
     async CreateAsync(data: CreateAdministratorInputDTO) {
         return await this.unitOfWork.execute(async (trx) => {
-            InfrastructureException.When((await this.administratorRepository.FindByEmail(data.email) as Administrator | null) !== null, InfrastructureExceptionName.CONSTRAINT_ERROR, "Email already in use", 409)
+            InfrastructureException.When((await this.authRepository.FindByEmail(data.email)) !== null, InfrastructureExceptionName.CONSTRAINT_ERROR, "Email already in use", 409)
+            InfrastructureException.When((await this.studentRepository.FindByEmail(data.email)) !== null, InfrastructureExceptionName.CONSTRAINT_ERROR, "Email already in use", 409)
+            InfrastructureException.When((await this.professorRepository.FindByEmail(data.email)) !== null, InfrastructureExceptionName.CONSTRAINT_ERROR, "Email already in use", 409)
+            InfrastructureException.When((await this.administratorRepository.FindByEmail(data.email)) !== null, InfrastructureExceptionName.CONSTRAINT_ERROR, "Email already in use", 409)
+            await this.authRepository.Create(Account.create(data.email, hashPassword(data.password)), trx)
             const administrator = await this.administratorRepository.Create(Administrator.create(data.name, data.email), trx)
             if (!administrator)
                 throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "Failed to create administrator", 500)

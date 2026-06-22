@@ -18,7 +18,7 @@ const createEquipmentController = container.resolve<BaseController>("CreateEquip
 const updateEquipmentController = container.resolve<BaseController>("UpdateEquipmentController")
 const deleteEquipmentController = container.resolve<BaseController>("DeleteEquipmentController")
 
-equipmentsRoutes.get("/", (req, res) => getAllEquipmentsController.Handle(req, res))
+equipmentsRoutes.get("/", EnsureAuthenticatedUserMiddleware, (req, res) => getAllEquipmentsController.Handle(req, res))
 equipmentsRoutes.get("/reports/availability-by-category", EnsureAuthenticatedUserMiddleware, EnsureUserRoleMiddleware([AccountType.professor, AccountType.student, AccountType.administrator]), (req, res) => getEquipmentAvailabilityByCategoryController.Handle(req, res))
 equipmentsRoutes.get("/reports/availability-by-laboratory", EnsureAuthenticatedUserMiddleware, EnsureUserRoleMiddleware([AccountType.professor, AccountType.student, AccountType.administrator]), (req, res) => getEquipmentAvailabilityByLaboratoryController.Handle(req, res))
 equipmentsRoutes.get("/:id", (req, res) => getEquipmentByIdController.Handle(req, res))

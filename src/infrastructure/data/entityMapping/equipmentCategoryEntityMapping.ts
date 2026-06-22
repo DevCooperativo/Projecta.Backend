@@ -35,13 +35,9 @@ EquipmentCategoryEntityMapping.init(
             type: DataTypes.TEXT,
             allowNull: false,
             validate: {
-                min: {
-                    args: [10],
-                    msg: "Description should have at least 10 characters"
-                },
-                max: {
-                    args: [500],
-                    msg: "Description should have up to 500 characters"
+                len: {
+                    args: [10, 500],
+                    msg: "Description should have between 10 and 500 characters"
                 },
                 notEmpty: {
                     args: true,

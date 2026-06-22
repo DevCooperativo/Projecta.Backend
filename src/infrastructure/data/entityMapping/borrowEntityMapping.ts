@@ -17,6 +17,8 @@ class BorrowEntityMapping extends BaseEntityMapping {
     declare createdAt: Date
     declare updatedAt: Date
     declare isVisible: boolean
+    declare Students?: { id: number; name: string }
+    declare Professors?: { id: number; name: string }
 }
 BorrowEntityMapping.init(
     BorrowEntityMapping.buildBaseAttributes({

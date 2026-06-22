@@ -11,7 +11,7 @@ import ResearcherEntityMapping from "../entityMapping/researcherEntityMappping";
 import CoordinatorEntityMapping from "../entityMapping/coordinatorEntityMapping";
 import EquipmentEntity from "../entityMapping/equipmentEntity";
 import BorrowEntityMapping from "../entityMapping/borrowEntityMapping";
-import { SequelizeErrorHandler } from "@/infrastructure/helpers/sequelizeErrorHandler";
+import { throwNormalizedSequelizeError } from "@/infrastructure/helpers/sequelizeErrorHandler";
 import Laboratory from "@/domain/models/laboratory";
 import Project from "@/domain/models/project";
 import Professor from "@/domain/models/professor";
@@ -30,7 +30,7 @@ class DataSeed {
         try {
             await DataSeed.SeedData()
         } catch (ex) {
-            SequelizeErrorHandler().throwNormalizedSequelizeError(ex)
+            throwNormalizedSequelizeError(ex)
         }
     }
 

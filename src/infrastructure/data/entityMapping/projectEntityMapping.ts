@@ -22,13 +22,9 @@ ProjectEntityMapping.init(
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                min: {
-                    args: [3],
-                    msg: "Name should have at least 3 characters"
-                },
-                max: {
-                    args: [100],
-                    msg: "Name should have up to 100 characters"
+                len: {
+                    args: [3, 100],
+                    msg: "Name should have between 3 and 100 characters"
                 },
                 notEmpty: {
                     args: true,
@@ -40,13 +36,9 @@ ProjectEntityMapping.init(
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                min: {
-                    args: [10],
-                    msg: "Description should have at least 10 characters"
-                },
-                max: {
-                    args: [500],
-                    msg: "Description should have up to 500 characters"
+                len: {
+                    args: [10, 500],
+                    msg: "Description should have between 10 and 500 characters"
                 },
                 notEmpty: {
                     args: true,

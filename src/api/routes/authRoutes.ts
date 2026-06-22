@@ -9,8 +9,13 @@ export const authRoutes = Router()
 
 const signInController = container.resolve<BaseController>("SignInController")
 const meController = container.resolve<BaseController>("MeController")
+const logoutController = container.resolve<BaseController>("LogoutController")
 authRoutes.post("/signin", EnsureCorrectFieldsValidationMiddleware(SigninPayload), (req, res) => signInController.Handle(req, res))
 
 authRoutes.get("/me", EnsureAuthenticatedUserMiddleware, (req, res) => {
     return meController.Handle(req, res)
+})
+
+authRoutes.post("/logout", EnsureAuthenticatedUserMiddleware, (req,res)=>{
+    return logoutController.Handle(req,res)
 })

@@ -4,6 +4,7 @@ import ICoordinatorRepository from "@/domain/repositories/iCoordinatorRepository
 import { injectable } from "tsyringe";
 import CoordinatorEntityMapping from "../data/entityMapping/coordinatorEntityMapping";
 import { SequelizeTransactionAdapter } from "../data/transactionAdapter";
+import { throwNormalizedSequelizeError } from "../helpers/sequelizeErrorHandler";
 
 @injectable()
 class CoordinatorRepository implements ICoordinatorRepository {
@@ -22,14 +23,18 @@ class CoordinatorRepository implements ICoordinatorRepository {
     }
 
     async Create(data: Coordinator, trx?: Transaction) {
-        const transaction = (trx as SequelizeTransactionAdapter)?.trx
-        return await CoordinatorEntityMapping.create({ ...data }, { transaction }) as unknown as Coordinator
+        try {
+            const transaction = (trx as SequelizeTransactionAdapter)?.trx
+            return await CoordinatorEntityMapping.create({ ...data }, { transaction }) as unknown as Coordinator
+        } catch (error) { throwNormalizedSequelizeError(error); throw error }
     }
 
     async Update(data: Coordinator, trx?: Transaction) {
-        const transaction = (trx as SequelizeTransactionAdapter)?.trx
-        await CoordinatorEntityMapping.update(data, { where: { id: data.id }, transaction })
-        return (await CoordinatorEntityMapping.findByPk(data.id, { transaction })) as unknown as Coordinator
+        try {
+            const transaction = (trx as SequelizeTransactionAdapter)?.trx
+            await CoordinatorEntityMapping.update(data, { where: { id: data.id }, transaction })
+            return (await CoordinatorEntityMapping.findByPk(data.id, { transaction })) as unknown as Coordinator
+        } catch (error) { throwNormalizedSequelizeError(error); throw error }
     }
 
     async CountByProfessorId(professorId: number) {
@@ -37,14 +42,18 @@ class CoordinatorRepository implements ICoordinatorRepository {
     }
 
     async Delete(id: number, trx?: Transaction) {
-        const transaction = (trx as SequelizeTransactionAdapter)?.trx
-        const result = await CoordinatorEntityMapping.destroy({ where: { id: id }, transaction })
-        return result !== 0
+        try {
+            const transaction = (trx as SequelizeTransactionAdapter)?.trx
+            const result = await CoordinatorEntityMapping.destroy({ where: { id: id }, transaction })
+            return result !== 0
+        } catch (error) { throwNormalizedSequelizeError(error); throw error }
     }
 
     async DeleteByProjectId(projectId: number, trx?: Transaction) {
-        const transaction = (trx as SequelizeTransactionAdapter)?.trx
-        await CoordinatorEntityMapping.destroy({ where: { projectId }, transaction })
+        try {
+            const transaction = (trx as SequelizeTransactionAdapter)?.trx
+            await CoordinatorEntityMapping.destroy({ where: { projectId }, transaction })
+        } catch (error) { throwNormalizedSequelizeError(error); throw error }
     }
 }
 

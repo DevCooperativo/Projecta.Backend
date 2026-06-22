@@ -24,15 +24,9 @@ module.exports = {
                 allowNull: false,
                 defaultValue: true,
             },
-            name:{
+            name: {
                 type: Sequelize.STRING,
                 allowNull: false,
-                validate:{
-                    min:{
-                        args: [3],
-                        msg:"Name must be greater than 3 characters"
-                    }
-                }
             },
             email: {
                 type: Sequelize.STRING,
