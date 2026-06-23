@@ -14,6 +14,8 @@ import ApplicationException from "../exceptions/applicationException";
 import { ApplicationExceptionName } from "../constants/applicationExceptionName";
 import { MeReturnDTO } from "../dtos/auth/meReturnDTO";
 import { IUserContextServices } from "../interfaces/iUserContextServices";
+import { UpdateProfileInputDTO } from "../dtos/auth/updateProfileInputDTO";
+import { UpdateProfileReturnDTO } from "../dtos/auth/updateProfileReturnDTO";
 
 @injectable()
 export class AuthServices implements IAuthServices {
@@ -55,6 +57,41 @@ export class AuthServices implements IAuthServices {
             default:
                 throw new ApplicationException(ApplicationExceptionName.INVALID_OPERATION, "Invalid user type detected in the server", 500)
         }
+    }
+
+    async UpdateProfile(data: UpdateProfileInputDTO): Promise<UpdateProfileReturnDTO> {
+        return await this.unitOfWork.execute(async (trx) => {
+            switch (data.accountType) {
+                case AccountType.student: {
+                    const student = await this.studentRepository.FindByEmail(data.userEmail, trx)
+                    if (!student)
+                        throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No student profile found for this user", 404)
+                    student.updatePersonalData(data.name, data.birthdate)
+                    await this.studentRepository.Update(student.id, student, trx)
+                    return new UpdateProfileReturnDTO(student.id, student.name, student.email, AccountType.student, undefined, undefined, student.birthdate, student.term, student.shift)
+                }
+                case AccountType.professor: {
+                    const professor = await this.professorRepository.FindByEmail(data.userEmail, trx)
+                    if (!professor)
+                        throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No professor profile found for this user", 404)
+                    professor.update(data.name ?? professor.name, data.registration ?? professor.registration, data.telephone ?? professor.telephone)
+                    await this.professorRepository.Update(professor.id, professor, trx)
+                    return new UpdateProfileReturnDTO(professor.id, professor.name, professor.email, AccountType.professor, professor.registration, professor.telephone, undefined, undefined, undefined, professor.coordinationId)
+                }
+                case AccountType.administrator: {
+                    const administrator = await this.administratorRepository.FindByEmail(data.userEmail, trx)
+                    if (!administrator)
+                        throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No administrator profile found for this user", 404)
+                    administrator.update(data.name ?? administrator.name)
+                    const updated = await this.administratorRepository.Update(administrator, trx)
+                    if (!updated)
+                        throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "Failed to update administrator profile", 500)
+                    return new UpdateProfileReturnDTO(updated.id, updated.name, updated.email, AccountType.administrator)
+                }
+                default:
+                    throw new ApplicationException(ApplicationExceptionName.INVALID_OPERATION, "Invalid user type detected in the server", 500)
+            }
+        })
     }
 
     async SignInAsync(signinDTO: SigninDTO): Promise<SigninReturnDTO> {
