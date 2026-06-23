@@ -70,10 +70,12 @@ import { ReturnBorrowController } from "@/api/controllers/borrow/returnBorrowCon
 import { GetBorrowMetricsController } from "@/api/controllers/borrow/getBorrowMetricsController"
 import { MeController } from "@/api/controllers/auth/meController"
 import { LogoutController } from "@/api/controllers/auth/logoutController"
+import { UpdateMeController } from "@/api/controllers/auth/updateMeController"
 
 export const ControllersDI = () => {
     container.registerSingleton<BaseController>("SignInController", SigninController)
     container.register<BaseController>("MeController", MeController)
+    container.register<BaseController>("UpdateMeController", UpdateMeController)
     container.register<BaseController>("LogoutController", LogoutController)
 
     // Controllers - Administrator

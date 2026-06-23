@@ -18,14 +18,15 @@ app.set("trust proxy", 1);
 app.use(cookieParser());
 app.use(cors({
     origin: process.env.ORIGINS?.split(",") ?? "*",
-    credentials:true,
+    credentials: true,
     allowedHeaders: ["Content-Type"]
 }));
 app.use(helmet());
 app.use(express.json());
 
 const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000,
+    windowMs: 1 * 60 * 1000,
+    limit: 100,
     max: 100,
     message: "Muitas requisições. Tente novamente mais tarde.",
 });
