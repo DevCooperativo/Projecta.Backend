@@ -3,7 +3,7 @@ import { inject, injectable } from "tsyringe"
 import BaseController from "@/api/controllers/baseController"
 import { IBorrowMetricsServices } from "@/application/interfaces/iBorrowMetricsServices"
 import { ResponseBuilder } from "@/api/helpers/responseBuilder"
-import { ControllerExceptionThrowHelper } from "@/api/helpers/controllerExceptionThrowHelper"
+import ControllerExceptionThrowHelper from "@/api/helpers/controllerExceptionThrowHelper"
 
 @injectable()
 export class GetBorrowMetricsController extends BaseController {
