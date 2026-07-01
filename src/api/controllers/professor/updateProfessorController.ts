@@ -1,0 +1,33 @@
+﻿import { Request, Response } from "express";
+import BaseController from "../baseController";
+import { inject, injectable } from "tsyringe";
+import IProfessorServices from "@/application/interfaces/iProfessorServices";
+import { UpdateProfessorInputDTO } from "@/application/dtos/professor/updateProfessorInputDTO";
+import ControllerExceptionThrowHelper from "@/api/helpers/controllerExceptionThrowHelper";
+import ApiException from "@/api/exceptions/apiException";
+import { ApiExceptionNames } from "@/api/constants/apiExceptionNames";
+import { ResponseBuilder } from "@/api/helpers/responseBuilder";
+
+@injectable()
+class UpdateProfessorController implements BaseController {
+    constructor(
+        @inject("ProfessorServices")
+        private readonly professorServices: IProfessorServices
+    ) { }
+    async Handle(req: Request, res: Response): Promise<Response> {
+        try {
+            const { id } = req.query as unknown as { id: number }
+            const { name, registration, telephone } = req.body
+            const user = req.user
+            if (!user)
+                throw new ApiException(ApiExceptionNames.UNAUTHORIZED, "User not logged in")
+            const dto = new UpdateProfessorInputDTO(id, user.email, user.userType, name, registration, telephone)
+            const result = await this.professorServices.UpdateAsync(dto)
+            return res.status(200).json(ResponseBuilder.success("Professor updated successfully", "PROFESSOR_UPDATED", 200, result))
+        } catch (ex) {
+            return ControllerExceptionThrowHelper.Throw(res, ex)
+        }
+    }
+
+}
+export default UpdateProfessorController

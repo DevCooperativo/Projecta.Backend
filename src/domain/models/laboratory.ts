@@ -1,44 +1,19 @@
-import { sequelize } from "@/server";
-import { DataTypes } from "sequelize";
+import BaseModel from "../abstractions/BaseModel";
 
-const Laboratory = sequelize.define(
-    "Laboratory",
-    {
-        id: {
-            type: DataTypes.UUID,
-            primaryKey: true,
-            autoIncrement: true,
-            allowNull: false
-        },
-        name: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        maxOccupants: {
-            type: DataTypes.INTEGER,
-            validate: {
-                min: {
-                    args: [1],
-                    msg: "The minimum amount of occupants is 1"
-                }
-            }
-        },
+class Laboratory extends BaseModel {
+    name: string
+    storageSpace: boolean
+    maxOccupants: number
+    description: string
+    professorId: number
 
-
-
-        // Default properties
-        createdAt: {
-            type: DataTypes.DATE,
-            defaultValue: Date.now,
-        },
-        updatedAt: {
-            type: DataTypes.DATE,
-            defaultValue: Date.now,
-        },
-        status: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: true
-        }
+    constructor(name: string, maxOccupants: number, professorId: number, storageSpace: boolean = false, description: string = "") {
+        super()
+        this.name = name
+        this.storageSpace = storageSpace
+        this.maxOccupants = maxOccupants
+        this.description = description
+        this.professorId = professorId
     }
-)
+}
 export default Laboratory
