@@ -165,10 +165,10 @@ class DataSeed {
 
         // 7. Borrow (depende de Item; Student, Professor e Researcher opcionais)
         const borrowSeeds = [
-            { equipmentId: (equipments[0] as Equipment)?.id, borrowDate: new Date("2026-01-10"), studentId: (students[0] as Student)?.id },
-            { equipmentId: (equipments[1] as Equipment)?.id, borrowDate: new Date("2026-01-15"), returnDate: new Date("2026-02-15"), professorId: (professors[1] as Professor)?.id },
-            { equipmentId: (equipments[2] as Equipment)?.id, borrowDate: new Date("2026-02-01"), returnDate: new Date("2026-03-01"), studentId: (students[2] as Student)?.id },
-            { equipmentId: (equipments[3] as Equipment)?.id, borrowDate: new Date("2026-02-10"), returnDate: new Date("2026-03-10"), studentId: (students[3] as Student)?.id },
+            { equipmentId: (equipments[0] as Equipment)?.id, borrowDate: new Date("2026-06-25"), studentId: (students[0] as Student)?.id },
+            { equipmentId: (equipments[1] as Equipment)?.id, borrowDate: new Date("2026-05-20"), returnDate: new Date("2026-06-15"), professorId: (professors[1] as Professor)?.id },
+            { equipmentId: (equipments[2] as Equipment)?.id, borrowDate: new Date("2026-06-01"), returnDate: new Date("2026-06-20"), studentId: (students[2] as Student)?.id },
+            { equipmentId: (equipments[3] as Equipment)?.id, borrowDate: new Date("2026-06-10"), returnDate: new Date("2026-06-28"), studentId: (students[3] as Student)?.id },
         ];
         await ensureSeeded(BorrowEntityMapping, borrowSeeds);
 
