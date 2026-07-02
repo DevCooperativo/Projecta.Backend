@@ -61,7 +61,7 @@ class EquipmentServices implements IEquipmentServices {
     }
     async CreateAsync(data: EquipmentDTO) {
         return await this.unitOfWork.execute(async (trx) => {
-            // RN1: equipamento deve estar vinculado a laboratorio, projeto e categoria existentes.
+            // RN1: equipamento deve estar vinculado a laboratorio com armazenamento, projeto e categoria existentes.
             await this.EnsureValidEquipmentLinks(data, trx)
             // RN2: laboratorio nao pode ter mais de 50 equipamentos cadastrados.
             await this.EnsureLaboratoryCapacity(data.laboratoryId, undefined, trx)
@@ -72,7 +72,7 @@ class EquipmentServices implements IEquipmentServices {
         return await this.unitOfWork.execute(async (trx) => {
             if (!(await this.equipmentRepository.FindById(id, trx) as Equipment))
                 throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No equipment was found with the provided id", 404)
-            // RN1 e RN2: ao alterar equipamento, os vinculos e o limite do laboratorio sao revalidados.
+            // RN1 e RN2: ao alterar equipamento, os vinculos, armazenamento e limite do laboratorio sao revalidados.
             await this.EnsureValidEquipmentLinks(data, trx)
             await this.EnsureLaboratoryCapacity(data.laboratoryId, id, trx)
             return (await this.equipmentRepository.Update(id, data as Equipment, trx)) as EquipmentDTO
@@ -88,11 +88,13 @@ class EquipmentServices implements IEquipmentServices {
         })
     }
 
-    // RN1: equipamento deve estar vinculado a registros validos no banco.
+    // RN1: equipamento deve estar vinculado a registros validos no banco e laboratorio com armazenamento.
     private async EnsureValidEquipmentLinks(data: EquipmentDTO, trx?: Transaction) {
         const laboratory = await this.laboratoryRepository.FindById(data.laboratoryId, trx)
         if (!laboratory)
             throw new ApplicationException(ApplicationExceptionName.NOT_FOUND, "No laboratory was found with the provided id", 404)
+        if (!laboratory.storageSpace)
+            throw new ApplicationException(ApplicationExceptionName.INVALID_OPERATION, "Laboratory does not have storage space for equipments", 400)
 
         const project = await this.projectRepository.FindById(data.projectId, trx)
         if (!project)

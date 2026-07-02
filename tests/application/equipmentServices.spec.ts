@@ -44,7 +44,7 @@ const createSut = (overrides?: {
     }
 
     const laboratoryRepository = {
-        FindById: vi.fn(async () => getOverride("laboratory", { id: 1 }))
+        FindById: vi.fn(async () => getOverride("laboratory", { id: 1, storageSpace: true }))
     }
 
     const projectRepository = {
@@ -92,6 +92,12 @@ describe("EquipmentServices", () => {
             id: index + 1
         }))
         const { service } = createSut({ equipments })
+
+        await expect(service.CreateAsync(validEquipment)).rejects.toBeInstanceOf(ApplicationException)
+    })
+
+    it("should not create equipment when laboratory does not have storage space", async () => {
+        const { service } = createSut({ laboratory: { id: 1, storageSpace: false } })
 
         await expect(service.CreateAsync(validEquipment)).rejects.toBeInstanceOf(ApplicationException)
     })
